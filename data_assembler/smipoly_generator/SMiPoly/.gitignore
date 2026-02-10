@@ -1,0 +1,11 @@
+#ignore temp files
+src/smipoly/__pycache__/
+src/smipoly/smip/__pycache__/
+sample_script/.ipynb_checkpoints/
+utilities/.ipynb_checkpoints/
+__pycache__/
+build/
+*.egg-info/
+dist/
+docs/build/*
+!docs/build/

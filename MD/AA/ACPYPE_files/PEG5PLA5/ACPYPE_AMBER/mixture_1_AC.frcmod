@@ -1,0 +1,20 @@
+Remark line goes here
+MASS
+
+BOND
+C -HA  325.10   1.101       same as  c-ha, penalty score=  0.0
+
+ANGLE
+CT-C -HA   45.600     115.220   same as c3-c -ha, penalty score=  0.0
+HA-C -O    54.100     121.940   same as ha-c -o , penalty score=  0.0
+
+DIHE
+CT-C -OS-CT   1    2.700       180.000          -2.000      same as c3-c -os-c3
+CT-C -OS-CT   1    0.000         0.000          -1.000      same as c3-c -os-c3
+CT-C -OS-CT   1    1.150         0.000           3.000      same as c3-c -os-c3, penalty score=  0.0
+
+IMPROPER
+CT-O -C -OS         1.1          180.0         2.0          Using the default value
+CT-HA-C -O         10.5          180.0         2.0          Using general improper torsional angle  X- X- C- O, penalty score=  6.0)
+
+NONBON

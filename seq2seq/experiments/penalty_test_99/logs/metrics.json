@@ -1,0 +1,41 @@
+{
+  "experiment_info": {
+    "model_type": "lstm",
+    "start_time": "2025-11-02T09:13:38.689105",
+    "experiment_dir": "experiments/penalty_test_99"
+  },
+  "epochs": [
+    {
+      "epoch": 1,
+      "global_step": 32,
+      "timestamp": "2025-11-02T09:13:38.689127",
+      "train_loss": 10.468955129384995,
+      "val_loss": 7.174004673957825,
+      "epoch_time": 2.535884141921997
+    },
+    {
+      "epoch": 1,
+      "global_step": 32,
+      "timestamp": "2025-11-02T09:14:33.433519",
+      "train_loss": 10.576444149017334,
+      "val_loss": 7.316253840923309,
+      "epoch_time": 2.2793004512786865
+    },
+    {
+      "epoch": 1,
+      "global_step": 16,
+      "timestamp": "2025-11-02T09:16:14.075428",
+      "train_loss": 13.355263352394104,
+      "val_loss": 12.624669313430786,
+      "epoch_time": 1.7482733726501465
+    },
+    {
+      "epoch": 1,
+      "global_step": 2811,
+      "timestamp": "2025-11-02T09:31:21.072480",
+      "train_loss": 13.923414680636341,
+      "val_loss": 13.310095704297083,
+      "epoch_time": 715.899825334549
+    }
+  ]
+}

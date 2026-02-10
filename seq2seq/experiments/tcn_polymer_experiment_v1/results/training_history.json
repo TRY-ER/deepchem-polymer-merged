@@ -1,0 +1,57 @@
+{
+  "experiment_info": {
+    "model_type": "tcn",
+    "experiment_dir": "experiments/tcn_polymer_experiment_v1",
+    "start_time": "2025-08-06T17:09:19.949581",
+    "model_params": 15927620
+  },
+  "config": {
+    "model_config": {
+      "model_type": "tcn",
+      "vocab_size": 28996,
+      "embedding_dim": 256,
+      "num_channels": [
+        256,
+        256,
+        256,
+        256
+      ],
+      "kernel_size": 3,
+      "dropout": 0.2
+    },
+    "training_config": {
+      "learning_rate": 0.001,
+      "batch_size": 32,
+      "epochs": 1,
+      "optimizer": "adam",
+      "patience": 5,
+      "grad_clip": 1.0,
+      "output_dir": "experiments",
+      "experiment_name": "tcn_polymer_experiment_v1",
+      "save_dir": "experiments/tcn_polymer_experiment_v1/checkpoints",
+      "logs_dir": "experiments/tcn_polymer_experiment_v1/logs",
+      "save_best_only": true,
+      "save_final": true,
+      "save_epoch_checkpoints": false,
+      "debug_batch_prep": true
+    },
+    "data_config": {
+      "target_column": "smiles",
+      "data_path": "datasets/finals/dfs/master_df.csv",
+      "test_size": 0.2,
+      "random_state": 42
+    }
+  },
+  "results": {
+    "train_loss": [
+      0.6047109611475446
+    ],
+    "val_loss": [
+      0.40153904838694465
+    ],
+    "test_loss": 0.39909585760958366,
+    "total_training_time": 47.446765422821045,
+    "best_val_loss": 0.40153904838694465,
+    "experiment_dir": "experiments/tcn_polymer_experiment_v1"
+  }
+}

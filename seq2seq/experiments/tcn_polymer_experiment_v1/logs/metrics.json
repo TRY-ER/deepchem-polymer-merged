@@ -1,0 +1,17 @@
+{
+  "experiment_info": {
+    "model_type": "tcn",
+    "start_time": "2025-08-06T17:09:14.201630",
+    "experiment_dir": "experiments/tcn_polymer_experiment_v1"
+  },
+  "epochs": [
+    {
+      "epoch": 1,
+      "global_step": 573,
+      "timestamp": "2025-08-06T17:09:14.201649",
+      "train_loss": 0.6047109611475446,
+      "val_loss": 0.40153904838694465,
+      "epoch_time": 47.17004203796387
+    }
+  ]
+}

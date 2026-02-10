@@ -1,0 +1,28 @@
+# LSTM Model Training Configuration
+# Inherits from base_config.yaml and overrides specific parameters
+
+# Model Configuration
+model:
+  type: "lstm"
+  vocab_size: 28996
+  
+# Training Parameters (specific to LSTM)
+training:
+  learning_rate: 3e-4
+  batch_size: 2 
+  epochs: 20
+  optimizer: "adam"
+  patience: 10
+  
+  # LSTM-specific settings
+  # grad_clip: 1.0
+  
+  # Output naming
+  # experiment_name: null  # Will auto-generate: lstm_YYYYMMDD_HHMMSS
+
+# Model-specific notes
+notes: |
+  LSTM configuration optimized for molecular sequence generation.
+  - Moderate learning rate for balanced training
+  - Medium batch size for memory efficiency
+  - Standard gradient clipping

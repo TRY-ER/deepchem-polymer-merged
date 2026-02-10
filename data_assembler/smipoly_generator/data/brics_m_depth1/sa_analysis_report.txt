@@ -1,0 +1,102 @@
+Column: text_data
+Total rows: 1271267
+Non-null: 1271267 (100.00%)
+Nulls: 0 (0.00%)
+Dtype: object
+Unique (non-null) primary values: 1271267 (100.00%)
+
+Top 10 primary values (prefix before '>>'):
+  1. 'OCNC12CCC(c3cc(Cl)cc(Cl)c3O)(CC1)CC2' — 1 (0.00%)
+  2. 'CN(C)C12CCC(c3cc(Cl)cc(Cl)c3O)(CC1)CC2' — 1 (0.00%)
+  3. 'C=CNC12CCC(c3cc(Cl)cc(Cl)c3O)(CC1)CC2' — 1 (0.00%)
+  4. 'CNC12CCC(c3cc(Cl)cc(Cl)c3O)(CC1)CC2' — 1 (0.00%)
+  5. 'Oc1c(Cl)cc(Cl)cc1C12CCC(N3CCOCC3)(CC1)CC2' — 1 (0.00%)
+  6. 'COCNC12CCC(c3cc(Cl)cc(Cl)c3O)(CC1)CC2' — 1 (0.00%)
+  7. 'C[N+](C)(C)C12CCC(c3cc(Cl)cc(Cl)c3O)(CC1)CC2' — 1 (0.00%)
+  8. 'O=C1CN(C23CCC(c4cc(Cl)cc(Cl)c4O)(CC2)CC3)CC(=O)O1' — 1 (0.00%)
+  9. 'CC(C)[Si](OC12CCC(c3cc(Cl)cc(Cl)c3O)(CC1)CC2)(C(C)C)C(C)C' — 1 (0.00%)
+  10. 'Oc1c(Cl)cc(Cl)cc1C12CCC(OC(F)=C(F)F)(CC1)CC2' — 1 (0.00%)
+
+Primary types: numeric-like: 0 (0.00%), text-like: 1271267 (100.00%)
+
+Text/categorical summary (primary prefixes):
+  Count: 1271267
+  Shortest length: 4
+  Longest length: 162
+  Mean length: 40.5294
+  Median length: 39.0
+  Numeric-like entries among text: 0 (0.00%)
+  Entries containing whitespace: 0 (0.00%)
+
+Top 10 frequent primary values:
+  1. 'OCNC12CCC(c3cc(Cl)cc(Cl)c3O)(CC1)CC2' — 1 (0.00%)
+  2. 'CN(C)C12CCC(c3cc(Cl)cc(Cl)c3O)(CC1)CC2' — 1 (0.00%)
+  3. 'C=CNC12CCC(c3cc(Cl)cc(Cl)c3O)(CC1)CC2' — 1 (0.00%)
+  4. 'CNC12CCC(c3cc(Cl)cc(Cl)c3O)(CC1)CC2' — 1 (0.00%)
+  5. 'Oc1c(Cl)cc(Cl)cc1C12CCC(N3CCOCC3)(CC1)CC2' — 1 (0.00%)
+  6. 'COCNC12CCC(c3cc(Cl)cc(Cl)c3O)(CC1)CC2' — 1 (0.00%)
+  7. 'C[N+](C)(C)C12CCC(c3cc(Cl)cc(Cl)c3O)(CC1)CC2' — 1 (0.00%)
+  8. 'O=C1CN(C23CCC(c4cc(Cl)cc(Cl)c4O)(CC2)CC3)CC(=O)O1' — 1 (0.00%)
+  9. 'CC(C)[Si](OC12CCC(c3cc(Cl)cc(Cl)c3O)(CC1)CC2)(C(C)C)C(C)C' — 1 (0.00%)
+  10. 'Oc1c(Cl)cc(Cl)cc1C12CCC(OC(F)=C(F)F)(CC1)CC2' — 1 (0.00%)
+
+Sample of 5 rare primary values:
+  - 'C=COc1ccc(N)c(C2CCCCC2=O)c1'
+  - 'C=COC(=O)CCCCC'
+  - 'C=COCCC[Si](C)(C)Cl'
+  - 'C=COc1ccc(N)c(OC=C)c1'
+  - 'C=COC1(OC=C)CC1'
+
+---
+
+Column: SA_Score
+Total rows: 1271267
+Non-null: 1271267 (100.00%)
+Nulls: 0 (0.00%)
+Dtype: float64
+Unique (non-null) primary values: 1258888 (99.03%)
+
+Top 10 primary values (prefix before '>>'):
+  1. '2.0696857769618315' — 7 (0.00%)
+  2. '2.2147258927746414' — 7 (0.00%)
+  3. '2.22905964764794' — 7 (0.00%)
+  4. '2.1880229881619453' — 7 (0.00%)
+  5. '2.1575183260939603' — 7 (0.00%)
+  6. '1.973384093017991' — 7 (0.00%)
+  7. '2.1639420467520623' — 7 (0.00%)
+  8. '2.406142346262749' — 7 (0.00%)
+  9. '2.0905319308079857' — 7 (0.00%)
+  10. '2.2077095765047687' — 7 (0.00%)
+
+Primary types: numeric-like: 1271267 (100.00%), text-like: 0 (0.00%)
+
+Numeric summary (from primary values):
+  Count: 1271267
+  Mean: 3.1464
+  Median: 2.9614
+  Std: 0.8650
+  Min: 1.0000
+  25%: 2.4926
+  75%: 3.6330
+  Max: 7.0235
+  Skewness: 0.8138
+  Kurtosis: 0.0856
+  Zeros: 0 (0.00%)
+  Negatives: 0 (0.00%)
+  Positives: 1271267 (100.00%)
+  Outliers (1.5*IQR rule): 18401 (1.45%)
+
+  Smallest 5 values:
+    - 1.0000
+    - 1.0000
+    - 1.0000
+    - 1.0000
+    - 1.0000
+  Largest 5 values:
+    - 7.0235
+    - 6.9264
+    - 6.8636
+    - 6.8362
+    - 6.7618
+
+---

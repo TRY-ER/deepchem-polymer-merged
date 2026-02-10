@@ -1,0 +1,4 @@
+2026-02-05 21:37:42,491 - INFO - Processing homo polymerization for vinyl
+2026-02-05 21:37:44,034 - INFO - Processed homo polymerization for index 0 and wrote to file ./outputs/vinyl_none/polymer_0.parquet
+2026-02-05 21:37:44,037 - INFO - Processing homo polymerization for cOle
+2026-02-05 21:37:44,072 - INFO - Processed homo polymerization for index 0 and wrote to file ./outputs/cOle_none/polymer_0.parquet

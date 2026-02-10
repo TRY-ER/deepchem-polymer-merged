@@ -1,0 +1,28 @@
+# GRU Model Training Configuration
+# Inherits from base_config.yaml and overrides specific parameters
+
+# Model Configuration
+model:
+  type: "gru"
+  vocab_size: 28996
+  
+# Training Parameters (specific to GRU)
+training:
+  learning_rate: 5e-4
+  batch_size: 64
+  epochs: 15
+  optimizer: "adam"
+  patience: 8
+  
+  # GRU-specific settings
+  grad_clip: 0.5
+  
+  # Output naming
+  experiment_name: null  # Will auto-generate: gru_YYYYMMDD_HHMMSS
+
+# Model-specific notes
+notes: |
+  GRU configuration optimized for molecular sequence generation.
+  - Lower learning rate for stability
+  - Larger batch size for better gradient estimates
+  - Tighter gradient clipping to prevent exploding gradients

@@ -1,0 +1,97 @@
+Remarks mixture_1.pdb.mol2_CNS.par created by acpype (v: 2022.7.21) on Thu Dec 11 11:08:00 2025
+
+set echo=false end
+
+{ Bonds: atomType1 atomType2 kb r0 }
+BOND   OH_   HO_    553.0   0.9600
+BOND   CT_   H1_    340.0   1.0900
+BOND   CT_   HC_    340.0   1.0900
+BOND    C_   HA_    325.1   1.1010
+BOND   OH_   CT_    320.0   1.4100
+BOND   CT_   CT_    310.0   1.5260
+BOND   CT_   OS_    320.0   1.4100
+BOND   CT_    C_    317.0   1.5220
+BOND    C_    O_    570.0   1.2290
+BOND    C_   OS_    450.0   1.3230
+
+{ Angles: aType1 aType2 aType3 kt t0 }
+ANGLe   OH_   CT_   H1_     50.0   109.50
+ANGLe   CT_   OH_   HO_     55.0   108.50
+ANGLe   CT_   CT_   H1_     50.0   109.50
+ANGLe   OS_   CT_   H1_     50.0   109.50
+ANGLe   CT_   CT_   HC_     50.0   109.50
+ANGLe    C_   CT_   H1_     50.0   109.50
+ANGLe   CT_    C_   HA_     45.6   115.22
+ANGLe    O_    C_   HA_     54.1   121.94
+ANGLe   H1_   CT_   H1_     35.0   109.50
+ANGLe   HC_   CT_   HC_     35.0   109.50
+ANGLe   OH_   CT_   CT_     50.0   109.50
+ANGLe   CT_   CT_   OS_     50.0   109.50
+ANGLe   CT_   OS_   CT_     60.0   109.50
+ANGLe   OS_   CT_    C_     60.0   109.50
+ANGLe   CT_    C_    O_     80.0   120.40
+ANGLe   CT_    C_   OS_     80.0   115.00
+ANGLe   CT_   CT_    C_     63.0   111.10
+ANGLe    C_   OS_   CT_     60.0   117.00
+ANGLe    O_    C_   OS_     80.0   125.00
+
+{ Proper Dihedrals: aType1 aType2 aType3 aType4 kt period phase }
+DIHEdral   OS_   CT_    C_   HA_           0.000    0     0.00
+DIHEdral   CT_   CT_    C_   OS_           0.000    0     0.00
+DIHEdral   CT_   OS_   CT_    C_           0.383    3     0.00
+DIHEdral   OS_   CT_    C_   OS_           0.000    0     0.00
+DIHEdral   OS_   CT_   CT_   OS_  MULT 2   1.175    2     0.00
+                                           0.144    3     0.00
+DIHEdral    C_   OS_   CT_    C_           0.383    3     0.00
+DIHEdral   OH_   CT_   CT_   H1_  MULT 2   0.250    1     0.00
+                                           0.000    0     0.00
+DIHEdral    O_    C_   CT_   H1_  MULT 3   0.800    1     0.00
+                                           0.000    0     0.00
+                                           0.080    3   180.00
+DIHEdral   HO_   OH_   CT_   CT_  MULT 2   0.250    1     0.00
+                                           0.160    3     0.00
+DIHEdral   CT_   CT_    C_   HA_           0.000    0     0.00
+DIHEdral   CT_   OS_   CT_   H1_           0.383    3     0.00
+DIHEdral   CT_   CT_   OS_   CT_  MULT 2   0.100    2   180.00
+                                           0.383    3     0.00
+DIHEdral   HO_   OH_   CT_   H1_           0.167    3     0.00
+DIHEdral    C_   CT_   CT_   HC_           0.156    3     0.00
+DIHEdral    C_   OS_   CT_   H1_           0.383    3     0.00
+DIHEdral   H1_   CT_   CT_   H1_           0.156    3     0.00
+DIHEdral   H1_   CT_    C_   HA_           0.000    0     0.00
+DIHEdral   OH_   CT_   CT_   OS_  MULT 2   1.175    2     0.00
+                                           0.144    3     0.00
+DIHEdral   OS_    C_   CT_   H1_           0.000    0     0.00
+DIHEdral   OS_   CT_   CT_   H1_  MULT 2   0.250    1     0.00
+                                           0.000    0     0.00
+DIHEdral   CT_   CT_    C_    O_           0.000    0     0.00
+DIHEdral   OS_   CT_    C_    O_           0.000    0     0.00
+DIHEdral   CT_   OS_   CT_   CT_  MULT 2   0.100    2   180.00
+                                           0.383    3     0.00
+DIHEdral   CT_    C_   OS_   CT_  MULT 3   0.000    0     0.00
+                                           2.700    2   180.00
+                                           1.150    3     0.00
+DIHEdral    O_    C_   OS_   CT_  MULT 2   1.400    1   180.00
+                                           2.700    2   180.00
+DIHEdral   H1_   CT_   CT_   HC_           0.156    3     0.00
+DIHEdral    C_   OS_   CT_   CT_  MULT 2   0.800    1   180.00
+                                           0.383    3     0.00
+DIHEdral   OS_   CT_   CT_   HC_  MULT 2   0.250    1     0.00
+                                           0.000    0     0.00
+
+{ Improper Dihedrals: aType1 aType2 aType3 aType4 kt period phase }
+IMPRoper   CT_   HA_    C_    O_          10.5    2   180.00
+IMPRoper   CT_    O_    C_   OS_           1.1    2   180.00
+
+{ Nonbonded: Type Emin sigma; (1-4): Emin/2 sigma }
+NONBonded   OH_    0.210400    3.066473    0.105200    3.066473
+NONBonded   CT_    0.109400    3.399670    0.054700    3.399670
+NONBonded   OS_    0.170000    3.000012    0.085000    3.000012
+NONBonded    C_    0.086000    3.399670    0.043000    3.399670
+NONBonded    O_    0.210000    2.959922    0.105000    2.959922
+NONBonded   HO_    0.000000    0.000000    0.000000    0.000000
+NONBonded   H1_    0.015700    2.471353    0.007850    2.471353
+NONBonded   HC_    0.015700    2.649533    0.007850    2.649533
+NONBonded   HA_    0.015000    2.599642    0.007500    2.599642
+
+set echo=true end

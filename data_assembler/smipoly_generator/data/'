@@ -1,0 +1,26 @@
+import pandas as pd 
+
+def have_dot_content(value: str):
+    if "." in value:
+        return True 
+    return False
+
+
+def process_dataframe(df):
+    final_values = []
+    values = df["SMILES"].values
+    for v in values:
+        if have_dot_content(v):
+            parsed = v.split(".")
+            final_values = [*final_values, *parsed]
+        else:
+            final_values.append(v)
+    new_df = pd.DataFrame(final_values, columns=["SMILES"])
+    return new_df
+
+if __name__ == "__main__":
+    df = pd.read_csv('./202207_smip_monset.csv')
+    print(df.shape)
+    new_df = process_dataframe(df)
+    print(new_df.head())
+    print(new_df.shape)

@@ -1,0 +1,24 @@
+# GRU Sampler Configuration
+# Optimized sampling parameters for GRU models
+
+# Generation Parameters (GRU-specific)
+generation:
+  decoding_strategy: "top_p"
+  temperature: 0.7  # Conservative for stable generation
+  top_p: 0.85
+  repetition_penalty: 1.05
+  max_length: 80
+  
+# Batch Generation
+batch:
+  num_sequences: 15
+  starter_presets:
+    - "random"
+    - "carbon_chain"
+
+# Model-specific notes
+notes: |
+  GRU sampling configuration:
+  - Conservative temperature for stable sequences
+  - Moderate top_p for balanced diversity
+  - Shorter max_length to match typical GRU performance

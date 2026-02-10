@@ -1,0 +1,16 @@
+{
+  "learning_rate": "3e-4",
+  "batch_size": 48,
+  "epochs": 50,
+  "optimizer": "adam",
+  "patience": 10,
+  "grad_clip": 1.0,
+  "output_dir": "experiments",
+  "experiment_name": "lstm-50-epochs-48-batch-size",
+  "save_dir": "experiments/lstm-50-epochs-48-batch-size/checkpoints",
+  "logs_dir": "experiments/lstm-50-epochs-48-batch-size/logs",
+  "save_best_only": true,
+  "save_final": true,
+  "save_epoch_checkpoints": false,
+  "debug_batch_prep": false
+}

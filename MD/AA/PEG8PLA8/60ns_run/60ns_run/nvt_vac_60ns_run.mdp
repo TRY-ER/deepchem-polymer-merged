@@ -1,0 +1,44 @@
+; nvt_vac.mdp - Vacuum Simulation for CG parametrization
+; Run Control
+integrator      = sd            ; Stochastic dynamics (acts as thermostat)
+nsteps          = 30000000       ; 60 ns (Need good sampling for distributions)
+dt              = 0.002         ; 2 fs (with constraints) or 0.001 if unstable
+
+; Output Control
+nstxout         = 0             ; Don't save full trajectory (saves space)
+nstvout         = 0
+nstfout         = 0
+nstlog          = 500
+nstenergy       = 500
+nstxout-compressed     = 1000       ; Save every 2 ps (High resolution for bonds)
+compressed-x-precision = 10000      ; High precision (0.0001 nm) for accurate bond calculation
+
+; Bond parameters
+continuation            = no
+constraint_algorithm    = lincs
+constraints             = h-bonds
+lincs_iter              = 1
+lincs_order             = 4
+
+; Neighbor searching
+cutoff-scheme   = Verlet
+ns_type         = grid
+nstlist         = 20
+pbc             = xyz           ; Use PBC for performance, but box is large
+rlist           = 4.0           ; Ensure this < box_size/2 (10nm box is fine)
+
+; Electrostatics / VdW
+coulombtype     = Cut-off
+rcoulomb        = 4.0           ; All atoms see each other
+vdwtype         = Cut-off
+rvdw            = 4.0
+
+; Temperature Coupling (Implicit in SD integrator)
+tc-grps         = System
+tau_t           = 2.0           ; Friction constant (inverse) in ps
+ref_t           = 300           ; Target Temperature
+
+; Velocity generation
+gen_vel         = yes
+gen_temp        = 300
+gen_seed        = -1

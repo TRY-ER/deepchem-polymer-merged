@@ -1,0 +1,1 @@
+{"index_1": 1, "index_2": 1, "rxn_smarts": "[C&X3;H2,H1,H0;!R:1]=[C&X3;H2,H1,H0;!R:2].[C&X3;H2,H1,H0;!R:3]=[C&X3;H2,H1,H0;!R:4]>>*-[C&X4:1][C&X4:2][C&X4:3][C&X4:4]-*", "df_1_type": "vinyl", "df_2_type": "vinyl", "df_shape": [0, 3], "type": "hetero"}

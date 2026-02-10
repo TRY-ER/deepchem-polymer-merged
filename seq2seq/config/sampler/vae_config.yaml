@@ -1,0 +1,27 @@
+# VAE Sampler Configuration
+# Optimized sampling parameters for VAE models
+
+# Generation Parameters (VAE-specific)
+generation:
+  decoding_strategy: "top_k"  # Top-k often works well with VAE
+  temperature: 1.0  # Higher for VAE latent diversity
+  top_k: 40
+  top_p: 0.9
+  repetition_penalty: 1.15
+  max_length: 90
+  
+# Batch Generation
+batch:
+  num_sequences: 25  # Generate more due to VAE diversity
+  starter_presets:
+    - "random"
+    - "carbon_chain"
+    - "aromatic"
+
+# Model-specific notes
+notes: |
+  VAE sampling configuration:
+  - Top-k strategy for controlled diversity
+  - Higher temperature to leverage latent space
+  - More sequences to explore latent diversity
+  - Moderate repetition penalty for VAE characteristics

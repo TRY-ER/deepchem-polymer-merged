@@ -1,0 +1,12 @@
+torch
+rdkit
+pydantic
+tqdm
+wandb
+PyYAML
+pandas
+numpy
+pillow
+transformers
+scikit-learn
+matplotlib

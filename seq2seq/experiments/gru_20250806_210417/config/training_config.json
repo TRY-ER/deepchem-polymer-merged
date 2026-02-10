@@ -1,0 +1,16 @@
+{
+  "learning_rate": "5e-4",
+  "batch_size": 64,
+  "epochs": 1,
+  "optimizer": "adam",
+  "patience": 8,
+  "grad_clip": 0.5,
+  "output_dir": "experiments",
+  "experiment_name": null,
+  "save_dir": "experiments/gru_20250806_210417/checkpoints",
+  "logs_dir": "experiments/gru_20250806_210417/logs",
+  "save_best_only": true,
+  "save_final": true,
+  "save_epoch_checkpoints": false,
+  "debug_batch_prep": false
+}

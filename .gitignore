@@ -1,0 +1,130 @@
+# Directories to ignore
+backup_models/
+observations/
+old/
+papers/
+
+# Virtual environments
+.env/
+d-env/
+venv/
+venv_310/
+smipoly_generator/venv/
+**/venv*/
+**/.env*/
+**/env*/
+
+# custom
+**/brics_text.txt
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+.python-version
+
+# pipenv
+Pipfile.lock
+
+# PEP 582
+__pypackages__/
+
+# Celery stuff
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# Scientific data files
+*.csv
+*.parquet
+*.xtc
+*.trr
+*.edr
+*.trj
+# *.gro
+*.tpr
+# *.log
+*.cpt
+# *.mdp
+# *.xvg
+# *.itp
+# *.top
+# *.mol2
+*.ac
+*.ac0
+scoord*
+
+# Temporary and cache files
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Archive files
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# Editor backups
+*#
+.#*
+\#*#
+.*.swp
+.*.swo
+
+# Lock files
+*.lock
+*.npz

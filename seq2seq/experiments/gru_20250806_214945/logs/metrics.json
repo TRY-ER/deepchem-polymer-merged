@@ -1,0 +1,17 @@
+{
+  "experiment_info": {
+    "model_type": "gru",
+    "start_time": "2025-08-06T21:51:05.620966",
+    "experiment_dir": "experiments/gru_20250806_214945"
+  },
+  "epochs": [
+    {
+      "epoch": 1,
+      "global_step": 287,
+      "timestamp": "2025-08-06T21:51:05.620985",
+      "train_loss": 1.1606316399283525,
+      "val_loss": 0.40557969154583084,
+      "epoch_time": 73.9409646987915
+    }
+  ]
+}

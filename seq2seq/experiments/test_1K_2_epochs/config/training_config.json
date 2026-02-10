@@ -1,0 +1,16 @@
+{
+  "learning_rate": "3e-4",
+  "batch_size": 2,
+  "epochs": 2,
+  "optimizer": "adam",
+  "patience": 10,
+  "grad_clip": 1.0,
+  "output_dir": "experiments",
+  "experiment_name": "test_1K_2_epochs",
+  "save_dir": "experiments/test_1K_2_epochs/checkpoints",
+  "logs_dir": "experiments/test_1K_2_epochs/logs",
+  "save_best_only": true,
+  "save_final": true,
+  "save_epoch_checkpoints": false,
+  "debug_batch_prep": false
+}

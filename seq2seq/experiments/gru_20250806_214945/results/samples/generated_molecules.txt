@@ -1,0 +1,30 @@
+Generated Sequences - GRU Model
+Checkpoint: best_model.pth
+Generated: 2025-08-06 21:55:50
+============================================================
+
+Sequence 1:
+SMILES: * CC ( = O ) *. * Oc1ccc ( NCNC ( = O ) C ( * ) C ) cc1
+Length: 31
+Time: 0.408s
+--------------------------------------------------
+Sequence 2:
+SMILES: * CC *. * NCNC ( = O ) CNC ( C ) C ( = O ) *
+Length: 24
+Time: 0.056s
+--------------------------------------------------
+Sequence 3:
+SMILES: * C ( C ) C ( = O ) *. * C ( = O ) CCCCCNCNC ( = O ) CCCCCCCCC ( = O ) NCN *
+Length: 41
+Time: 0.127s
+--------------------------------------------------
+Sequence 4:
+SMILES: * C ( = O ) C ( * ) C. * Oc1ccc ( C ( = O ) NCN * ) cc1
+Length: 32
+Time: 0.085s
+--------------------------------------------------
+Sequence 5:
+SMILES: * CCC *. * NCNC ( = O ) C ( C ) NCNC ( = O ) CCCCCCCCCCC ( = O ) *
+Length: 35
+Time: 0.096s
+--------------------------------------------------

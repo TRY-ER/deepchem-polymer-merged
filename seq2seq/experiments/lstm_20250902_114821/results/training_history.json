@@ -1,0 +1,52 @@
+{
+  "experiment_info": {
+    "model_type": "lstm",
+    "experiment_dir": "experiments/lstm_20250902_114821",
+    "start_time": "2025-09-02T11:48:43.435026",
+    "model_params": 12085060
+  },
+  "config": {
+    "model_config": {
+      "model_type": "lstm",
+      "vocab_size": 28996,
+      "embedding_dim": 128,
+      "hidden_dim": 256,
+      "n_layers": 2,
+      "dropout": 0.2
+    },
+    "training_config": {
+      "learning_rate": "3e-4",
+      "batch_size": 12,
+      "epochs": 1,
+      "optimizer": "adam",
+      "patience": 10,
+      "grad_clip": 1.0,
+      "output_dir": "experiments",
+      "experiment_name": null,
+      "save_dir": "experiments/lstm_20250902_114821/checkpoints",
+      "logs_dir": "experiments/lstm_20250902_114821/logs",
+      "save_best_only": true,
+      "save_final": true,
+      "save_epoch_checkpoints": false,
+      "debug_batch_prep": false
+    },
+    "data_config": {
+      "data_path": "datasets/finals/dfs/filtered_sequences_case_study_sample_1K.csv",
+      "test_size": 0.2,
+      "random_state": 42,
+      "target_column": "sequence"
+    }
+  },
+  "results": {
+    "train_loss": [
+      6.890937076674567
+    ],
+    "val_loss": [
+      3.537175144468035
+    ],
+    "test_loss": 3.5450570583343506,
+    "total_training_time": 10.425452947616577,
+    "best_val_loss": 3.537175144468035,
+    "experiment_dir": "experiments/lstm_20250902_114821"
+  }
+}

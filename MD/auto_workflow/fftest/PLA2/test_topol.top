@@ -1,0 +1,9 @@
+#include "martini_v3.0.0.itp"
+#include "test_PLA2.itp"
+
+[ system ]
+Test system for PLA2_100
+
+[ molecules ]
+PLA2_100 100
+

@@ -1,0 +1,17 @@
+{
+  "experiment_info": {
+    "model_type": "lstm",
+    "start_time": "2025-08-31T16:53:01.479286",
+    "experiment_dir": "experiments/lstm_20250831_165158"
+  },
+  "epochs": [
+    {
+      "epoch": 1,
+      "global_step": 382,
+      "timestamp": "2025-08-31T16:53:01.479309",
+      "train_loss": 3.1790818712474165,
+      "val_loss": 2.288546862701575,
+      "epoch_time": 55.90841770172119
+    }
+  ]
+}

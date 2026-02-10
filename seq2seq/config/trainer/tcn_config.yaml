@@ -1,0 +1,28 @@
+# TCN Model Training Configuration
+# Inherits from base_config.yaml and overrides specific parameters
+
+# Model Configuration
+model:
+  type: "tcn"
+  vocab_size: 28996
+  
+# Training Parameters (specific to TCN)
+training:
+  learning_rate: 3e-4
+  batch_size: 40
+  epochs: 18
+  optimizer: "adam"
+  patience: 8
+  
+  # TCN-specific settings
+  grad_clip: 0.8
+  
+  # Output naming
+  experiment_name: null  # Will auto-generate: tcn_YYYYMMDD_HHMMSS
+
+# Model-specific notes
+notes: |
+  TCN configuration optimized for molecular sequence generation.
+  - Moderate learning rate for TCN stability
+  - Balanced batch size for efficiency
+  - Conservative gradient clipping for dilated convolutions

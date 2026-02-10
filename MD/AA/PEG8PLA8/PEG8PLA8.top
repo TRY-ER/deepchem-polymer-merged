@@ -1,0 +1,14 @@
+; created by acpype (v: 2022.7.21)
+
+[ defaults ]
+; nbfunc        comb-rule       gen-pairs       fudgeLJ fudgeQQ
+1               2               yes             0.5     0.8333333333
+
+#include "PEG8PLA8.itp"
+
+[ system ]  
+ PEG8PLA8 simulation run setup 
+
+[ molecules ]
+; Compound        nmols
+ PEG8PLA8 1 

@@ -1,0 +1,118 @@
+_wandb:
+    value:
+        cli_version: 0.21.0
+        e:
+            001zzf85fkfbe4ooyhrn79ym7drqht36:
+                args:
+                    - train
+                    - --model
+                    - lstm
+                    - --epochs
+                    - "1"
+                    - --batch-size
+                    - "12"
+                    - --wandb
+                    - --wandb-project
+                    - test-project
+                codePath: src/runner.py
+                codePathLocal: src/runner.py
+                cpu_count: 4
+                cpu_count_logical: 8
+                cudaVersion: "12.4"
+                disk:
+                    /:
+                        total: "244466741248"
+                        used: "106278731776"
+                email: availdebasish@gmail.com
+                executable: /home/kalki/src/open_source/dfs/deepchem-polymer-casestudy/new/venv/bin/python
+                git:
+                    commit: 7c058f40f581717f16a0f64062ce7b2c22286edd
+                    remote: https://github.com/TRY-ER/deepchem-polymer.git
+                gpu: NVIDIA GeForce GTX 1650
+                gpu_count: 1
+                gpu_nvidia:
+                    - architecture: Turing
+                      cudaCores: 1024
+                      memoryTotal: "4294967296"
+                      name: NVIDIA GeForce GTX 1650
+                      uuid: GPU-7911c0ed-671f-9c95-6a14-889184cde64f
+                host: kalki
+                memory:
+                    total: "22946328576"
+                os: Linux-6.8.0-71-generic-x86_64-with-glibc2.39
+                program: /home/kalki/src/open_source/dfs/deepchem-polymer-casestudy/new/src/runner.py
+                python: CPython 3.12.3
+                root: /home/kalki/src/open_source/dfs/deepchem-polymer-casestudy/new
+                startedAt: "2025-09-02T06:18:22.436790Z"
+                writerId: 001zzf85fkfbe4ooyhrn79ym7drqht36
+        m: []
+        python_version: 3.12.3
+        t:
+            "1":
+                - 1
+                - 5
+                - 11
+                - 49
+                - 53
+            "2":
+                - 1
+                - 5
+                - 11
+                - 49
+                - 53
+            "3":
+                - 2
+                - 16
+            "4": 3.12.3
+            "5": 0.21.0
+            "6": 4.54.1
+            "12": 0.21.0
+            "13": linux-x86_64
+batch_size:
+    value: 12
+data_path:
+    value: datasets/finals/dfs/filtered_sequences_case_study_sample_1K.csv
+debug_batch_prep:
+    value: false
+dropout:
+    value: 0.2
+embedding_dim:
+    value: 128
+epochs:
+    value: 1
+experiment_name:
+    value: null
+grad_clip:
+    value: 1
+hidden_dim:
+    value: 256
+learning_rate:
+    value: "3e-4"
+logs_dir:
+    value: experiments/lstm_20250902_114821/logs
+model_type:
+    value: lstm
+n_layers:
+    value: 2
+optimizer:
+    value: adam
+output_dir:
+    value: experiments
+patience:
+    value: 10
+random_state:
+    value: 42
+save_best_only:
+    value: true
+save_dir:
+    value: experiments/lstm_20250902_114821/checkpoints
+save_epoch_checkpoints:
+    value: false
+save_final:
+    value: true
+target_column:
+    value: sequence
+test_size:
+    value: 0.2
+vocab_size:
+    value: 28996

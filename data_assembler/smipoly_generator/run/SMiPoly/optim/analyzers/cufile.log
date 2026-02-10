@@ -1,0 +1,26 @@
+ 06-02-2026 22:42:06:361 [pid=226405 tid=226405] WARN   0:140 unable to load,  liburcu-bp.so.6 
+
+ 06-02-2026 22:42:06:361 [pid=226405 tid=226405] WARN   0:140 unable to load,  liburcu-bp.so.1 
+
+ 06-02-2026 22:42:06:627 [pid=226405 tid=226405] WARN   0:184 failed to open /proc/driver/nvidia-fs/devcount  error: No such file or directory
+ 06-02-2026 22:42:06:627 [pid=226405 tid=226405] NOTICE  cufio-drv:1063 running in compatible mode
+ 06-02-2026 22:42:06:635 [pid=226405 tid=226405] WARN   0:140 unable to load,  libnuma.so.1.0.0 
+
+ 06-02-2026 22:42:06:635 [pid=226405 tid=226405] ERROR  0:98 dlopen error libnuma.so.1.0.0: cannot open shared object file: No such file or directory
+ 06-02-2026 22:42:06:635 [pid=226405 tid=226405] ERROR  cufio_core:1024 Error Loading numa symbols, please install libnuma to avoid any performance issues
+ 06-02-2026 22:42:07:668 [pid=226405 tid=226479] ERROR  0:58 NUMA not available
+ 06-02-2026 22:42:07:668 [pid=226405 tid=226481] ERROR  0:58 NUMA not available
+ 06-02-2026 22:42:07:668 [pid=226405 tid=226482] ERROR  0:58 NUMA not available
+ 06-02-2026 22:42:07:668 [pid=226405 tid=226480] ERROR  0:58 NUMA not available
+ 06-02-2026 22:42:07:668 [pid=226405 tid=226483] ERROR  0:58 NUMA not available
+ 06-02-2026 22:42:07:668 [pid=226405 tid=226485] ERROR  0:58 NUMA not available
+ 06-02-2026 22:42:07:668 [pid=226405 tid=226484] ERROR  0:58 NUMA not available
+ 06-02-2026 22:42:07:668 [pid=226405 tid=226486] ERROR  0:58 NUMA not available
+ 06-02-2026 22:42:07:759 [pid=226405 tid=226405] ERROR  cufio-fs:412 error creating udev_device for block device dev_no: 0:53
+ 06-02-2026 22:42:07:759 [pid=226405 tid=226405] ERROR  cufio-fs:954 error getting volume attributes error for device: dev_no: 0:53
+ 06-02-2026 22:42:07:759 [pid=226405 tid=226405] NOTICE  cufio:289 cuFileHandleRegister GDS not supported or disabled by config, using cuFile posix read/write with compat mode enabled
+ 06-02-2026 22:42:07:759 [pid=226405 tid=226405] ERROR  cufio-fs:412 error creating udev_device for block device dev_no: 0:53
+ 06-02-2026 22:42:07:759 [pid=226405 tid=226405] ERROR  cufio-fs:954 error getting volume attributes error for device: dev_no: 0:53
+ 06-02-2026 22:42:07:759 [pid=226405 tid=226405] ERROR  cufio-obj:244 unable to get volume attributes for fd 22
+ 06-02-2026 22:42:07:759 [pid=226405 tid=226405] ERROR  cufio:307 cuFileHandleRegister error, failed to allocate file object
+ 06-02-2026 22:42:07:759 [pid=226405 tid=226405] ERROR  cufio:337 cuFileHandleRegister error: file descriptor is not registered

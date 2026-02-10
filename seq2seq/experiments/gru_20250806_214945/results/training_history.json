@@ -1,0 +1,52 @@
+{
+  "experiment_info": {
+    "model_type": "gru",
+    "experiment_dir": "experiments/gru_20250806_214945",
+    "start_time": "2025-08-06T21:51:15.524788",
+    "model_params": 25056580
+  },
+  "config": {
+    "model_config": {
+      "model_type": "gru",
+      "vocab_size": 28996,
+      "embedding_dim": 256,
+      "hidden_dim": 512,
+      "num_layers": 2,
+      "dropout": 0.2
+    },
+    "training_config": {
+      "learning_rate": "5e-4",
+      "batch_size": 64,
+      "epochs": 1,
+      "optimizer": "adam",
+      "patience": 8,
+      "grad_clip": 0.5,
+      "output_dir": "experiments",
+      "experiment_name": null,
+      "save_dir": "experiments/gru_20250806_214945/checkpoints",
+      "logs_dir": "experiments/gru_20250806_214945/logs",
+      "save_best_only": true,
+      "save_final": true,
+      "save_epoch_checkpoints": false,
+      "debug_batch_prep": false
+    },
+    "data_config": {
+      "target_column": "smiles",
+      "data_path": "datasets/finals/dfs/master_df.csv",
+      "test_size": 0.2,
+      "random_state": 42
+    }
+  },
+  "results": {
+    "train_loss": [
+      1.1606316399283525
+    ],
+    "val_loss": [
+      0.40557969154583084
+    ],
+    "test_loss": 0.400501212477684,
+    "total_training_time": 74.4405608177185,
+    "best_val_loss": 0.40557969154583084,
+    "experiment_dir": "experiments/gru_20250806_214945"
+  }
+}

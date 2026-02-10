@@ -1,0 +1,19 @@
+# INPUT data for bonded parameter definition by BARTENDER for molecule ASP
+BEADS
+1 1,2,3,14,15,16
+2 4,5
+3 6,7,17,18
+4 8,9,10,19,20
+5 11,12,13,21
+BONDS
+1,2
+2,3
+2,4
+3,4
+4,5
+ANGLES
+1,2,5
+1,4,5
+IMPROPERS
+1,2,3,4
+2,3,4,5

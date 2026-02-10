@@ -1,0 +1,58 @@
+# Base Sampler Configuration
+# This file contains default sampling parameters that can be overridden by model-specific configs
+
+# Generation Parameters
+generation:
+  # Decoding Strategy
+  decoding_strategy: "top_p"  # greedy, top_k, top_p, nucleus, random
+  
+  # Sampling Parameters
+  temperature: 0.8
+  top_k: 50
+  top_p: 0.9
+  repetition_penalty: 1.1
+  
+  # Length Control
+  max_length: 100
+  min_length: 5
+  early_stopping: true
+  
+  # Special Tokens
+  bos_token_id: 1
+  eos_token_id: 2
+  pad_token_id: 0
+
+# Batch Generation
+batch:
+  num_sequences: 10
+  starter_presets:
+    - "random"
+    - "carbon_chain" 
+    - "aromatic"
+
+# Experiment Configuration
+experiment:
+  experiment_dir: null  # Path to experiment directory (auto-set from command line)
+  checkpoint_name: "best_model.pth"  # Which checkpoint to use (best_model.pth, final_model.pth, etc.)
+
+# Output Configuration
+output:
+  use_experiment_dir: true  # Save to experiment structure if available
+  formats: ["json", "csv", "txt"]  # Output formats to generate
+  base_filename: "generated_molecules"
+
+# Device Configuration
+device: null  # auto, cuda, cpu - null means auto-detect
+
+# Evaluation
+evaluation:
+  calculate_metrics: true
+  save_evaluation: true
+
+filtering:
+  discriminator:
+    enabled: true
+    model_type: "dmpnn"
+    model_dir: "./models/discriminator/LogP Regressor/DMPNN_model_dir" # Path to discriminator model directory
+    logp_threshold: 1 
+  do_save_output: true

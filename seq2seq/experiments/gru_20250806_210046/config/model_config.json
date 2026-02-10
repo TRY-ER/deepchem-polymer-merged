@@ -1,0 +1,8 @@
+{
+  "model_type": "gru",
+  "vocab_size": 28996,
+  "embedding_dim": 256,
+  "hidden_dim": 512,
+  "num_layers": 2,
+  "dropout": 0.2
+}

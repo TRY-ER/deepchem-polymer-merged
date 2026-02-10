@@ -1,0 +1,25 @@
+{
+  "experiment_info": {
+    "model_type": "lstm",
+    "start_time": "2025-09-02T10:53:13.603044",
+    "experiment_dir": "experiments/test_1K_2_epochs"
+  },
+  "epochs": [
+    {
+      "epoch": 1,
+      "global_step": 320,
+      "timestamp": "2025-09-02T10:53:13.603064",
+      "train_loss": 3.686470481753349,
+      "val_loss": 2.69100536108017,
+      "epoch_time": 17.360600471496582
+    },
+    {
+      "epoch": 2,
+      "global_step": 640,
+      "timestamp": "2025-09-02T10:53:31.057144",
+      "train_loss": 1.5978732643648983,
+      "val_loss": 0.6850774690508843,
+      "epoch_time": 17.244646072387695
+    }
+  ]
+}

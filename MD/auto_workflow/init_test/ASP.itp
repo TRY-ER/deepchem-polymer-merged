@@ -1,0 +1,44 @@
+; GENERATED WITH Auto_Martini M3FF for ASP
+; Developed by: Kiran Kanekal, Tristan Bereau, and Andrew Abi-Mansour
+; updated to Martini 3 force field by Magdalena Szczuka
+; supervised by Matthieu Chavent, Pierre Poulain and Paulo C. T. Souza 
+; SMILES code : CC(=O)OC1=CC=CC=C1C(=O)O
+
+
+[moleculetype]
+; molname       nrexcl
+  ASP          1
+
+[atoms]
+; id      type   resnr residue atom    cgnr    charge  mass ;  smiles    ; atom_num
+   1       SN5a    1   ASP     N01       1        0    54   ;   CC=O     ; atoms: C0, C1, O2,          
+   2       TP2a    1   ASP     P01       2        0    36   ;   CO       ; atoms: O3, C4,          
+   3       TC5     1   ASP     C01       3        0    36   ;   C=C      ; atoms: C5, C6,          
+   4       SC5     1   ASP     C02       4        0    54   ;   CC=C     ; atoms: C7, C8, C9,          
+   5       SN6d    1   ASP     N02       5        0    54   ;   O=CO     ; atoms: C10, O11, O12, ; ALOGPS defined bead
+
+
+[bonds]
+;  i   j     funct   length   force.c.
+   1   2     1       0.27       25000.00
+   2   3     1       0.27       25000.00
+   2   4     1       0.33       10000.00
+   3   4     1       0.28       100000.00
+   4   5     1       0.35       5000.00
+#ifndef FLEXIBLE
+[constraints]
+#endif
+;  i   j     funct   length
+
+[angles]
+;  i  j  k    funct  angle  force.c.
+   1  2  5       1    95.8   100.0
+   1  4  5       1    52.7    25.0
+
+[dihedrals]
+;  i  j  k  l  funct  angle  force.c.
+   1  2  3  4    2    -135.5   25.0
+   2  3  4  5    2    -0.5    25.0
+
+[exclusions]
+  1 4

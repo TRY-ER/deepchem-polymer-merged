@@ -1,0 +1,27 @@
+# Transformer Sampler Configuration
+# Optimized sampling parameters for Transformer models
+
+# Generation Parameters (Transformer-specific)
+generation:
+  decoding_strategy: "top_p"
+  temperature: 0.9  # Higher for creative generation
+  top_p: 0.95
+  repetition_penalty: 1.2
+  max_length: 120  # Transformers can handle longer sequences
+  
+# Batch Generation
+batch:
+  num_sequences: 20
+  starter_presets:
+    - "random"
+    - "carbon_chain"
+    - "aromatic"
+    - "functional_groups"
+
+# Model-specific notes
+notes: |
+  Transformer sampling configuration:
+  - Higher temperature for creative generation
+  - Higher top_p for diversity
+  - Stronger repetition penalty to avoid loops
+  - Longer sequences to leverage attention capability

@@ -1,0 +1,19 @@
+; em_vac.mdp - Vacuum Energy Minimization
+integrator      = steep
+nsteps          = 5000
+emtol           = 100.0         ; Strict tolerance for vacuum
+emstep          = 0.01
+
+; Neighbor searching
+cutoff-scheme   = Verlet
+ns_type         = grid
+nstlist         = 10
+pbc             = xyz           ; Keep PBC but use large box
+rlist           = 4.0           ; Large cutoff (nm)
+
+; Electrostatics / VdW
+coulombtype     = Cut-off       ; No PME in vacuum
+rcoulomb        = 4.0           ; > size of your molecule (buffer)
+vdwtype         = Cut-off
+rvdw            = 4.0           ; > size of your molecule (buffer)
+DispCorr        = no            ; No dispersion correction in vacuum

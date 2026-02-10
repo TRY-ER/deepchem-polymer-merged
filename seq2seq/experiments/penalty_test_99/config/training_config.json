@@ -1,0 +1,16 @@
+{
+  "learning_rate": "3e-4",
+  "batch_size": 16,
+  "epochs": 1,
+  "optimizer": "adam",
+  "patience": 10,
+  "grad_clip": 1.0,
+  "output_dir": "experiments",
+  "experiment_name": "penalty_test_99",
+  "save_dir": "experiments/penalty_test_99/checkpoints",
+  "logs_dir": "experiments/penalty_test_99/logs",
+  "save_best_only": true,
+  "save_final": true,
+  "save_epoch_checkpoints": false,
+  "debug_batch_prep": false
+}

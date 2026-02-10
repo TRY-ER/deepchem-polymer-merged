@@ -1,0 +1,120 @@
+* Force Field Parameter File.
+* 
+
+BOND
+OH CT  316.70   1.423	! same as  c3 oh
+OH HO  371.40   0.973	! same as  ho oh
+CT CT  300.90   1.538	! same as  c3 c3
+CT H1  330.60   1.097	! same as  c3 hc
+CT H1  330.60   1.097
+CT OS  308.60   1.432	! same as  c3 os
+CT OS  308.60   1.432
+CT CT  300.90   1.538
+CT C   313.00   1.524	! same as  c  c3
+CT HC  330.60   1.097	! same as  c3 hc
+CT HC  330.60   1.097
+C  O   637.70   1.218	! same as  c  o 
+C  OS  390.80   1.358	! same as  c  os
+CT C   313.00   1.524
+C  O   637.70   1.218
+C  OS  390.80   1.358
+C  HA    0.00   0.000	!ATTN, need revision
+
+ANGLE
+OH CT CT   67.500     110.190	! same as c3 c3 oh
+OH CT H1   51.100     109.500	! same as hc c3 oh
+OH CT H1   51.100     109.500
+CT OH HO   47.400     107.260	! same as c3 oh ho
+CT CT OS   68.000     107.970	! same as c3 c3 os
+CT CT H1   46.300     109.800	! same as c3 c3 hc
+CT CT H1   46.300     109.800
+CT OS CT   62.700     112.480	! same as c3 os c3
+OS CT H1   51.000     108.700	! same as hc c3 os
+OS CT H1   51.000     108.700
+OS CT CT   68.000     107.970
+CT OS CT   62.700     112.480
+OS CT C    68.000     109.210	! same as c  c3 os
+CT CT HC   46.300     109.800	! same as c3 c3 hc
+CT CT HC   46.300     109.800
+CT C  O    67.400     123.200	! same as c3 c  o 
+CT C  OS   68.900     110.720	! same as c3 c  os
+CT CT C    63.300     111.040	! same as c  c3 c3
+C  CT H1   46.900     108.770	! same as c  c3 hc
+C  OS CT   63.300     115.980	! same as c  os c3
+O  C  OS   75.300     123.250	! same as o  c  os
+OS CT C    68.000     109.210
+CT C  O    67.400     123.200
+CT C  OS   68.900     110.720
+CT CT C    63.300     111.040
+C  CT H1   46.900     108.770
+C  OS CT   63.300     115.980
+O  C  OS   75.300     123.250
+H1 CT H1   39.400     107.580	! same as hc c3 hc
+H1 CT H1   39.400     107.580
+HC CT HC   39.400     107.580	! same as hc c3 hc
+HC CT HC   39.400     107.580
+
+DIHEDRAL
+HO OH CT CT     0.160         3       0.0      !same as ho oh c3 c3
+HO OH CT CT     0.160         3       0.0      ! same as ho oh c3 c3
+HO OH CT H1     0.167         3       0.0      ! same as X  c3 oh X 
+OH CT CT OS     0.144         3       0.0      !same as os c3 c3 oh
+OH CT CT OS     0.144         3       0.0      ! same as os c3 c3 oh
+H1 CT CT OS     0.000         3       0.0      !same as hc c3 c3 os
+H1 CT CT OS     0.000         3       0.0      ! same as hc c3 c3 os
+OH CT CT H1     0.000         3       0.0      !same as hc c3 c3 oh
+OH CT CT H1     0.000         3       0.0      ! same as hc c3 c3 oh
+H1 CT CT H1     0.150         3       0.0      ! same as hc c3 c3 hc
+CT CT OS CT     0.383         3       0.0      !same as c3 c3 os c3
+CT CT OS CT     0.383         3       0.0      ! same as c3 c3 os c3
+H1 CT OS CT     0.383         3       0.0      ! same as X  c3 os X 
+OS CT CT OS     0.144         3       0.0      !same as os c3 c3 os
+OS CT CT OS     0.144         3       0.0      ! same as os c3 c3 os
+CT OS CT C      0.383         3       0.0      ! same as X  c3 os X 
+OS CT CT HC     0.000         3       0.0      !same as hc c3 c3 os
+OS CT CT HC     0.000         3       0.0      ! same as hc c3 c3 os
+C  CT CT HC     0.156         3       0.0      ! same as X  c3 c3 X 
+H1 CT CT HC     0.150         3       0.0      ! same as hc c3 c3 hc
+OS CT C  O      0.000         2     180.0      ! same as X  c  c3 X 
+CT CT C  O      0.000         2     180.0      ! same as X  c  c3 X 
+H1 CT C  O      0.800         1       0.0      !same as hc c3 c  o 
+H1 CT C  O      0.800         1       0.0      !same as hc c3 c  o 
+H1 CT C  O      0.800         1       0.0      ! same as hc c3 c  o 
+OS CT C  OS     0.000         2     180.0      ! same as X  c  c3 X 
+CT CT C  OS     0.000         2     180.0      ! same as X  c  c3 X 
+H1 CT C  OS     0.000         2     180.0      ! same as X  c  c3 X 
+CT C  OS CT     2.700         2     180.0      !same as c3 c  os c3
+CT C  OS CT     2.700         2     180.0      !same as c3 c  os c3
+CT C  OS CT     2.700         2     180.0      ! same as c3 c  os c3
+O  C  OS CT     2.700         2     180.0      !same as o  c  os c3
+O  C  OS CT     2.700         2     180.0      ! same as o  c  os c3
+C  OS CT CT     0.383         3       0.0      !same as c3 c3 os c 
+C  OS CT CT     0.383         3       0.0      ! same as c3 c3 os c 
+C  OS CT C      0.383         3       0.0      ! same as X  c3 os X 
+C  OS CT H1     0.383         3       0.0      ! same as X  c3 os X 
+OS CT C  HA     0.000         2     180.0      ! same as X  c  c3 X 
+CT CT C  HA     0.000         2     180.0      ! same as X  c  c3 X 
+H1 CT C  HA     0.000         2     180.0      ! same as X  c  c3 X 
+
+IMPHI
+CT O  C  OS     1.100         2     180.0	! Using default value
+CT HA C  O      1.100         2     180.0	! Using default value
+
+NONBONDED  NBXMOD 5  GROUP SWITCH CDIEL -
+CUTNB 14.0  CTOFNB 12.0  CTONNB 10.0  EPS 1.0  E14FAC 0.83333333  WMIN 1.4
+!                Emin     Rmin/2              Emin/2     Rmin  (for 1-4's)
+!             (kcal/mol)    (A)
+OH      0.00   -0.2104    1.7210      0.00   -0.1052    1.7210
+      ! same as oh 
+CT      0.00   -0.1094    1.9080      0.00   -0.0547    1.9080
+      ! same as c3 
+OS      0.00   -0.1700    1.6837      0.00   -0.0850    1.6837
+      ! same as os 
+ C      0.00   -0.0860    1.9080      0.00   -0.0430    1.9080
+      ! same as c  
+ O      0.00   -0.2100    1.6612      0.00   -0.1050    1.6612
+      ! same as o  
+HO      0.00   -0.0000    0.0000      0.00   -0.0000    0.0000
+      ! same as ho 
+H1      0.00   -0.0157    1.4870      0.00   -0.0078    1.4870
+      ! same as hc

@@ -1,0 +1,50 @@
+Generated Sequences - TCN Model
+Checkpoint: best_model.pth
+Generated: 2025-08-06 17:14:12
+============================================================
+
+Sequence 1:
+SMILES: C C ( C ) C ( * ) = O. * C ( C ) C ( = O ) OCC ( = O ) N *
+Length: 32
+Time: 0.094s
+Starter: C
+--------------------------------------------------
+Sequence 2:
+SMILES: C ( C ) C ( = O ) *. * NC ( = O ) CCCCCCCCC ( = O ) OC ( = O
+Length: 32
+Time: 0.079s
+Starter: C
+--------------------------------------------------
+Sequence 3:
+SMILES: C ( * ) = O. * CCNCNC ( = O ) CCCCCCCCC ( = O ) O *
+Length: 28
+Time: 0.069s
+Starter: C
+--------------------------------------------------
+Sequence 4:
+SMILES: C ( * ) = O. * Oc1ccc ( NC ( = O ) C ( C ) * ) cc1
+Length: 29
+Time: 0.071s
+Starter: C
+--------------------------------------------------
+Sequence 5:
+SMILES: C *. * C ( = O ) CCCCCCCCC ( = O ) NCNC ( = O ) CO *
+Length: 28
+Time: 0.069s
+Starter: C
+--------------------------------------------------
+Sequence 6:
+SMILES: * C ( = O ) C *. * NC ( = O ) CCCCCCCCC ( = O ) OC ( = O )
+Length: 31
+Time: 0.086s
+--------------------------------------------------
+Sequence 7:
+SMILES: * CCCCCC ( = O ) *. * C ( C ) C ( = O ) OCCCN *
+Length: 27
+Time: 0.068s
+--------------------------------------------------
+Sequence 8:
+SMILES: * C ( C ) C ( * ) = O. * CCOC ( = O ) C ( C ) OC ( = O ) C
+Length: 31
+Time: 0.079s
+--------------------------------------------------

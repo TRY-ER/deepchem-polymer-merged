@@ -1,0 +1,19 @@
+; mixture_1.pdb.mol2_GMX_OPLS.top created by acpype (v: 2022.7.21) on Fri Dec 12 06:59:08 2025
+
+; Include forcefield parameters
+#include "ffoplsaa.itp"
+
+; Include mixture_1.pdb.mol2_GMX.itp topology
+#include "mixture_1.pdb.mol2_GMX.itp"
+
+; Ligand position restraints
+#ifdef POSRES_LIG
+#include "posre_mixture_1.pdb.mol2.itp"
+#endif
+
+[ system ]
+ mixture_1.pdb.mol2
+
+[ molecules ]
+; Compound        nmols
+ mixture_1.pdb.mol2 1

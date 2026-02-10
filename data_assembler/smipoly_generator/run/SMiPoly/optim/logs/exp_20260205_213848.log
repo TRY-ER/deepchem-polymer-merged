@@ -1,0 +1,8 @@
+2026-02-05 21:38:48,121 - INFO - Processing homo polymerization for vinyl
+2026-02-05 21:38:49,650 - INFO - Processed homo polymerization for index 0 and wrote to file ./outputs/vinyl_none/polymer_0.parquet
+2026-02-05 21:38:49,652 - INFO - Processing homo polymerization for cOle
+2026-02-05 21:38:49,693 - INFO - Processed homo polymerization for index 0 and wrote to file ./outputs/cOle_none/polymer_0.parquet
+2026-02-05 21:38:49,693 - INFO - Starting hetero polymerization for index pair of vinyl and vinyl
+2026-02-05 21:38:50,273 - WARNING - No data rows found for index pair of 0 and 0
+2026-02-05 21:38:50,280 - INFO - Starting hetero polymerization for index pair of vinyl and cOle
+2026-02-05 21:38:50,816 - WARNING - No data rows found for index pair of 0 and 0

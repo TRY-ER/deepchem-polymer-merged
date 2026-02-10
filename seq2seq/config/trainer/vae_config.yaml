@@ -1,0 +1,36 @@
+# VAE Model Training Configuration
+# Inherits from base_config.yaml and overrides specific parameters
+
+# Model Configuration
+model:
+  type: "vae"
+  vocab_size: 28996
+  
+# Training Parameters (specific to VAE)
+training:
+  learning_rate: 2e-4
+  batch_size: 24
+  epochs: 30
+  optimizer: "adam"
+  patience: 15
+  
+  # VAE-specific settings
+  grad_clip: 1.5
+  kl_weight: 0.05  # Lower KL weight for better reconstruction
+  
+  # Output naming
+  experiment_name: null  # Will auto-generate: vae_YYYYMMDD_HHMMSS
+
+# Logging Configuration
+logging:
+  use_wandb: true  # VAE training benefits from loss component monitoring
+  project_name: "polymer-vae"
+
+# Model-specific notes
+notes: |
+  VAE configuration optimized for molecular sequence generation.
+  - Moderate learning rate for stable VAE training
+  - Smaller batch size due to memory requirements
+  - Lower KL weight to balance reconstruction and regularization
+  - Extended training with higher patience
+  - Wandb logging for monitoring reconstruction and KL losses

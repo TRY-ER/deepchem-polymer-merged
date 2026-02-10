@@ -1,0 +1,6 @@
+{
+  "target_column": "smiles",
+  "data_path": "datasets/finals/dfs/master_df.csv",
+  "test_size": 0.2,
+  "random_state": 42
+}

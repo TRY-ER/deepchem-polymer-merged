@@ -1,0 +1,35 @@
+# Base configuration for polymer visualization
+
+# Canvas and figure settings
+canvas:
+  width: 1400
+  height: 500
+  figure_width: 10
+  figure_height: 6
+
+# Output settings
+output:
+  directory: "./visualizations/gen_100_lstm"
+  file_prefix: "polymer"
+  format: "png"
+
+# LogP coloring settings
+logp:
+  colors:
+    philic: [0.0, 1.0, 1.0, 1]  # Blue (RGB Alpha)
+    phobic: [1.0, 1.0, 0.0, 1]  # Yellow (RGB Alpha)
+  # Default column names for LogP values in CSV
+  columns:
+    logp1: "logP_1"      # Column name for first fragment LogP
+    logp2: "logP_2"      # Column name for second fragment LogP
+  # Default global LogP filter values (used when no columns specified)
+  defaults:
+    logp1: 0.0
+    logp2: 0.0
+    enabled: false
+
+# Batch processing settings
+batch:
+  enabled: false
+  csv_column: "SMILES"  # Default column name for SMILES strings in CSV
+  chunk_size: 100  # Number of molecules to process in one batch

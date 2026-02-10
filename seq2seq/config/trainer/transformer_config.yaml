@@ -1,0 +1,35 @@
+# Transformer Model Training Configuration
+# Inherits from base_config.yaml and overrides specific parameters
+
+# Model Configuration
+model:
+  type: "transformer"
+  vocab_size: 28996
+  
+# Training Parameters (specific to Transformer)
+training:
+  learning_rate: 1e-4
+  batch_size: 32
+  epochs: 25
+  optimizer: "adamw"  # AdamW often works better for transformers
+  weight_decay: 0.01
+  patience: 12
+  
+  # Transformer-specific settings
+  grad_clip: 2.0
+  
+  # Output naming
+  experiment_name: null  # Will auto-generate: transformer_YYYYMMDD_HHMMSS
+
+# Logging Configuration
+logging:
+  use_wandb: true  # Transformers benefit from detailed monitoring
+  project_name: "polymer-transformer"
+
+# Model-specific notes
+notes: |
+  Transformer configuration optimized for molecular sequence generation.
+  - Lower learning rate with AdamW optimizer
+  - Weight decay for regularization
+  - Higher gradient clipping threshold
+  - Wandb logging enabled for detailed monitoring
