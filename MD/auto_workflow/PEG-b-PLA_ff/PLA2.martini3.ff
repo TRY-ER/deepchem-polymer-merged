@@ -1,0 +1,36 @@
+[ citations ]
+Martini3
+polyply
+
+[ moleculetype ]
+; moname nrexcl
+PLA2  1
+
+[ atoms ]
+; id      type   resnr residue atom    cgnr    charge  mass ;  smiles    ; atom_num
+   1       TN5a    1   PLA2    LA1       1        0    36   ;   C=O      ; atoms: C0, O1,          
+   2       SP2d    1   PLA2    LA2       2        0    54   ;   CCO      ; atoms: C2, C3, O4,          
+   3       TN5a    1   PLA2    LA3       3        0    36   ;   C=O      ; atoms: C5, O6,          
+   4       SP2d    1   PLA2    LA4       4        0    54   ;   CCO      ; atoms: C7, C8, O9,          
+
+
+[ bonds ]
+;  i   j     funct   length   force.c.
+   1   2     1       0.25       5000.00
+   2   3     1       0.32       5000.00
+   3   4     1       0.26       5000.00
+
+[ angles ]
+;  i  j  k    funct  angle  force.c.
+   1  2  3       1    66.3    30.0
+   1  2  4       1    79.0   100.0
+
+[ link ]
+resname "PLA2"
+[ bonds ]
+LA4 +LA1  1 0.32  5000.00
+
+[ link ]
+resname "PLA2"
+[ angles ]
+LA3 LA4 +LA1  1 66.3  30.0
