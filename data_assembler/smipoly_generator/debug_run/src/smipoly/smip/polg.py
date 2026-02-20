@@ -195,6 +195,9 @@ def biplym(df, targ=None, dsp_rsl=None):
                         DF_temp['Ps_rxnL'] = int(
                             Ps_rxnL_key[0])  # 20240826added
                         targ_rxn = P_set[2]
+                        DF_temp["Ps_rxn_smarts"] = AllChem.ReactionToSmarts(
+                            targ_rxn
+                        )
                         print(f"[++] Started executing for {len(combs)} combinations", flush = True)
                         DF_temp['polym'] = DF_temp.apply(
                             lambda x: [genmol(x['mon1']), genmol(x['mon2'])],
@@ -219,6 +222,10 @@ def biplym(df, targ=None, dsp_rsl=None):
                         columns=['mon1', 'mon2'])
                     DF_temp['polymer_class'] = str(P_class)
                     DF_temp['Ps_rxnL'] = int(Ps_rxnL_key[0])  # 20240826added
+                    targ_rxn = P_set[2]
+                    DF_temp["Ps_rxn_smarts"] = AllChem.ReactionToSmarts(
+                        targ_rxn
+                    )
                     mons = monL[mon_dic[targ_mon1]]
                     excls = exclL[mon_dic[targ_mon1]]
                     # print(f"[++] Started executing for monomer {P_set[0]}", flush = True)

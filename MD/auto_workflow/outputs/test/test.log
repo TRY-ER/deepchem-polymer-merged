@@ -1,0 +1,96 @@
+INFO:test:Output directory: ./outputs/test
+ERROR:test:Martini base file not found: ./src/martini_base.itp
+ERROR:test:Step FAILURE failed
+2026-02-20 22:25:48,086 - INFO - Output directory: ./outputs/test
+2026-02-20 22:25:48,086 - ERROR - Martini base file not found: ./src/martini_base.itp
+2026-02-20 22:25:48,087 - ERROR - Step FAILURE failed
+2026-02-20 22:30:55,428 - INFO - Output directory: ./outputs/test
+2026-02-20 22:30:55,428 - ERROR - Martini base file not found: ./src/martini_base.itp
+2026-02-20 22:30:55,429 - ERROR - Step FAILURE failed
+2026-02-20 22:32:59,856 - INFO - Output directory: ./outputs/test
+2026-02-20 22:32:59,856 - ERROR - Martini solvent file not found: /home/kalki/src/open_source/dfs/deepchem-polymer-casestudy/MD/auto_workflow/outputs/IMPL/martini_v3.0.0_solvent.itp
+2026-02-20 22:32:59,857 - ERROR - Step FAILURE failed
+2026-02-20 22:33:38,525 - INFO - Output directory: ./outputs/test
+2026-02-20 22:33:38,671 - ERROR - Error occurred while setting up Polyply
+2026-02-20 22:33:38,671 - ERROR - Error details: No module named 'pysmiles'
+2026-02-20 22:33:38,671 - ERROR - Step FAILURE failed
+2026-02-20 22:33:54,173 - INFO - Output directory: ./outputs/test
+2026-02-20 22:33:54,317 - ERROR - Error occurred while setting up Polyply
+2026-02-20 22:33:54,317 - ERROR - Error details: No module named 'cgsmiles'
+2026-02-20 22:33:54,317 - ERROR - Step FAILURE failed
+2026-02-20 22:34:02,700 - INFO - Output directory: ./outputs/test
+2026-02-20 22:34:03,318 - INFO - Polyply setup successful
+2026-02-20 22:34:03,318 - INFO - Step SUCCESS succeeded
+2026-02-20 22:49:24,472 - INFO - Output directory: ./outputs/test
+2026-02-20 22:49:25,794 - INFO - Polyply setup successful
+2026-02-20 22:49:25,794 - INFO - Step SUCCESS succeeded
+2026-02-20 22:49:51,062 - INFO - Output directory: ./outputs/test
+2026-02-20 22:49:51,918 - INFO - Polyply setup successful
+2026-02-20 22:49:51,918 - INFO - Step SUCCESS succeeded
+2026-02-20 22:49:51,918 - ERROR - Error occurred while generating polymer parameters
+2026-02-20 22:49:51,918 - ERROR - Error details: name 'subprocess' is not defined
+2026-02-20 22:49:51,918 - ERROR - Step FAILURE failed
+2026-02-20 22:50:06,054 - INFO - Output directory: ./outputs/test
+2026-02-20 22:50:06,907 - INFO - Polyply setup successful
+2026-02-20 22:50:06,907 - INFO - Step SUCCESS succeeded
+2026-02-20 22:50:08,175 - ERROR - Error occurred while generating polymer parameters
+2026-02-20 22:50:08,175 - ERROR - Error details: Command 'polyply gen_params -lib martini3 -o test_mol.itp -name TEST_CHAIN_MOL -seq PEG2:25 PLA2:25 ' returned non-zero exit status 1.
+2026-02-20 22:50:08,175 - ERROR - Step FAILURE failed
+2026-02-20 22:51:10,576 - INFO - Output directory: ./outputs/test
+2026-02-20 22:51:11,449 - INFO - Polyply setup successful
+2026-02-20 22:51:11,449 - INFO - Step SUCCESS succeeded
+2026-02-20 22:51:12,711 - ERROR - Error occurred while generating polymer parameters
+2026-02-20 22:51:12,712 - ERROR - Error details: Command 'polyply gen_params -lib martini3 -o test_mol.itp -name TEST_CHAIN_MOL -seq PEG2:25 PLA2:25 ' returned non-zero exit status 1.
+2026-02-20 22:51:12,712 - ERROR - Step FAILURE failed
+2026-02-20 22:51:28,343 - INFO - Output directory: ./outputs/test
+2026-02-20 22:51:29,203 - INFO - Polyply setup successful
+2026-02-20 22:51:29,203 - INFO - Step SUCCESS succeeded
+2026-02-20 22:51:30,465 - ERROR - Error occurred while generating polymer parameters
+2026-02-20 22:51:30,465 - ERROR - Error details: Command 'polyply gen_params -lib martini3 -o test_mol.itp -name TEST_CHAIN_MOL -seq PEG2:25 PLA2:25 ' returned non-zero exit status 1.
+2026-02-20 22:51:30,465 - ERROR - Step FAILURE failed
+2026-02-20 22:53:14,432 - INFO - Output directory: ./outputs/test
+2026-02-20 22:53:15,282 - INFO - Polyply setup successful
+2026-02-20 22:53:15,282 - INFO - Step SUCCESS succeeded
+2026-02-20 22:53:16,602 - INFO - Polymer parameters generated successfully
+2026-02-20 22:53:16,602 - INFO - Step SUCCESS succeeded
+2026-02-20 22:54:28,551 - INFO - Output directory: ./outputs/test
+2026-02-20 22:54:29,434 - INFO - Polyply setup successful
+2026-02-20 22:54:29,434 - INFO - Step SUCCESS succeeded
+2026-02-20 22:54:30,793 - INFO - Polymer parameters generated successfully
+2026-02-20 22:54:30,793 - INFO - Step SUCCESS succeeded
+2026-02-20 23:13:21,712 - INFO - Output directory: ./outputs/test
+2026-02-20 23:13:22,562 - INFO - Polyply setup successful
+2026-02-20 23:13:22,563 - INFO - Step SUCCESS succeeded
+2026-02-20 23:13:23,934 - INFO - Polymer parameters generated successfully
+2026-02-20 23:13:23,935 - INFO - Step SUCCESS succeeded
+2026-02-20 23:13:23,935 - INFO - Generating single molecule topology file
+2026-02-20 23:13:23,935 - INFO - Single molecule topology file generated successfully
+2026-02-20 23:13:23,935 - INFO - Generating single water topology file
+2026-02-20 23:13:23,935 - INFO - Single water topology file generated successfully
+2026-02-20 23:13:25,169 - ERROR - Error occurred while generating polymer coordinates
+2026-02-20 23:13:25,169 - ERROR - Error details: Command 'polyply gen_coords -p ./outputs/test/test_mol_single.top -o ./outputs/test/test_mol_single.gro -name TEST_CHAIN_MOL_SINGLE -dens 1000' returned non-zero exit status 1.
+2026-02-20 23:13:25,169 - ERROR - Step FAILURE failed
+2026-02-20 23:14:36,397 - INFO - Output directory: ./outputs/test
+2026-02-20 23:14:37,249 - INFO - Polyply setup successful
+2026-02-20 23:14:37,249 - INFO - Step SUCCESS succeeded
+2026-02-20 23:14:38,560 - INFO - Polymer parameters generated successfully
+2026-02-20 23:14:38,561 - INFO - Step SUCCESS succeeded
+2026-02-20 23:14:38,561 - INFO - Generating single molecule topology file
+2026-02-20 23:14:38,561 - INFO - Single molecule topology file generated successfully
+2026-02-20 23:14:38,561 - INFO - Generating single water topology file
+2026-02-20 23:14:38,561 - INFO - Single water topology file generated successfully
+2026-02-20 23:14:39,794 - ERROR - Error occurred while generating polymer coordinates
+2026-02-20 23:14:39,794 - ERROR - Error details: Command 'polyply gen_coords -p ./outputs/test/test_mol_single.top -o ./outputs/test/test_mol_single.gro -name TEST_CHAIN_MOL_SINGLE -dens 1000' returned non-zero exit status 1.
+2026-02-20 23:14:39,794 - ERROR - Step FAILURE failed
+2026-02-20 23:15:02,458 - INFO - Output directory: ./outputs/test
+2026-02-20 23:15:03,305 - INFO - Polyply setup successful
+2026-02-20 23:15:03,306 - INFO - Step SUCCESS succeeded
+2026-02-20 23:15:04,682 - INFO - Polymer parameters generated successfully
+2026-02-20 23:15:04,683 - INFO - Step SUCCESS succeeded
+2026-02-20 23:15:04,683 - INFO - Generating single molecule topology file
+2026-02-20 23:15:04,683 - INFO - Single molecule topology file generated successfully
+2026-02-20 23:15:04,683 - INFO - Generating single water topology file
+2026-02-20 23:15:04,683 - INFO - Single water topology file generated successfully
+2026-02-20 23:15:10,587 - INFO - Polymer coordinates generated successfully
+2026-02-20 23:15:13,463 - INFO - Water coordinates generated successfully
+2026-02-20 23:15:13,463 - INFO - Step SUCCESS succeeded

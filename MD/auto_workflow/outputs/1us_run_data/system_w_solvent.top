@@ -1,0 +1,10 @@
+#include "martini_v3.0.0.itp"
+#include "martini_v3.0.0_solvents_v1.itp"
+#include "PEG40PLA60.itp"
+
+[ system ]
+CHAIN_PEG40PLA60_SINGLE in water
+
+[ molecules ]
+PEG40PLA60       100 
+W                13734 

@@ -244,22 +244,27 @@ def seq_chain(prod_P, targ_mon1, Ps_rxnL, mon_dic, monL):
 
     """
     if Chem.MolToSmiles(prod_P) != '':
+        exc_count = 0
+        max_match_thresh = 1 
         if targ_mon1 not in ['vinyl', 'cOle']:
             seqFG2 = Chem.MolFromSmarts(monL[[202][0]])
             seqFG3 = Chem.MolFromSmarts(monL[[203][0]])
             seqFG4 = Chem.MolFromSmarts(monL[[204][0]])
-            while prod_P.HasSubstructMatch(seqFG2):
+            while prod_P.HasSubstructMatch(seqFG2) and exc_count < max_match_thresh:
                 prods = Ps_rxnL[202].RunReactants([prod_P])
                 prod_P = prods[0][0]
                 Chem.SanitizeMol(prod_P)
-            while prod_P.HasSubstructMatch(seqFG3):
+                exc_count += 1
+            while prod_P.HasSubstructMatch(seqFG3) and exc_count < max_match_thresh:
                 prods = Ps_rxnL[203].RunReactants([prod_P])
                 prod_P = prods[0][0]
                 Chem.SanitizeMol(prod_P)
-            while prod_P.HasSubstructMatch(seqFG4):
+                exc_count += 1
+            while prod_P.HasSubstructMatch(seqFG4) and exc_count < max_match_thresh:
                 prods = Ps_rxnL[204].RunReactants([prod_P])
                 prod_P = prods[0][0]
                 Chem.SanitizeMol(prod_P)
+                exc_count += 1
         else:
             prod_P = prod_P
     return prod_P
@@ -308,70 +313,76 @@ def seq_successive(prod_P, targ_rxn, monL, Ps_rxnL, P_class):
         seqFG5 = Chem.MolFromSmarts(monL[[205][0]])
         seqFG6 = Chem.MolFromSmarts(monL[[206][0]])
         exc_count = 0
-        max_match_thresh = 10
+        max_match_thresh = 1 
         if P_class not in ['polyolefin', 'polyoxazolidone', ]:
-            # print("non olefinic / oxazolidone section triggered !")
             # the following while loops can run forever in some cases makeing the script run forever 
-            while prod_P.HasSubstructMatch(seqFG1):
-                # print("internal reaction running started for segFG1")
+            while prod_P.HasSubstructMatch(seqFG1) and exc_count < max_match_thresh:
                 prods = Ps_rxnL[201].RunReactants([prod_P])
-                # print("internal reaction running ended")
+                # print(f" [{exc_count}] >> {list(list(Chem.MolToSmiles(p) for p in prod) for prod in prods)}")
                 prod_P = prods[0][0]
                 Chem.SanitizeMol(prod_P)
-            while prod_P.HasSubstructMatch(seqFG2):
-                # print("internal reaction running started for segFG2")
+                exc_count += 1
+            while prod_P.HasSubstructMatch(seqFG2) and exc_count < max_match_thresh:
                 prods = Ps_rxnL[202].RunReactants([prod_P])
+                # print(f" [{exc_count}] >> {list(list(Chem.MolToSmiles(p) for p in prod) for prod in prods)}")
                 # print("internal reaction running ended")
                 prod_P = prods[0][0]
                 Chem.SanitizeMol(prod_P)
-            while prod_P.HasSubstructMatch(seqFG3):
+                exc_count += 1
+            while prod_P.HasSubstructMatch(seqFG3) and exc_count < max_match_thresh:
                 # print("internal reaction running started for segFG3")
                 prods = Ps_rxnL[203].RunReactants([prod_P])
+                # print(f" [{exc_count}] >> {list(list(Chem.MolToSmiles(p) for p in prod) for prod in prods)}")
                 # print("internal reaction running ended")
                 prod_P = prods[0][0]
                 Chem.SanitizeMol(prod_P)
-            while prod_P.HasSubstructMatch(seqFG4):
+                exc_count += 1
+            while prod_P.HasSubstructMatch(seqFG4) and exc_count < max_match_thresh:
                 # print("internal reaction running started for segFG4")
                 prods = Ps_rxnL[204].RunReactants([prod_P])
+                # print(f" [{exc_count}] >> {list(list(Chem.MolToSmiles(p) for p in prod) for prod in prods)}")
                 prod_P = prods[0][0]
                 # print("internal reaction running ended")
                 Chem.SanitizeMol(prod_P)
-            while prod_P.HasSubstructMatch(seqFG5):
+                exc_count += 1
+            while prod_P.HasSubstructMatch(seqFG5) and exc_count < max_match_thresh:
                 # print("internal reaction running started for segFG5")
                 prods = Ps_rxnL[205].RunReactants([prod_P])
+                # print(f" [{exc_count}] >> {list(list(Chem.MolToSmiles(p) for p in prod) for prod in prods)}")
                 prod_P = prods[0][0]
                 # print("internal reaction running ended")
                 Chem.SanitizeMol(prod_P)
-            while prod_P.HasSubstructMatch(seqFG6):
-                if exc_count > max_match_thresh:
-                    # print(f"too much reactions before resolving the reaction loop for product >> {Chem.MolToSmiles(prod_P)}")
-                    break
-                # print(f"{exc_count}: internal reaction running started for segFG6")
+                exc_count += 1
+            while prod_P.HasSubstructMatch(seqFG6) and exc_count < max_match_thresh:
                 if P_class == 'polyimide':
-                    # print("internal reaction running started for segFG6 >> polyimide")
                     prods = Ps_rxnL[207].RunReactants([prod_P])
+                    # print(f" [{exc_count}] >> {list(list(Chem.MolToSmiles(p) for p in prod) for prod in prods)}")
                 elif P_class == 'polyester':
-                    # print("internal reaction running started for segFG6 >> polyester")
                     prods = Ps_rxnL[206].RunReactants([prod_P])
-                # print(f"{exc_count}internal reaction running ended")
+                    # print(f" [{exc_count}] >> {list(list(Chem.MolToSmiles(p) for p in prod) for prod in prods)}")
                 prod_P = prods[0][0]
                 Chem.SanitizeMol(prod_P)
-                # print(f"{exc_count}internal reaction product sanitized")
                 exc_count += 1
         elif P_class in ['polyoxazolidone', ]:
-            while prod_P.HasSubstructMatch(seqFG1):
+            while prod_P.HasSubstructMatch(seqFG1)and exc_count < max_match_thresh:
                 prods = Ps_rxnL[201].RunReactants([prod_P])
+                # print(f" [{exc_count}] >> {list(list(Chem.MolToSmiles(p) for p in prod) for prod in prods)}")
                 prod_P = prods[0][0]
                 Chem.SanitizeMol(prod_P)
-            while prod_P.HasSubstructMatch(seqFG5):
+                exc_count += 1
+            while prod_P.HasSubstructMatch(seqFG5)and exc_count < max_match_thresh:
                 prods = Ps_rxnL[208].RunReactants([prod_P])
+                # print(f" [{exc_count}] >> {list(list(Chem.MolToSmiles(p) for p in prod) for prod in prods)}")
                 prod_P = prods[0][0]
                 Chem.SanitizeMol(prod_P)
+                exc_count += 1
         elif P_class in ['polyolefin', ]:
-            while prod_P.HasSubstructMatch(seqFG0):
+            while prod_P.HasSubstructMatch(seqFG0)and exc_count < max_match_thresh:
                 prods = Ps_rxnL[200].RunReactants([prod_P])
+                # print(f" [{exc_count}] >> {list(list(Chem.MolToSmiles(p) for p in prod) for prod in prods)}")
                 prod_P = prods[0][0]
                 Chem.SanitizeMol(prod_P)
+                exc_count += 1
         else:
             prod_P = prod_P
     return prod_P
@@ -455,7 +466,8 @@ def bipolymA(reactant, targ_rxn, monL, Ps_rxnL, P_class):
             )
             # print("[+] copolymer sequence generation completed")
             prod_Ps.append(prod_P)
-        except:
+        except Exception as e:
+            # print(f"found exception in bipolymearization: {e} ")
             # print("[+] Skipping the sequence generation due to timeout")
             pass
     return [genc_smi(m) for m in prod_Ps]
@@ -695,3 +707,4 @@ def coord_polym(smi, targ_rxn):
     return list(rsl)
 
 # end
+# mod

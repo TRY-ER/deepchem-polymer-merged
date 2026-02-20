@@ -1,0 +1,9 @@
+#include "martini_v3.0.0.itp"
+#include "PEG40PLA60.itp"
+
+
+[ system ]
+CHAIN_PEG40PLA60_SINGLE
+
+[ molecules ]
+PEG40PLA60  1 

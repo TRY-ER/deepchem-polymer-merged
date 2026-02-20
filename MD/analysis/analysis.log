@@ -1,0 +1,48 @@
+Analysizing for file >> ../auto_workflow/1us_run_data/1us_whole_chains.gro
+[+] Mean radius of gyration: 25.785743931698867
+[+] Mean end to end distance: 62.573463
+[+] Standard deviation of radius of gyration: 5.1657490552714975
+[+] Standard deviation of end to end distance: 22.480743
+Eigenvalues: λ1=1950.3, λ2=2265.5, λ3=2975.2
+Relative Shape Anisotropy (κ²): 0.0160
+CONCLUSION: The chains are arranged in a SPHERICAL pattern.
+Analysizing for file >> ../auto_workflow/1us_run_data/prod_50ns.gro
+[+] Mean radius of gyration: 41.03135574173767
+[+] Mean end to end distance: 64.79988
+[+] Standard deviation of radius of gyration: 21.038551194369337
+[+] Standard deviation of end to end distance: 42.213177
+Eigenvalues: λ1=803.5, λ2=830.7, λ3=1223.6
+Relative Shape Anisotropy (κ²): 0.0203
+CONCLUSION: The chains are arranged in a SPHERICAL pattern.
+Analysizing for file >> ../auto_workflow/1us_run_data/prod.gro
+[+] Mean radius of gyration: 36.96196008229111
+[+] Mean end to end distance: 52.78884
+[+] Standard deviation of radius of gyration: 21.392609584889847
+[+] Standard deviation of end to end distance: 42.89443
+Eigenvalues: λ1=864.1, λ2=957.0, λ3=1185.9
+Relative Shape Anisotropy (κ²): 0.0091
+CONCLUSION: The chains are arranged in a SPHERICAL pattern.
+Analysizing for file >> ../auto_workflow/1us_run_data/em.gro
+[+] Mean radius of gyration: 11.758369234769527
+[+] Mean end to end distance: 8.253609
+[+] Standard deviation of radius of gyration: 0.016761364496921123
+[+] Standard deviation of end to end distance: 0.13636069
+Eigenvalues: λ1=2936.6, λ2=3370.3, λ3=3780.6
+Relative Shape Anisotropy (κ²): 0.0053
+CONCLUSION: The chains are arranged in a SPHERICAL pattern.
+Analysizing for file >> ../auto_workflow/1us_run_data/solvated.gro
+[+] Mean radius of gyration: 13.399368121254987
+[+] Mean end to end distance: 8.511415
+[+] Standard deviation of radius of gyration: 0.00017267077806838445
+[+] Standard deviation of end to end distance: 0.003970812
+Eigenvalues: λ1=2690.3, λ2=3372.6, λ3=3889.8
+Relative Shape Anisotropy (κ²): 0.0110
+CONCLUSION: The chains are arranged in a SPHERICAL pattern.
+Analysizing for file >> ../auto_workflow/1us_run_data/system_mol_100.gro
+[+] Mean radius of gyration: 13.399368121254987
+[+] Mean end to end distance: 8.511415
+[+] Standard deviation of radius of gyration: 0.00017267077806838445
+[+] Standard deviation of end to end distance: 0.003970812
+Eigenvalues: λ1=2690.3, λ2=3372.6, λ3=3889.8
+Relative Shape Anisotropy (κ²): 0.0110
+CONCLUSION: The chains are arranged in a SPHERICAL pattern.

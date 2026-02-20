@@ -1,0 +1,241 @@
+
+============================================================
+Analysing >> ../auto_workflow/1us_run_data/1us_whole_chains.gro
+============================================================
+    Residue names found in selection : ['PEG2' 'PLA2']
+    Total beads selected             : 30000
+[1] CHAIN CONFORMATION
+    Mean Rg            : 25.786 Å  (2.579 nm)
+    Mean Ree           : 62.573 Å  (6.257 nm)
+    Std Rg             : 5.166 Å
+    Std Ree            : 22.481 Å
+    Ree²/(6·Rg²) ratio : 0.981  (1 = ideal coil, >1 = stretched)
+    Exploded chains    : 0 / 100
+
+[2] SHAPE ANISOTROPY  (κ²: 0 = sphere, 1 = rod)
+    Eigenvalues : λ1=1950.3  λ2=2265.5  λ3=2975.2
+    κ²          : 0.0160
+    Shape       : SPHERICAL
+
+[3] RADIAL SHELL TEST  (CV = σ/μ of radial distances)
+    Mean radial dist from centre : 79.473 Å  (7.947 nm)
+    Std  radial dist             : 29.579 Å  (2.958 nm)
+    Coefficient of Variation     : 0.372
+    Result                       : LOOSE / transitioning structure
+
+[4] RADIAL ALIGNMENT SCORE  (1 = perfect radial stretch, 0 = random)
+    Mean |cos θ|  : 0.538
+    Valid chains  : 100 / 100
+    Result        : MODERATE radial alignment
+
+────────────────────────────────────────────────────────────
+FINAL VERDICT
+────────────────────────────────────────────────────────────
+❌ ISOTROPIC but NOT a shell — likely random / cubic-grid distribution
+────────────────────────────────────────────────────────────
+
+    Plot saved → ./output/1us_whole/distribution_plots.png
+
+
+============================================================
+Analysing >> ../auto_workflow/1us_run_data/prod_50ns.gro
+============================================================
+    Residue names found in selection : ['PEG2' 'PLA2']
+    Total beads selected             : 30000
+[1] CHAIN CONFORMATION
+    Mean Rg            : 41.031 Å  (4.103 nm)
+    Mean Ree           : 64.800 Å  (6.480 nm)
+    Std Rg             : 21.039 Å
+    Std Ree            : 42.213 Å
+    Ree²/(6·Rg²) ratio : 0.416  (1 = ideal coil, >1 = stretched)
+    Exploded chains    : 0 / 100
+
+[2] SHAPE ANISOTROPY  (κ²: 0 = sphere, 1 = rod)
+    Eigenvalues : λ1=803.5  λ2=830.7  λ3=1223.6
+    κ²          : 0.0203
+    Shape       : SPHERICAL
+
+[3] RADIAL SHELL TEST  (CV = σ/μ of radial distances)
+    Mean radial dist from centre : 51.262 Å  (5.126 nm)
+    Std  radial dist             : 15.165 Å  (1.516 nm)
+    Coefficient of Variation     : 0.296
+    Result                       : LOOSE / transitioning structure
+
+[4] RADIAL ALIGNMENT SCORE  (1 = perfect radial stretch, 0 = random)
+    Mean |cos θ|  : 0.481
+    Valid chains  : 100 / 100
+    Result        : WEAK / no radial alignment ✗
+
+────────────────────────────────────────────────────────────
+FINAL VERDICT
+────────────────────────────────────────────────────────────
+❌ ISOTROPIC but NOT a shell — likely random / cubic-grid distribution
+────────────────────────────────────────────────────────────
+
+    Plot saved → ./output/50ns/distribution_plots.png
+
+
+============================================================
+Analysing >> ../auto_workflow/1us_run_data/prod.gro
+============================================================
+    Residue names found in selection : ['PEG2' 'PLA2']
+    Total beads selected             : 30000
+[1] CHAIN CONFORMATION
+    Mean Rg            : 36.962 Å  (3.696 nm)
+    Mean Ree           : 52.789 Å  (5.279 nm)
+    Std Rg             : 21.393 Å
+    Std Ree            : 42.894 Å
+    Ree²/(6·Rg²) ratio : 0.340  (1 = ideal coil, >1 = stretched)
+    Exploded chains    : 0 / 100
+
+[2] SHAPE ANISOTROPY  (κ²: 0 = sphere, 1 = rod)
+    Eigenvalues : λ1=864.1  λ2=957.0  λ3=1185.9
+    κ²          : 0.0091
+    Shape       : SPHERICAL
+
+[3] RADIAL SHELL TEST  (CV = σ/μ of radial distances)
+    Mean radial dist from centre : 53.033 Å  (5.303 nm)
+    Std  radial dist             : 13.947 Å  (1.395 nm)
+    Coefficient of Variation     : 0.263
+    Result                       : LOOSE / transitioning structure
+
+[4] RADIAL ALIGNMENT SCORE  (1 = perfect radial stretch, 0 = random)
+    Mean |cos θ|  : 0.458
+    Valid chains  : 100 / 100
+    Result        : WEAK / no radial alignment ✗
+
+────────────────────────────────────────────────────────────
+FINAL VERDICT
+────────────────────────────────────────────────────────────
+❌ ISOTROPIC but NOT a shell — likely random / cubic-grid distribution
+────────────────────────────────────────────────────────────
+
+    Plot saved → ./output/10ns/distribution_plots.png
+
+
+============================================================
+Analysing >> ../auto_workflow/1us_run_data/em.gro
+============================================================
+    Residue names found in selection : ['PEG2' 'PLA2']
+    Total beads selected             : 30000
+[1] CHAIN CONFORMATION
+    Mean Rg            : 11.758 Å  (1.176 nm)
+    Mean Ree           : 8.254 Å  (0.825 nm)
+    Std Rg             : 0.017 Å
+    Std Ree            : 0.136 Å
+    Ree²/(6·Rg²) ratio : 0.082  (1 = ideal coil, >1 = stretched)
+    Exploded chains    : 0 / 100
+
+[2] SHAPE ANISOTROPY  (κ²: 0 = sphere, 1 = rod)
+    Eigenvalues : λ1=2936.6  λ2=3370.3  λ3=3780.6
+    κ²          : 0.0053
+    Shape       : SPHERICAL
+
+[3] RADIAL SHELL TEST  (CV = σ/μ of radial distances)
+    Mean radial dist from centre : 96.784 Å  (9.678 nm)
+    Std  radial dist             : 26.840 Å  (2.684 nm)
+    Coefficient of Variation     : 0.277
+    Result                       : LOOSE / transitioning structure
+
+[4] RADIAL ALIGNMENT SCORE  (1 = perfect radial stretch, 0 = random)
+    Mean |cos θ|  : 0.488
+    Valid chains  : 100 / 100
+    Result        : WEAK / no radial alignment ✗
+
+────────────────────────────────────────────────────────────
+FINAL VERDICT
+────────────────────────────────────────────────────────────
+❌ ISOTROPIC but NOT a shell — likely random / cubic-grid distribution
+────────────────────────────────────────────────────────────
+
+    Plot saved → ./output/em/distribution_plots.png
+
+
+============================================================
+Analysing >> ../auto_workflow/1us_run_data/solvated.gro
+============================================================
+    Residue names found in selection : ['PEG2' 'PLA2']
+    Total beads selected             : 30000
+[1] CHAIN CONFORMATION
+    Mean Rg            : 13.399 Å  (1.340 nm)
+    Mean Ree           : 8.511 Å  (0.851 nm)
+    Std Rg             : 0.000 Å
+    Std Ree            : 0.004 Å
+    Ree²/(6·Rg²) ratio : 0.067  (1 = ideal coil, >1 = stretched)
+    Exploded chains    : 0 / 100
+
+[2] SHAPE ANISOTROPY  (κ²: 0 = sphere, 1 = rod)
+    Eigenvalues : λ1=2690.3  λ2=3372.6  λ3=3889.8
+    κ²          : 0.0110
+    Shape       : SPHERICAL
+
+[3] RADIAL SHELL TEST  (CV = σ/μ of radial distances)
+    Mean radial dist from centre : 96.164 Å  (9.616 nm)
+    Std  radial dist             : 26.556 Å  (2.656 nm)
+    Coefficient of Variation     : 0.276
+    Result                       : LOOSE / transitioning structure
+
+[4] RADIAL ALIGNMENT SCORE  (1 = perfect radial stretch, 0 = random)
+    Mean |cos θ|  : 0.506
+    Valid chains  : 100 / 100
+    Result        : MODERATE radial alignment
+
+────────────────────────────────────────────────────────────
+FINAL VERDICT
+────────────────────────────────────────────────────────────
+❌ ISOTROPIC but NOT a shell — likely random / cubic-grid distribution
+────────────────────────────────────────────────────────────
+
+    Plot saved → ./output/solvated/distribution_plots.png
+
+
+============================================================
+Analysing >> ../auto_workflow/1us_run_data/system_mol_100.gro
+============================================================
+    Residue names found in selection : ['PEG2' 'PLA2']
+    Total beads selected             : 30000
+[1] CHAIN CONFORMATION
+    Mean Rg            : 13.399 Å  (1.340 nm)
+    Mean Ree           : 8.511 Å  (0.851 nm)
+    Std Rg             : 0.000 Å
+    Std Ree            : 0.004 Å
+    Ree²/(6·Rg²) ratio : 0.067  (1 = ideal coil, >1 = stretched)
+    Exploded chains    : 0 / 100
+
+[2] SHAPE ANISOTROPY  (κ²: 0 = sphere, 1 = rod)
+    Eigenvalues : λ1=2690.3  λ2=3372.6  λ3=3889.8
+    κ²          : 0.0110
+    Shape       : SPHERICAL
+
+[3] RADIAL SHELL TEST  (CV = σ/μ of radial distances)
+    Mean radial dist from centre : 96.164 Å  (9.616 nm)
+    Std  radial dist             : 26.556 Å  (2.656 nm)
+    Coefficient of Variation     : 0.276
+    Result                       : LOOSE / transitioning structure
+
+[4] RADIAL ALIGNMENT SCORE  (1 = perfect radial stretch, 0 = random)
+    Mean |cos θ|  : 0.506
+    Valid chains  : 100 / 100
+    Result        : MODERATE radial alignment
+
+────────────────────────────────────────────────────────────
+FINAL VERDICT
+────────────────────────────────────────────────────────────
+❌ ISOTROPIC but NOT a shell — likely random / cubic-grid distribution
+────────────────────────────────────────────────────────────
+
+    Plot saved → ./output/system_mol_100/distribution_plots.png
+
+
+==========================================================================================
+SUMMARY TABLE
+==========================================================================================
+File                      Rg(Å)   Ree(Å)     κ²i    CV_r  |cosθ|  Verdict
+------------------------------------------------------------------------------------------
+1us_whole_chains.gro      25.79    62.57  0.0160   0.372   0.538  ❌ ISOTROPIC but NOT a shell — likely random / cubic-grid distribution
+prod_50ns.gro             41.03    64.80  0.0203   0.296   0.481  ❌ ISOTROPIC but NOT a shell — likely random / cubic-grid distribution
+prod.gro                  36.96    52.79  0.0091   0.263   0.458  ❌ ISOTROPIC but NOT a shell — likely random / cubic-grid distribution
+em.gro                    11.76     8.25  0.0053   0.277   0.488  ❌ ISOTROPIC but NOT a shell — likely random / cubic-grid distribution
+solvated.gro              13.40     8.51  0.0110   0.276   0.506  ❌ ISOTROPIC but NOT a shell — likely random / cubic-grid distribution
+system_mol_100.gro        13.40     8.51  0.0110   0.276   0.506  ❌ ISOTROPIC but NOT a shell — likely random / cubic-grid distribution
+==========================================================================================

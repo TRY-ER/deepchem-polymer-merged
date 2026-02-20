@@ -1,0 +1,35 @@
+{
+  "exp_name": "test",
+  "output_dir": "./outputs/test",
+  "mol_name": "TEST_CHAIN_MOL",
+  "steps": [
+    {
+      "id": "polyply:setup",
+      "params": {
+        "src_martini_base": "/home/kalki/src/open_source/dfs/deepchem-polymer-casestudy/MD/auto_workflow/outputs/IMPL/martini_v3.0.0.itp",
+        "src_martini_solvent": "/home/kalki/src/open_source/dfs/deepchem-polymer-casestudy/MD/auto_workflow/outputs/IMPL/martini_v3.0.0_solvents_v1.itp",
+        "check_cmd": "import polyply"
+      }
+    },
+    {
+      "id": "polyply:gen-params",
+      "params": {
+        "seq": {
+          "PEG2": 25,
+          "PLA2": 25
+        },
+        "output_path": "test_mol.itp"
+      }
+    },
+    {
+      "id": "polyply:gen-coords",
+      "params": {
+        "name_outro": "SINGLE",
+        "itp_path": "test_mol.itp",
+        "top_file_path": "test_mol_single.top",
+        "solvent_top_file_path": "test_mol_solvent.top",
+        "output_path": "test_mol_single.gro"
+      }
+    }
+  ]
+}

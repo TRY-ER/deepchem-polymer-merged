@@ -1,0 +1,60 @@
+; =========================================================
+; NPT EQUILIBRATION FOR MARTINI COARSE-GRAINED SYSTEMS
+; =========================================================
+
+; --- Run Control ---
+integrator       = md
+tinit            = 0.0
+dt               = 0.020           ; 20 fs time step (standard for Martini)
+nsteps           = 50000           ; 1 ns total (adjust as needed)
+comm-mode        = Linear          ; Remove center of mass translation
+nstcomm          = 100
+
+; --- Output Control ---
+nstxout          = 5000            ; Save coordinates every 100 ps
+nstvout          = 5000            ; Save velocities every 100 ps
+nstfout          = 0
+nstlog           = 1000            ; Update log file every 20 ps
+nstenergy        = 1000            ; Save energy every 20 ps
+nstxout-compressed = 1000          ; Save compressed trajectory (xtc) every 20 ps
+compressed-x-precision = 1000
+
+; --- Neighbor Searching ---
+cutoff-scheme    = Verlet
+nstlist          = 20              ; Update neighbor list every 20 steps
+ns_type          = grid
+pbc              = xyz
+verlet-buffer-tolerance = 0.005
+
+; --- Electrostatics & vdW (MARTINI STANDARD) ---
+; These settings are critical for Martini accuracy.
+coulombtype      = Reaction-Field 
+rcoulomb         = 1.1
+epsilon_r        = 15              ; Dielectric constant (15 for standard Martini water)
+vdw_type         = Cut-off
+vdw-modifier     = Potential-shift-verlet
+rvdw             = 1.1
+
+; --- Temperature Coupling ---
+tcoupl           = V-rescale       ; Reliable thermostat
+tc-grps          = System ; Define your groups here!
+tau_t            = 1.0 ; Time constant (ps)
+ref_t            = 310 ; Reference temperature (K)
+
+; --- Pressure Coupling ---
+pcoupl           = C-rescale ; Berendsen is stable for equilibration
+pcoupltype       = semiisotropic   ; use 'isotropic' for protein-in-water, 'semiisotropic' for membranes
+tau_p            = 5.0             ; Time constant (ps)
+compressibility  = 3e-4  3e-4      ; Compressibility (bar^-1) - typically 3e-4 for Martini
+ref_p            = 1.0   1.0       ; Reference pressure (bar) (xy and z for semiisotropic)
+refcoord_scaling = com
+
+; --- Velocity Generation ---
+gen_vel          = yes             ; Generate velocities if starting fresh
+gen_temp         = 310
+gen_seed         = -1              ; Random seed
+
+; --- Constraints ---
+constraints      = none            ; Martini beads are usually not constrained
+constraint_algorithm = Lincs
+

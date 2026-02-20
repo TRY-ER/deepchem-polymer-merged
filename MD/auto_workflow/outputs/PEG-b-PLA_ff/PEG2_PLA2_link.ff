@@ -1,0 +1,11 @@
+[ citations ]
+Martini3
+polyply
+
+[ link ]
+resname "PEG2|PLA2"
+[ bonds ]
+EG3 +LA1 1  0.24   25000
+[ angles ]
+EG2 EG3 +LA1  1 94.1  100.0
+EG3 +LA1  ++LA2 1 111.2  50.0

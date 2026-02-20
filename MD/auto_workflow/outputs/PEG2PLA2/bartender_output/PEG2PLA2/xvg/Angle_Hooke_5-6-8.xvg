@@ -1,0 +1,14 @@
+@    xaxis  label "Length or angle (A or deg)"
+@    yaxis  label "Energy (kJ/mol)"
+@TYPE xy
+@ view 0.15, 0.15, 0.75, 0.85
+@ legend on
+@ legend box on
+@ legend loctype view
+@ legend 0.78, 0.8
+@ legend length 2
+@ s0 legend "Points"
+@ s1 legend "Fitted function"
+121.539374 19.115531 12.888811
+122.539374 -0.000000 12.596904
+123.539374 18.680197 12.308341

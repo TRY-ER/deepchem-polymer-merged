@@ -1,0 +1,11 @@
+#include "test_PEG2.itp"
+#include "martini_v3.0.0.itp"
+
+[ system ]
+; name
+Test PEG system
+
+[ molecules ]
+
+; name number
+PEG2_100 100

@@ -72,6 +72,7 @@ class LogPFilter:
 
 
 if __name__ == "__main__":
+    # change the model dir before use
     filter = LogPFilter(model_type="dmpnn",
                         model_dir="C:\\Users\\Kalki\\Documents\\code\\dfs\\models\\discriminator\\LogP Regressor\\DMPNN_model_dir",
                         logp_threshold=0.5)

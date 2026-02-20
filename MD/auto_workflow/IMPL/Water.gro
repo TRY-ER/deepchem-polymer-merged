@@ -1,4 +1,0 @@
-/home/kalki/src/MD/polymer/venv/bin/polyply gen_coords -p single_water.top -o Water.gro -name W1 -dens 1000
-1
-    1W        W    1   0.400   0.000   0.200
-0.49264 0.49264 0.49264

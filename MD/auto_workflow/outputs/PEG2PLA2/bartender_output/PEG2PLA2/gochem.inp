@@ -1,0 +1,7 @@
+$md
+ temp=310.000
+ time=10000
+ velo=false
+ nvt=true
+ restart=false
+$end
