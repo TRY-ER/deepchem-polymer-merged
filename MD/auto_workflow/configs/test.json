@@ -26,9 +26,43 @@
       "params": {
         "name_outro": "SINGLE",
         "itp_path": "test_mol.itp",
-        "top_file_path": "test_mol_single.top",
+        "top_file_path": "test_mol.top",
         "solvent_top_file_path": "test_mol_solvent.top",
-        "output_path": "test_mol_single.gro"
+        "mol_output_path": "test_mol_single.gro",
+        "sol_output_path": "test_mol_solvent.gro"
+      }
+    },
+    {
+      "id": "gmx:solvate-box",
+      "params": {
+        "solvent_gro_file_path": "test_mol_solvent.gro",
+        "gro_output_path": "solvated_box.gro",
+        "solvated_topology_path": "test_mol.top",
+        "box_size": [2, 2, 2]
+      }
+    },
+    {
+      "id": "gmx:insert-mols",
+      "params": {
+        "box_input_path": "solvated_box.gro",
+        "mol_input_path": "test_mol_single.gro",
+        "solvated_topology_path": "test_mol.top",
+        "system_output_path": "test_system.gro",
+        "num_mols": 10
+      }
+    },
+    {
+      "id": "gmx:em-min",
+      "params": {
+        "source_mdp": "em.mdp",
+        "source_gro": "test_system.gro",
+        "source_top": "test_mol.top",
+        "output_path": "em.tpr",
+        "do_override": true,
+        "override_params": {
+          "emtol": 69,
+          "emstep": 0.01
+        }
       }
     }
   ]
