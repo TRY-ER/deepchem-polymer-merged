@@ -35,6 +35,28 @@ def polyply_setup(global_args, params, logger):
     output_dir = global_args.get("output_dir", "output")
     src_martini_base = params.get("src_martini_base", "./src/martini_base.itp")
     src_martini_solvent = params.get("src_martini_solvent", "./src/martini_solvent.itp")
+    ff_source = params.get("ff_source", "../source_files/ff/")
+    venv_dir = params.get("ff_target", "venv")
+    # check if the force field files in ff_source ending with .ff exist in ff_target
+    python_version_dir = next(
+        d for d in os.listdir(os.path.join(venv_dir, "lib")) if d.startswith("python")
+    )
+    ff_target = os.path.join(
+        venv_dir,
+        "lib",
+        python_version_dir,
+        "site-packages",
+        "polyply",
+        "data",
+        "martini3",
+    )
+    for ff_file in os.listdir(ff_source):
+        if ff_file.endswith(".ff"):
+            if not os.path.exists(os.path.join(ff_target, ff_file)):
+                # copy the ff file to the target directory if does not exists
+                shutil.copy(os.path.join(ff_source, ff_file), ff_target)
+            else:
+                logger.info(f"Force field file {ff_file} already exists in {ff_target}")
     check_cmd = params.get("check_cmd", "import polyply")
     if not os.path.exists(src_martini_base):
         logger.error(f"Martini base file not found: {src_martini_base}")
@@ -210,7 +232,7 @@ def modify_write_mdp_params(output_dir, source_mdp, params, logger):
 
 def run_prod_seq(source_gro, source_top, source_mdp, output_dir, output_name, logger):
     output_path = f"{output_dir}/{output_name}.tpr"
-    command = f"gmx grompp -f {output_dir}/{source_mdp} -c {output_dir}/{source_gro} -p {output_dir}/{source_top} -o {output_path}"
+    command = f"gmx grompp -f {output_dir}/{source_mdp} -c {output_dir}/{source_gro} -p {output_dir}/{source_top} -o {output_path} -po {output_dir}/{output_name}.mdp"
     try:
         logger.info(f"[+] Running gmx grompp command: {command}")
         subprocess.run(command, shell=True, check=True)

@@ -6,10 +6,10 @@
     {
       "id": "polyply:setup",
       "params": {
-        "src_martini_base": "../source_files/martini_v3.0.0.itp",
-        "src_martini_solvent": "../source_files/martini_v3.0.0_solvents_v1.itp",
-        "ff_source": "../source_files/ff/"
-        "ff_target": "../venv/lib/python3.12/site-packages/polyply/data/martini3"
+        "src_martini_base": "source_files/martini_v3.0.0.itp",
+        "src_martini_solvent": "source_files/martini_v3.0.0_solvents_v1.itp",
+        "ff_source": "source_files/ff/",
+        "venv_dir": "venv",
         "check_cmd": "import polyply"
       }
     },

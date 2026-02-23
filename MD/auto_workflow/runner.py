@@ -40,7 +40,7 @@ def runner(config, logger):
 
 
 if __name__ == "__main__":
-    config = load_config("./configs/test.json")
+    config = load_config("./configs/run.json")
     output_dir = config.get("output_dir", "output")
     exp_name = config.get("exp_name", "default")
     os.makedirs(output_dir, exist_ok=True)
