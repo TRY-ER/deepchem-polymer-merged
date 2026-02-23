@@ -1,6 +1,4 @@
-import collections
 import re
-from turtle import resetscreen
 from typing import Dict, List, Optional
 
 import defaults
@@ -9,13 +7,7 @@ import defaults
 class GromacsTopUpdater:
     """
     Class to automatically update [ molecules ] section in GROMACS .top files
-    based on residue counts from .gro coordinate files.
-
-    Usage:
-    updater = GromacsTopUpdater('topol.top')
-    mol_counts = updater.count_molecules_from_gro('system.gro')
-    updater.update_molecules(mol_counts)
-    updater.write('topol_updated.top')
+    Class to add solvent itp file if required
     """
 
     def __init__(self, top_file: str):
@@ -86,12 +78,13 @@ class GromacsTopUpdater:
         new_section = ["[ molecules ]\n"]
         solvent_count = self.count_solvent_from_gro(gro_file_path, solvent_resname)
         mol_count = self.count_molecules_from_top()
+        new_section.append(f"{solvent_resname} {solvent_count}\n")
         for resname, count in mol_count.items():
+            if resname == solvent_resname:
+                continue
             val_count = count
             if resname == mod_resname:
                 val_count = mod_count
-            elif resname == solvent_resname:
-                val_count = solvent_count
             new_section.append(f"{resname} {val_count}\n")
         new_section.append("\n")  # Blank line separator
 
@@ -107,11 +100,18 @@ class GromacsTopUpdater:
             + self.lines[end_idx:]
         )
 
+    def remove_space_till_first_char(self):
+        self.lines = [line.lstrip() for line in self.lines]
+
+    def include_solvent_topology(self, solvent_itp_file_path: str):
+        # the topology file has to added at the top
+        self.lines.insert(2, f'#include "{solvent_itp_file_path}"\n')
+
     def write(self, output_file: Optional[str] = None) -> str:
         """Write updated topology. Returns output path."""
         if output_file is None:
             output_file = self.top_file.replace(".top", "_updated.top")
-
+        self.remove_space_till_first_char()
         with open(output_file, "w") as f:
             f.writelines(self.lines)
         print(f"Updated topology written to {output_file}")

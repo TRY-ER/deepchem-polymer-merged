@@ -2,7 +2,6 @@ import os
 import shutil
 import subprocess
 
-from defaults import md_prod_default_params
 from utils import GromacsTopUpdater, MDPWritter
 
 
@@ -89,8 +88,8 @@ def poly_gen_coords(global_args, params, logger):
     )
     logger.info("Generating single molecule topology file")
     single_mol_content = f"""
-    #include "martini_v3.0.0.itp
-    #include "{itp_path}
+    #include "martini_v3.0.0.itp"
+    #include "{itp_path}"
 
     [ system ]
     {mol_name.upper()}_{name_outro.upper()}
@@ -167,6 +166,7 @@ def gmx_insert_mols(global_args, params, logger):
     mol_input_path = params.get("mol_input_path", "test_mol_single.gro")
     solvated_topology_path = params.get("solvated_topology_path", "test_mol.top")
     system_output_path = params.get("system_output_path", "test_system.gro")
+    solvent_itp_path = params.get("solvent_itp_path", "martini_v3.0.0_solvents_v1.itp")
     num_mols = params.get("num_mols", 10)
     command = f"gmx insert-molecules -f {output_dir}/{box_input_path} -ci {output_dir}/{mol_input_path} -nmol {num_mols} -o {output_dir}/{system_output_path} -replace W"
     try:
@@ -184,6 +184,7 @@ def gmx_insert_mols(global_args, params, logger):
         updater.update_molecules(
             f"{output_dir}/{system_output_path}", mol_name, num_mols, "W"
         )
+        updater.include_solvent_topology(solvent_itp_path)
         updater.write(f"{output_dir}/{solvated_topology_path}")
         return ExecutorStatus.SUCCESS
     except Exception as e:
@@ -207,15 +208,57 @@ def modify_write_mdp_params(output_dir, source_mdp, params, logger):
         logger.info(f"[+] Using existing mdp file at >> {params['source_mdp']}")
 
 
-def gmx_em_min(global_args, params, logger):
+def run_prod_seq(source_gro, source_top, source_mdp, output_dir, output_name, logger):
+    output_path = f"{output_dir}/{output_name}.tpr"
+    command = f"gmx grompp -f {output_dir}/{source_mdp} -c {output_dir}/{source_gro} -p {output_dir}/{source_top} -o {output_path}"
+    try:
+        logger.info(f"[+] Running gmx grompp command: {command}")
+        subprocess.run(command, shell=True, check=True)
+    except Exception as e:
+        logger.error(f"Error running gmx grompp command: {e}")
+        return ExecutorStatus.FAILURE
+    command = f"gmx mdrun -s {output_path} -deffnm {output_name} -o {output_dir}/{output_name}.trr -x {output_dir}/{output_name}.xtc -c {output_dir}/{output_name}.gro -e {output_dir}/{output_name}.edr -g {output_dir}/{output_name}.log"
+    try:
+        logger.info(f"[+] Running gmx mdrun command: {command}")
+        subprocess.run(command, shell=True, check=True)
+    except Exception as e:
+        logger.error(f"Error running gmx mdrun command: {e}")
+        return ExecutorStatus.FAILURE
+    return ExecutorStatus.SUCCESS
+
+
+def setup_prod_sequence(
+    global_args, params, logger, default_gro, default_top, prod_name
+):
     output_dir = global_args.get("output_dir", "output")
     if "source_mdp" in params:
         source_mdp = params["source_mdp"]
         modify_write_mdp_params(output_dir, source_mdp, params, logger)
-        return ExecutorStatus.SUCCESS
     else:
         logger.error("Source mdp file not provided")
         return ExecutorStatus.FAILURE
+    source_gro = params.get("source_gro", default_gro)
+    source_top = params.get("source_top", default_top)
+    output_name = params.get("output_name", prod_name)
+    return run_prod_seq(
+        source_gro, source_top, source_mdp, output_dir, output_name, logger
+    )
+
+
+def gmx_em_min(global_args, params, logger):
+    return setup_prod_sequence(
+        global_args, params, logger, "system.gro", "mol.top", "em"
+    )
+
+
+def gmx_npt_equil(global_args, params, logger):
+    return setup_prod_sequence(global_args, params, logger, "em.gro", "mol.top", "npt")
+
+
+def gmx_prod_run(global_args, params, logger):
+    return setup_prod_sequence(
+        global_args, params, logger, "npt.gro", "mol.top", "prod"
+    )
 
 
 executor_map = {
@@ -225,4 +268,6 @@ executor_map = {
     "gmx:solvate-box": gmx_solvate_box,
     "gmx:insert-mols": gmx_insert_mols,
     "gmx:em-min": gmx_em_min,
+    "gmx:npt-equil": gmx_npt_equil,
+    "gmx:prod-run": gmx_prod_run,
 }

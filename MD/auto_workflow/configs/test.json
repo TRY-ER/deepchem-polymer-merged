@@ -38,7 +38,7 @@
         "solvent_gro_file_path": "test_mol_solvent.gro",
         "gro_output_path": "solvated_box.gro",
         "solvated_topology_path": "test_mol.top",
-        "box_size": [2, 2, 2]
+        "box_size": [20, 20, 20]
       }
     },
     {
@@ -47,8 +47,9 @@
         "box_input_path": "solvated_box.gro",
         "mol_input_path": "test_mol_single.gro",
         "solvated_topology_path": "test_mol.top",
+        "solvent_itp_path": "martini_v3.0.0_solvents_v1.itp",
         "system_output_path": "test_system.gro",
-        "num_mols": 10
+        "num_mols": 9
       }
     },
     {
@@ -57,11 +58,38 @@
         "source_mdp": "em.mdp",
         "source_gro": "test_system.gro",
         "source_top": "test_mol.top",
-        "output_path": "em.tpr",
+        "output_name": "em",
         "do_override": true,
         "override_params": {
-          "emtol": 69,
+          "nsteps": 50,
+          "emtol": 10,
           "emstep": 0.01
+        }
+      }
+    },
+    {
+      "id": "gmx:npt-equil",
+      "params": {
+        "source_mdp": "npt.mdp",
+        "source_gro": "em.gro",
+        "source_top": "test_mol.top",
+        "output_name": "npt",
+        "do_override": true,
+        "override_params": {
+          "nsteps": 50
+        }
+      }
+    },
+    {
+      "id": "gmx:prod-run",
+      "params": {
+        "source_mdp": "prod.mdp",
+        "source_gro": "npt.gro",
+        "source_top": "test_mol.top",
+        "output_name": "prod",
+        "do_override": true,
+        "override_params": {
+          "nsteps": 100
         }
       }
     }

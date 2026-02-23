@@ -1,0 +1,39 @@
+
+; =========================================================
+
+; ENERGY MINIMIZATION FOR MARTINI COARSE-GRAINED SYSTEMS
+
+; =========================================================
+
+; --- Run Control ---
+integrator	=	steep
+
+; Steepest descent energy minimization
+nsteps	=	50
+emtol	=	10
+emstep	=	0.01
+
+; --- Neighbor Searching ---
+cutoff-scheme	=	Verlet
+nstlist	=	10
+
+; Update neighbor list every 10 steps
+ns_type	=	grid
+pbc	=	xyz
+verlet-buffer-tolerance	=	0.005
+
+; --- Electrostatics & vdW (MARTINI STANDARD) ---
+
+; These settings are critical for Martini accuracy.
+coulombtype	=	Reaction-Field
+rcoulomb	=	1.1
+epsilon_r	=	15
+
+; Dielectric constant (15 for standard Martini water)
+vdw_type	=	Cut-off
+vdw-modifier	=	Potential-shift-verlet
+rvdw	=	1.1
+
+; Extra parameters for the MDP file from the user
+
+; ===============================================
