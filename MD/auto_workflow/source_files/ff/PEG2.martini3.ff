@@ -1,0 +1,33 @@
+[ citations ]
+Martini3
+polyply
+
+[ moleculetype ]
+; moname nrexcl
+PEG2  1
+
+[ atoms ]
+; id      type   resnr residue atom    cgnr    charge  mass ;  smiles    ; atom_num
+   1       TC3     1   PEG2    EG1       1        0    36   ;   CC       ; atoms: C2, C3,          
+   2       TP2a    1   PEG2    EG2       2        0    36   ;   CO       ; atoms: O4, C5,          
+   3       TP2a    1   PEG2    EG3       3        0    36   ;   CO       ; atoms: C6, O7,          
+
+[ bonds ]
+;  i   j     funct   length   force.c.
+   1   2     1       0.30       25000.00
+   2   3     1       0.22       25000.00
+
+[ angles ]
+;  i  j  k    funct  angle  force.c.
+   1  2  3    1      105.2  100.0
+
+[ link ]
+resname "PEG2"
+[ bonds ]
+EG3 +EG1  1 0.30 25000.00
+
+[ link ]
+resname "PEG2"
+[ angles ]
+EG2 EG3 +EG1    1   157.5   100.0
+EG3 +EG1 +EG2   1   107.3   100.0

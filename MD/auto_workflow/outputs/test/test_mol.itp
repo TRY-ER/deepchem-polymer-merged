@@ -1,9 +1,9 @@
-; /home/kalki/src/open_source/dfs/deepchem-polymer-casestudy/MD/auto_workflow/venv/bin/polyply gen_params -lib martini3 -o ./outputs/test/test_mol.itp -name TEST_CHAIN_MOL -seq PEG2:25 PLA2:25
+; /home/kalki/MD/deepchem-polymer-merged/MD/venv/bin/polyply gen_params -lib martini3 -o ./outputs/test/test_mol.itp -name TEST_CHAIN_MOL -seq PEG2:25 PLA2:25
 
 ; Please cite the following papers:
+; Grunewald, F; Alessandri, R; Kroon, P C; Monticelli, L; Souza, P C; Marrink, S J;  Nature Communications 2022; 10.1038/s41467-021-27627-4
 ; Kroon, P C; Grunewald, F; Barnoud, J; van Tilburg, M; Souza, P C; Wassenaar, T A; Marrink, S J;  elife 2024; 10.7554/elife.90627.2
 ; Souza, P C T; Alessandri, R; Barnoud, J; Thallmair, S; Faustino, I; Grünewald, F; Patmanidis, I; Abdizadeh, H; Bruininks, B M H; Wassenaar, T A; Kroon, P C; Melcr, J; Nieto, V; Corradi, V; Khan, H M; Domański, J; Javanainen, M; Martinez-Seara, H; Reuter, N; Best, R B; Vattulainen, I; Monticelli, L; Periole, X; Tieleman, D P; de Vries, A H; Marrink, S J;  Nature Methods 2021; 10.1038/s41592-021-01098-3
-; Grunewald, F; Alessandri, R; Kroon, P C; Monticelli, L; Souza, P C; Marrink, S J;  Nature Communications 2022; 10.1038/s41467-021-27627-4
 
 [ moleculetype ]
 TEST_CHAIN_MOL 1
