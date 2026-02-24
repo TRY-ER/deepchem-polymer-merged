@@ -3,35 +3,35 @@
 
 # Model Configuration
 model:
-  vocab_size: 28996  # Will be automatically detected from tokenizer if not specified
+  vocab_size: 28996 # Will be automatically detected from tokenizer if not specified
 
 # Training Parameters
 training:
   # Optimization
   learning_rate: 1e-3
-  optimizer: "adam"  # adam, adamw, sgd
+  optimizer: "adam" # adam, adamw, sgd
   weight_decay: 0.0
-  momentum: 0.9  # Only used for SGD
-  
+  momentum: 0.9 # Only used for SGD
+
   # Training Schedule
   epochs: 10
-  batch_size: 4 
-  patience: 5  # Early stopping patience
+  batch_size: 4
+  patience: 5 # Early stopping patience
   # grad_clip: 1.0  # Gradient clipping threshold
-  
+
   # Loss Configuration
-  loss_function: "cross_entropy"  # cross_entropy, mse, bce
-  kl_weight: 0.1  # For VAE models
-  
+  loss_function: "cross_entropy" # cross_entropy, mse, bce
+  kl_weight: 0.1 # For VAE models
+
   # Output Configuration
   output_dir: "experiments"
-  experiment_name: "penalty_test_99" # Auto-generated if null
-  
+  experiment_name: "test_exp_mod_repr" # Auto-generated if null
+
   # Checkpoint Configuration
   save_best_only: true
   save_final: true
   save_epoch_checkpoints: false
-  
+
   # Debug Configuration
   debug_batch_prep: false
 
@@ -44,21 +44,22 @@ data:
   # Can be overridden here if needed
   use_default: false
   data_config:
-    data_path: "datasets/finals/dfs/penalty_w_block_99.csv"
+    data_path: "datasets/mod/seq2seq_trainer_100_demo.parquet"
     test_size: 0.2
     random_state: 42
-    target_column: "sequence"
+    target_column: "inp_comb_1"
 
 # Logging Configuration
 logging:
   use_wandb: false
-  project_name: "penalty_test_99"
-  log_level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+  project_name: "test_exp_mod_repr"
+  log_level: "INFO" # DEBUG, INFO, WARNING, ERROR
 
 # Device Configuration
-device: null  # auto, cuda, cpu - null means auto-detect
+device: null # auto, cuda, cpu - null means auto-detect
 
 
 # # Penalty Configuration
-penalty_config:
-  penalty_norm: 1
+# penalty_config:
+#   penalty_norm: 1
+

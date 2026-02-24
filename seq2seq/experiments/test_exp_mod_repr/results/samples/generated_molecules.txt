@@ -1,0 +1,55 @@
+Generated Sequences - LSTM Model
+Checkpoint: best_model.pth
+Generated: 2026-02-24 17:26:16
+============================================================
+
+Sequence 1:
+SMILES: # E # $ 0 1 : # : { 2 : & 1 c2 2 (CC O ) )ccC O O cc c O O ) c1 Occ ) O ]c X O ( )cc : [ [ R )C C & & (1 X CC ) = ( >1 R2 * ) ( ( [ O2 R & c c3 [ ) - ) O [ ( ]c = c2c O 13 ( ( ( ) *1 X ]
+Length: 101
+Time: 0.531s
+--------------------------------------------------
+Sequence 2:
+SMILES: # # # : : # # # 2 0 0 1 : 2 ( : 1 : 1 : C 2 cc 1 Cc )1 cc 1 X C CC ) O - ( * O > ( &2 : ( $ - ( O & cCC ( ( C2 =cc 1 [ = ( ( &CC = ( O - C CC ( C3 :1 C X : C & ) ) O ( : ]11C (1cc = ) ( (211
+Length: 101
+Time: 0.233s
+--------------------------------------------------
+Sequence 3:
+SMILES: # # : $ # : C : : : : : 1 : # & $ 0 $ $ = ) : $cc1 ( > Ccc ) ( 2 ( * c O CC C [ & = C ( X ) )1 = =cc ( ) O ) c )CC1 C &2 )1cc2 > C ) ( C1 [ c R : 1 : ) X ) ] c 1 C X C1 ]3 ( :2 X & CCcc & & O
+Length: 101
+Time: 0.235s
+--------------------------------------------------
+Sequence 4:
+SMILES: # # E : { : 4 : $ # # : 3CC2 11 - C c ] Rc X O X 13 & * O C cc C -C = C CC O ]C O 1 O ) - (1 &212 [ 2 X ( ) = O (2 X ]c O ) CC & :2 [ & ) ( C & >2 O ( ) = O ( = ] ( C ]1C >1 O ( [1 &
+Length: 101
+Time: 0.232s
+--------------------------------------------------
+Sequence 5:
+SMILES: # # E # # : E : $c : 1 : : 0 3 : C #3 > ) [ O & C O 1 O [ ( ( : ) = > ( C CCc ) ( : :1 1 )1 1cc ( ) C C > ) =2 cc ] c1 )1 =1 ] : O C c X ) C R > =2 O R XC2 2 ( CC (cc O * ] O ( ( = : (
+Length: 101
+Time: 0.236s
+--------------------------------------------------
+Sequence 6:
+SMILES: Parma # # 1 # : # 3 : : = { 1 ) 1 C1 O ( : =1cc ( (1 c ) ( c ] ( c 1 ( ) C )1 ( ( :cc1 C c OC [ (1 (2 :CC > & ( ) [1 )CCC1 O1 ) = ) & & c : ) * = C ) [ CCcc X1 > &CC & ] C31 ] 1 CC O ] -2 O
+Length: 101
+Time: 0.233s
+--------------------------------------------------
+Sequence 7:
+SMILES: centimetres # : $ E : : 2 :2 O : ( Occ (1 ( : =111 - O )1 )C O ( ) ] )cc 21 C ]1 > ] (CC ( O 1 ( )cc ) = ( & * ) X [ ) ) &c c : = )2 ) X = : 1 ) X > = ] ) * [ X ) 1 CC R X2 ] X X = (cc ) & *1 [ O )
+Length: 101
+Time: 0.237s
+--------------------------------------------------
+Sequence 8:
+SMILES: # # E 1 { : # $ 2 # : {cc # # ]cc ( C21 ) XCC ccc C $ > *1 X (2 ( ) X : ( ) & Ccc *c > >cc O O ] : c = * & O2 C X X1 [ O3 c1C [ = 1 [ cc & R - R [ & & 2 ) ) R > > - O ]C CC = * : : & > ) )
+Length: 101
+Time: 0.233s
+--------------------------------------------------
+Sequence 9:
+SMILES: # # E : : : 0 : : # { 2 1 C # 2 = ] ) ) O &c ( 2 ( ) ) -c 23 = C ( (3 )cc >1 ( O * ]C O1 O X [ O O O 1 c & & * -3CCC ( O C [ CCC O1 -3 2 & - [ [ ( = - ( ] &ccCC [ & ( 1 [ ( O X O =1cc C &
+Length: 101
+Time: 0.233s
+--------------------------------------------------
+Sequence 10:
+SMILES: # # E # : : 2 3 2 # : : 3 : ) : # 22 1 11 O3 >21 ( = c $ ] )cc O O ] ( = ] & O )1 ] CC (cc1 ) ( : ( & ] X21 ) C C ( & ( [c C ( > ) =c ( = ) ( CCC ] [2 1 O ( X - - O = ( [ =3 121 = ] &2
+Length: 101
+Time: 0.233s
+--------------------------------------------------

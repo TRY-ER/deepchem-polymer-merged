@@ -98,7 +98,13 @@ def get_dataloaders(DATA_CONFIG, batch_size, PENALTY_CONFIG = None):
     assert "random_state" in DATA_CONFIG, "DATA_CONFIG must contain 'random_state'"
 
     # Load and preprocess data
-    df = pd.read_csv(DATA_CONFIG["data_path"])
+    if DATA_CONFIG["data_path"].split(".")[-1] == "parquet":
+        df = pd.read_parquet(DATA_CONFIG["data_path"])
+    
+    elif DATA_CONFIG["data_path"].split(".")[-1] == "csv":
+        df = pd.read_csv(DATA_CONFIG["data_path"])
+    else:
+        raise ValueError(f'The path {DATA_CONFIG["data_path"]} is not of allowed type (parquet or csv)')
 
     # Split data first
     train_df, test_df = train_test_split(

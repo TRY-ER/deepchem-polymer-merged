@@ -5,6 +5,8 @@ tqdm
 wandb
 PyYAML
 pandas
+pyarrow
+fastparquet
 numpy
 pillow
 transformers

@@ -1,0 +1,89 @@
+{
+  "experiment_info": {
+    "model_type": "lstm",
+    "start_time": "2026-02-24T17:23:45.186712",
+    "experiment_dir": "experiments/test_exp_mod_repr"
+  },
+  "epochs": [
+    {
+      "epoch": 1,
+      "global_step": 32,
+      "timestamp": "2026-02-24T17:23:45.186731",
+      "train_loss": 8.912632569670677,
+      "val_loss": 5.6386218667030334,
+      "epoch_time": 1.4794955253601074
+    },
+    {
+      "epoch": 2,
+      "global_step": 64,
+      "timestamp": "2026-02-24T17:23:46.563727",
+      "train_loss": 4.171885550022125,
+      "val_loss": 3.6167210042476654,
+      "epoch_time": 1.1686744689941406
+    },
+    {
+      "epoch": 3,
+      "global_step": 96,
+      "timestamp": "2026-02-24T17:23:48.102789",
+      "train_loss": 3.5503675118088722,
+      "val_loss": 3.5302408039569855,
+      "epoch_time": 1.1808784008026123
+    },
+    {
+      "epoch": 4,
+      "global_step": 128,
+      "timestamp": "2026-02-24T17:23:49.591729",
+      "train_loss": 3.4664192274212837,
+      "val_loss": 3.4499183297157288,
+      "epoch_time": 1.1671714782714844
+    },
+    {
+      "epoch": 5,
+      "global_step": 160,
+      "timestamp": "2026-02-24T17:23:51.091053",
+      "train_loss": 3.390464022755623,
+      "val_loss": 3.381319135427475,
+      "epoch_time": 1.1637189388275146
+    },
+    {
+      "epoch": 6,
+      "global_step": 192,
+      "timestamp": "2026-02-24T17:23:52.610092",
+      "train_loss": 3.3310329243540764,
+      "val_loss": 3.329027622938156,
+      "epoch_time": 1.18060302734375
+    },
+    {
+      "epoch": 7,
+      "global_step": 224,
+      "timestamp": "2026-02-24T17:23:54.139383",
+      "train_loss": 3.287737764418125,
+      "val_loss": 3.2944796085357666,
+      "epoch_time": 1.197171926498413
+    },
+    {
+      "epoch": 8,
+      "global_step": 256,
+      "timestamp": "2026-02-24T17:23:55.662402",
+      "train_loss": 3.2572766542434692,
+      "val_loss": 3.27462962269783,
+      "epoch_time": 1.1955606937408447
+    },
+    {
+      "epoch": 9,
+      "global_step": 288,
+      "timestamp": "2026-02-24T17:23:57.165993",
+      "train_loss": 3.233103722333908,
+      "val_loss": 3.2362911701202393,
+      "epoch_time": 1.1620166301727295
+    },
+    {
+      "epoch": 10,
+      "global_step": 320,
+      "timestamp": "2026-02-24T17:23:58.661318",
+      "train_loss": 3.1992930844426155,
+      "val_loss": 3.2040981352329254,
+      "epoch_time": 1.166670322418213
+    }
+  ]
+}
