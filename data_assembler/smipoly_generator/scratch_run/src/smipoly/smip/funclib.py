@@ -308,7 +308,7 @@ def seq_successive(prod_P, targ_rxn, monL, Ps_rxnL, P_class):
         seqFG5 = Chem.MolFromSmarts(monL[[205][0]])
         seqFG6 = Chem.MolFromSmarts(monL[[206][0]])
         if P_class not in ['polyolefin', 'polyoxazolidone', ]:
-            print("[+] Section for not polyolefic ,polyoxazolidone is activated")
+            # print("[+] Section for not polyolefic ,polyoxazolidone is activated")
             while prod_P.HasSubstructMatch(seqFG1):
                 prods = Ps_rxnL[201].RunReactants([prod_P])
                 prod_P = prods[0][0]
@@ -337,7 +337,7 @@ def seq_successive(prod_P, targ_rxn, monL, Ps_rxnL, P_class):
                 prod_P = prods[0][0]
                 Chem.SanitizeMol(prod_P)
         elif P_class in ['polyoxazolidone', ]:
-            print("[+] Section for polyoxazolidone is activated")
+            # print("[+] Section for polyoxazolidone is activated")
             while prod_P.HasSubstructMatch(seqFG1):
                 prods = Ps_rxnL[201].RunReactants([prod_P])
                 prod_P = prods[0][0]
@@ -347,7 +347,7 @@ def seq_successive(prod_P, targ_rxn, monL, Ps_rxnL, P_class):
                 prod_P = prods[0][0]
                 Chem.SanitizeMol(prod_P)
         elif P_class in ['polyolefin', ]:
-            print("[+] Section for polyolefin is activated")
+            # print("[+] Section for polyolefin is activated")
             while prod_P.HasSubstructMatch(seqFG0):
                 prods = Ps_rxnL[200].RunReactants([prod_P])
                 prod_P = prods[0][0]
@@ -384,7 +384,6 @@ def homopolymA(mon1, mons, excls, targ_mon1, Ps_rxnL, mon_dic, monL):
     prod_P = mon1
     while monomer_sel_mfg(prod_P, mons, excls)[0] == True:
         prods = Ps_rxnL[mon_dic[targ_mon1]].RunReactants([prod_P])
-        print("[+] Homopolymer reaction completed")
         prod_Ps = []
         for prod_P in prods:
             try:
@@ -419,9 +418,9 @@ def bipolymA(reactant, targ_rxn, monL, Ps_rxnL, P_class):
 
     """
     prod_P = Chem.MolFromSmiles('')
-    print("[+] copolymer reaction started")
+    # print("[+] copolymer reaction started")
     prods = targ_rxn.RunReactants(reactant)
-    print("[+] copolymer reaction completed")
+    # print("[+] copolymer reaction completed")
     prod_Ps = []
     for prod_P in prods:
         try:
