@@ -15,7 +15,7 @@ training:
 
   # Training Schedule
   epochs: 10
-  batch_size: 4
+  batch_size: 32 
   patience: 5 # Early stopping patience
   # grad_clip: 1.0  # Gradient clipping threshold
 
@@ -25,7 +25,7 @@ training:
 
   # Output Configuration
   output_dir: "experiments"
-  experiment_name: "test_exp_mod_repr" # Auto-generated if null
+  experiment_name: "1_1M_10epoch_32batch" # Auto-generated if null
 
   # Checkpoint Configuration
   save_best_only: true
@@ -44,15 +44,15 @@ data:
   # Can be overridden here if needed
   use_default: false
   data_config:
-    data_path: "datasets/mod/seq2seq_trainer_100_demo.parquet"
-    test_size: 0.2
+    data_path: "datasets/mod/seq2seq_trainer_1_1M.parquet"
+    test_size: 0.1
     random_state: 42
     target_column: "inp_comb_1"
 
 # Logging Configuration
 logging:
   use_wandb: false
-  project_name: "test_exp_mod_repr"
+  project_name: "1_1M_10epoch_32batch"
   log_level: "INFO" # DEBUG, INFO, WARNING, ERROR
 
 # Device Configuration

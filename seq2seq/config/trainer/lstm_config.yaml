@@ -9,7 +9,7 @@ model:
 # Training Parameters (specific to LSTM)
 training:
   learning_rate: 3e-4
-  batch_size: 2
+  batch_size: 32 
   epochs: 10
   optimizer: "adam"
   patience: 10

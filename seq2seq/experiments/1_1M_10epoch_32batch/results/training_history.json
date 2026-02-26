@@ -1,0 +1,70 @@
+{
+  "experiment_info": {
+    "model_type": "lstm",
+    "experiment_dir": "experiments/1_1M_10epoch_32batch",
+    "start_time": "2026-02-26T05:53:59.038064",
+    "model_params": 12085060
+  },
+  "config": {
+    "model_config": {
+      "model_type": "lstm",
+      "vocab_size": 28996,
+      "embedding_dim": 128,
+      "hidden_dim": 256,
+      "n_layers": 2,
+      "dropout": 0.2
+    },
+    "training_config": {
+      "learning_rate": "3e-4",
+      "batch_size": 32,
+      "epochs": 10,
+      "optimizer": "adam",
+      "patience": 10,
+      "grad_clip": 1.0,
+      "output_dir": "experiments",
+      "experiment_name": "1_1M_10epoch_32batch",
+      "save_dir": "experiments/1_1M_10epoch_32batch/checkpoints",
+      "logs_dir": "experiments/1_1M_10epoch_32batch/logs",
+      "save_best_only": true,
+      "save_final": true,
+      "save_epoch_checkpoints": false,
+      "debug_batch_prep": false
+    },
+    "data_config": {
+      "data_path": "datasets/mod/seq2seq_trainer_1_1M.parquet",
+      "test_size": 0.1,
+      "random_state": 42,
+      "target_column": "inp_comb_1"
+    }
+  },
+  "results": {
+    "train_loss": [
+      0.22227762755492206,
+      0.08607938826420695,
+      0.07713384711181259,
+      0.07321354679930273,
+      0.0710322135531084,
+      0.06959763224442353,
+      0.0685628748260164,
+      0.06728938257386474,
+      0.06550858623922567,
+      0.06380603548277317
+    ],
+    "val_loss": [
+      0.0893667514244563,
+      0.0766221244625102,
+      0.07143634271034992,
+      0.06936913597513289,
+      0.06771645966182695,
+      0.06651846447899419,
+      0.06590957529473777,
+      0.06412786262490262,
+      0.062345995012040946,
+      0.06103077665514251
+    ],
+    "test_loss": 0.06101961029859017,
+    "total_training_time": 90735.41139435768,
+    "best_val_loss": 0.06103077665514251,
+    "experiment_dir": "experiments/1_1M_10epoch_32batch"
+  }
+}

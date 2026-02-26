@@ -1,0 +1,16 @@
+{
+  "learning_rate": "3e-4",
+  "batch_size": 32,
+  "epochs": 10,
+  "optimizer": "adam",
+  "patience": 10,
+  "grad_clip": 1.0,
+  "output_dir": "experiments",
+  "experiment_name": "1_1M_10epoch_32batch",
+  "save_dir": "experiments/1_1M_10epoch_32batch/checkpoints",
+  "logs_dir": "experiments/1_1M_10epoch_32batch/logs",
+  "save_best_only": true,
+  "save_final": true,
+  "save_epoch_checkpoints": false,
+  "debug_batch_prep": false
+}
