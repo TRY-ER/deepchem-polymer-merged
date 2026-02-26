@@ -40,6 +40,6 @@ if __name__ == "__main__":
     res_mt = polg.biplym(cls_monomer_df, targ=['all'], dsp_rsl=True)
     # implementing single threaded
     # res_mt = polg.biplym(cls_monomer_df, targ=['all'], dsp_rsl=True)
-    res_mt.to_parquet(f"test_5_polymer_output.csv") 
-    logging.info("[+] Completed The polymerizations")
-    logging.info(f"[+] saved the result at >>> test_5_polymer_output.csv")
+    # res_mt.to_parquet(f"test_5_polymer_output.csv") 
+    # logging.info("[+] Completed The polymerizations")
+    # logging.info(f"[+] saved the result at >>> test_5_polymer_output.csv")

@@ -12,7 +12,7 @@ This script provides a unified interface for:
 Usage:
     # Training
     python runner.py train --model gru --config config/trainer/gru_config.yaml
-    python runner.py train --model transformer --epochs 50 --batch_size 64
+    python runner.py train --model transformer --epochs 50 --batch-size 64
 
     # Sampling
     python runner.py sample --experiment experiments/gru_20240806_123456
@@ -250,7 +250,6 @@ class ModelRunner:
 
         data_config_kwargs = {}
 
-        print("config >>", config)
 
         if "data" in config: 
             if "data_config" in config["data"]:
