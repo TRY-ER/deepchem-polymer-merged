@@ -1,5 +1,7 @@
-from src.validator.validator import StringValidator
 from rdkit import Chem
+
+from src.validator.validator import StringValidatorBRICSBase
+
 
 class Metric:
     """Base class for all metrics."""
@@ -53,7 +55,7 @@ class ValidityMetric(Metric):
         Returns:
             bool: True if the sample is valid, False otherwise.
         """
-        validator = StringValidator()
+        validator = StringValidatorBRICSBase()
         return validator.validate(sample)
 
 
@@ -70,7 +72,7 @@ class UniquenessMetric(Metric):
         return Chem.MolToSmiles(mol, canonical=True)
 
     def process_single(self, candidate: str) -> str:
-        smiles_part, _, weight_part = StringValidator.parse_parts(candidate)
+        smiles_part, _, weight_part = StringValidatorBRICSBase.parse_parts(candidate)
         smiles_part = smiles_part.replace(" ", "")
         returnable = []
         for smiles in smiles_part.split("."):
@@ -110,14 +112,14 @@ class NoveltyMetric(Metric):
         Returns:
             float: Novelty score as a percentage.
         """
-        training_formatted = UniquenessMetric().get_uniqueness_set(
-            self.training_data)
-        generated_formatted = UniquenessMetric().get_uniqueness_set(
-            generated_samples)
+        training_formatted = UniquenessMetric().get_uniqueness_set(self.training_data)
+        generated_formatted = UniquenessMetric().get_uniqueness_set(generated_samples)
 
-        novel_count = sum(1 for sample in generated_formatted if sample not in training_formatted) 
-        return novel_count / len(
-            generated_samples) * 100
+        novel_count = sum(
+            1 for sample in generated_formatted if sample not in training_formatted
+        )
+        return novel_count / len(generated_samples) * 100
+
 
 class ChainFormLikelyHood(Metric):
     """Class for calculating Chain Form LikelyHood metric."""
@@ -137,6 +139,7 @@ class ChainFormLikelyHood(Metric):
         # Placeholder implementation
         return 0.0  # Replace with actual computation logic
 
+
 class SubStructureValidityMetrics(Metric):
     """Class for calculating SubStructure Validity metric."""
 
@@ -152,7 +155,9 @@ class SubStructureValidityMetrics(Metric):
         Returns:
             float: SubStructure Validity score as a percentage.
         """
-        valid_count = sum(1 for sample in generated_samples if self.contains_substructure(sample))
+        valid_count = sum(
+            1 for sample in generated_samples if self.contains_substructure(sample)
+        )
         return valid_count / len(generated_samples) * 100 if generated_samples else 0.0
 
     def contains_substructure(self, sample):
@@ -166,6 +171,7 @@ class SubStructureValidityMetrics(Metric):
         """
         return any(sub in sample for sub in self.substructures)  # Example check
 
+
 class MasterMetric(Metric):
     """Class for calculating a master metric combining multiple metrics."""
 
@@ -178,7 +184,6 @@ class MasterMetric(Metric):
         self.chain_form_likelihood_score = None
         self.substructure_validity_score = None
 
-
     def compute(self):
         """Compute all metrics and return a summary.
 
@@ -187,14 +192,20 @@ class MasterMetric(Metric):
         """
         self.validity_score = ValidityMetric().compute(self.generated_samples)
         self.uniqueness_score = UniquenessMetric().compute(self.generated_samples)
-        self.novelty_score = NoveltyMetric(training_data=[]).compute(self.generated_samples)  # Replace with actual training data
-        self.chain_form_likelihood_score = ChainFormLikelyHood().compute(self.generated_samples)
-        self.substructure_validity_score = SubStructureValidityMetrics(substructures=[]).compute(self.generated_samples)  # Replace with actual substructures
+        self.novelty_score = NoveltyMetric(training_data=[]).compute(
+            self.generated_samples
+        )  # Replace with actual training data
+        self.chain_form_likelihood_score = ChainFormLikelyHood().compute(
+            self.generated_samples
+        )
+        self.substructure_validity_score = SubStructureValidityMetrics(
+            substructures=[]
+        ).compute(self.generated_samples)  # Replace with actual substructures
 
         return {
             "validity": self.validity_score,
             "uniqueness": self.uniqueness_score,
             "novelty": self.novelty_score,
             "chain_form_likelihood": self.chain_form_likelihood_score,
-            "substructure_validity": self.substructure_validity_score
+            "substructure_validity": self.substructure_validity_score,
         }
