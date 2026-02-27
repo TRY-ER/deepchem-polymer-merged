@@ -151,7 +151,6 @@ class SeqValidator:
     """
 
     def __init__(self, variation_code=1):
-        assert variation_code in [0, 1], "Invalid variation code"
         self.variation_code = variation_code
 
     def _parse_expression_token(self, expression_token):
@@ -174,100 +173,109 @@ class SeqValidator:
         reactants, reaction, product = self._parse_expression_token(expression_token)
         return init_token, (reactants, reaction, product)
 
-    def _validate_rxn_map(self, code, rxn_sequence):
-        assert code in reaction_smarts_map, "<invalid-reaction-code>"
-        assert rxn_sequence.strip() in reaction_smarts_map[code], (
-            "<invalid-reaction-sequence>"
-        )
+    def _validate_rxn_map(self, code, rxn_sequence, errors):
+        if not (code in reaction_smarts_map):
+            errors.append("<invalid-reaction-code>")
+        if not (rxn_sequence.strip() in reaction_smarts_map[code]):
+            errors.append("<invalid-reaction-sequence>")
+        return errors
 
-    def _validate_contents(self, counts, expression_tokens):
+    def _validate_contents(self, counts, expression_tokens, errors):
         prod_sequence = expression_tokens[-1]
         rxn_sequence = expression_tokens[-2]
         cls_code, n_count, o_count, ring_count, poly_l = counts
-        assert int(n_count) == _get_nonaromatic_nitrogen(prod_sequence), (
-            "<invalid-content-N>"
-        )
-        assert int(o_count) == _get_nonaromatic_oxygen(prod_sequence), (
-            "<invalid-content-O>"
-        )
-        assert int(ring_count) == _get_num_rings(prod_sequence), (
-            "<invalid-content-ring>"
-        )
+        if not int(n_count) == _get_nonaromatic_nitrogen(prod_sequence):
+            errors.append("<invalid-content-N>")
+        if not int(o_count) == _get_nonaromatic_oxygen(prod_sequence):
+            errors.append("<invalid-content-O>")
+        if not int(ring_count) == _get_num_rings(prod_sequence):
+            errors.append("<invalid-content-ring>")
         # adding 1 to the length as the syntax keeps a space between => and product
-        assert int(poly_l) + 1 == len(prod_sequence), "<invalid-content-poly-length>"
+        if not int(poly_l) + 1 == len(prod_sequence):
+            errors.append("<invalid-content-poly-length>")
         # validate the class code with specific reaction types
-        self._validate_rxn_map(cls_code, rxn_sequence)
+        errors = self._validate_rxn_map(cls_code, rxn_sequence, errors)
+        return errors
 
-    def _validate_init_token(self, init_token, expression_tokens):
+    def _validate_init_token(self, init_token, expression_tokens, errors):
         values = init_token.strip("##").split(":")
-        assert len(values) == 5, "<invalid-parse-init>"
+        if not len(values) == 5:
+            errors.append("<invalid-parse-init>")
         class_code, n_count, o_count, ring_count, poly_l = values
-        assert class_code.isalpha(), "<invalid-parse-init-class-code>"
+        if not class_code.isalpha():
+            errors.append("<invalid-parse-init-class-code>")
         # There is another layer of validation to validate if the code is mapped with the reaction SMARTS as valid or not
 
-        assert class_code in ["U", "E", "A", "I", "Et"], "<invalid-class-code>"
-        assert n_count.isdigit(), "<invalid-content-N>"
-        assert o_count.isdigit(), "<invalid-content-O>"
-        assert ring_count.isdigit(), "<invalid-content-ring>"
-        assert poly_l.isdigit(), "<invalid-content-poly-l>"
-        self._validate_contents(values, expression_tokens)
+        if class_code not in ["U", "E", "A", "I", "Et"]:
+            errors.append("<invalid-class-code>")
+        if not class_code.isalpha():
+            errors.append("<invalid-class-code>")
+        if not n_count.isdigit():
+            errors.append("<invalid-content-N>")
+        if not o_count.isdigit():
+            errors.append("<invalid-content-O>")
+        if not ring_count.isdigit():
+            errors.append("<invalid-content-ring>")
+        if not poly_l.isdigit():
+            errors.append("<invalid-content-poly-length>")
+        errors = self._validate_contents(values, expression_tokens, errors)
+        return errors
 
-    def _validate_exp_tokens(self, expression_token):
+    def _validate_exp_tokens(self, expression_token, errors):
         # Validate the expression token
         reactants, reaction, product = expression_token
         for reactant in reactants:
             try:
                 Chem.MolFromSmiles(reactant.strip())
-            except Exception as e:
-                raise ValueError(f"<invalid-reactant-smiles> <{e}>")
+            except Exception as _:
+                errors.append("<invalid-reactant-smiles>")
+                break
 
         try:
             rxn = AllChem.ReactionFromSmarts(reaction.strip())
             rxn.Initialize()
             if rxn is None:
-                raise ValueError("<invalid-reaction-smarts>")
+                errors.append("<invalid-reaction-smarts>")
             if rxn.GetNumReactantTemplates() != len(reactants):
-                raise ValueError("<invalid-reactant-count>")
+                errors.append("<invalid-reactant-count>")
+            prods = rxn.RunReactants(
+                [Chem.MolFromSmiles(reactant.strip()) for reactant in reactants]
+            )
+            if not prods:
+                errors.append("<invalid-product-count>")
             try:
-                prods = rxn.RunReactants(
-                    [Chem.MolFromSmiles(reactant.strip()) for reactant in reactants]
-                )
-                if not prods:
-                    raise ValueError("<invalid-product-count>")
                 prods_smiles = [
                     list(Chem.MolToSmiles(prod, canonical=True) for prod in prod_s)
                     for prod_s in prods
                 ]
                 # flatten this prods_smiles list of lists to list of one dimensions
                 prods_smiles = [item for sublist in prods_smiles for item in sublist]
-                product_smiles = Chem.MolToSmiles(
-                    Chem.MolFromSmiles(product.strip()), canonical=True
-                )
-                if product_smiles not in prods_smiles:
-                    raise ValueError("<invalid-product-smiles>")
-            except Exception as e:
-                raise ValueError(f"<invalid-product-smiles> <{e}>")
-        except Exception as e:
-            raise ValueError(f"<invalid-reaction-smarts> <{e}>")
+                try:
+                    product_smiles = Chem.MolToSmiles(
+                        Chem.MolFromSmiles(product.strip()), canonical=True
+                    )
+                    if product_smiles not in prods_smiles:
+                        errors.append("<invalid-product-smiles-match>")
+                except Exception as _:
+                    errors.append("<invalid-generated-product-smiles>")
+            except Exception as _:
+                errors.append("<invalid-reaction-product-smiles>")
+        except Exception as _:
+            errors.append("<invalid-reaction-smarts>")
 
-        return None
+        return errors
 
     def validate(self, sequence):
-        """
-        You have to modify this try and except block to return the error code to evaluate the failure causes and types to
-        extract where the system actually fails.
-        """
+        """ """
         if self.variation_code == 1:
             init_token, expression_tokens = self._parse(sequence)
-            try:
-                self._validate_init_token(init_token, expression_tokens)
-                self._validate_exp_tokens(expression_tokens)
-                return True, "<none>"
-            except Exception as e:
-                return False, str(e)
+            errors = []
+            errors = self._validate_init_token(init_token, expression_tokens, errors)
+            errors = self._validate_exp_tokens(expression_tokens, errors)
+            return errors
         else:
             print("[--] We currently do not validate for variation code 0")
-            return False, "<unsupported-var-code>"
+            return ["<unsupported-var-code>"]
 
 
 if __name__ == "__main__":
@@ -278,16 +286,15 @@ if __name__ == "__main__":
 
     # candidates for variation 1
     Homo_Candidate = "##E:0:4:1:27## ${Cc1cc(C(=O)O)c(O)c(C(=O)O)c1} => ([O&X2&H1&!$(OC=*):1].[C&X3:2](=O)[O&X2&H1])>>(*-[O&X2:1].[C&X3:2](=O)-*) => *Oc1c(C(*)=O)cc(C)cc1C(=O)O$"
-    Co_Candidate = "##E:0:8:6:83## ${Cc1cc(CC(=O)O)c(C(=O)Cl)cc1C} + {O=C1c2ccccc2C(=O)c2cc(-c3ccc(O)cc3O)c(-c3cc(O)cc(O)c3)cc21} => ([C&X3:1](=O)[O&X2&H1,Cl,Br].[C&X3:2](=O)[O&X2&H1,Cl,Br]).([O,S;X2;H1;!$([O,S]C=*):3].[O,S;X2;H1;!$([O,S]C=*):4])>>(*-[C&X3:1]=O.[C&X3:2](=O)-[O,S;X2;!$([O,S]C=*):3].[O,S;X2;!$([O,S]C=*):4]-*) => *Oc1cc(O)cc(-c2cc3c(cc2-c2ccc(O)cc2OC(=O)Cc2cc(C)c(C)cc2C(*)=O)C(=O)c2ccccc2C3=O)c1$"
+    # Co_Candidate = "##E:0:8:6:83## ${Cc1cc(CC(=O)O)c(C(=O)Cl)cc1C} + {O=C1c2ccccc2C(=O)c2cc(-c3ccc(O)cc3O)c(-c3cc(O)cc(O)c3)cc21} => ([C&X3:1](=O)[O&X2&H1,Cl,Br].[C&X3:2](=O)[O&X2&H1,Cl,Br]).([O,S;X2;H1;!$([O,S]C=*):3].[O,S;X2;H1;!$([O,S]C=*):4])>>(*-[C&X3:1]=O.[C&X3:2](=O)-[O,S;X2;!$([O,S]C=*):3].[O,S;X2;!$([O,S]C=*):4]-*) => *Oc1cc(O)cc(-c2cc3c(cc2-c2ccc(O)cc2OC(=O)Cc2cc(C)c(C)cc2C(*)=O)C(=O)c2ccccc2C3=O)c1$"
+    Co_Candidate = "##E:0:8:6:89## ${Cc1cc(CC(=O)X)c(C(=O)Cl)cc1C} + {O=C1c2ccccc2C(=O)c2cc(-c3ccc(O)cc3O)c(-c3cc(O)cc(O)c3)cc21} => ([C&X3:1](=O)[O&X2&H1,Cl,Br].[C&X3:2](=O)[O&X2&H1,Cl,Br]).([O,S;X2;H1;!$([O,S]C=*):3].[O,S;X2;H1;!$([O,S]C=*):4])>>(*-[C&X3:1]=O.[C&X3:2](=O)-[O,S;X2;!$([O,S]C=*):3].[O,S;X2;!$([O,S]C=*):4]-*) => *Oc1cc(O)cc(-c2cc3c(cc2-c2ccc(O)cc2OC(=O)Cc2cc(C)c(C)cc2C(*)=O)C(=O)c2ccccc2C3=O)c1$"
 
     # candidates for variation 0
     # Homo_Candidate = "##E:0:4:1:27## ${[[6*]C(=O)O] + [[16*]c1cc(C)cc(C(=O)O)c1O] -> [6*]-[*:1].[16*]-[*:2]>>[$([C&D3&!R](=O)-&!@[#0,#6,#7,#8]):1]-&!@[$([c&$(c(:c):c)]):2] -> [Cc1cc(C(=O)O)c(O)c(C(=O)O)c1]} => ([O&X2&H1&!$(OC=*):1].[C&X3:2](=O)[O&X2&H1])>>(*-[O&X2:1].[C&X3:2](=O)-*) => *Oc1c(C(*)=O)cc(C)cc1C(=O)O$"
     # Co_Candidate = "##E:0:8:6:83## ${[[6*]C(=O)Cl] + [[16*]c1cc(C)c(C)cc1CC(=O)O] -> [6*]-[*:1].[16*]-[*:2]>>[$([C&D3&!R](=O)-&!@[#0,#6,#7,#8]):1]-&!@[$([c&$(c(:c):c)]):2] -> [Cc1cc(CC(=O)O)c(C(=O)Cl)cc1C]} + {[[16*]c1ccc(O)cc1O] + [[16*]c1cc2c(cc1-c1cc(O)cc(O)c1)C(=O)c1ccccc1C2=O] -> [16*]-[*:1].[16*]-[*:2]>>[$([c&$(c(:c):c)]):1]-&!@[$([c&$(c(:c):c)]):2] -> [O=C1c2ccccc2C(=O)c2cc(-c3ccc(O)cc3O)c(-c3cc(O)cc(O)c3)cc21]} => ([C&X3:1](=O)[O&X2&H1,Cl,Br].[C&X3:2](=O)[O&X2&H1,Cl,Br]).([O,S;X2;H1;!$([O,S]C=*):3].[O,S;X2;H1;!$([O,S]C=*):4])>>(*-[C&X3:1]=O.[C&X3:2](=O)-[O,S;X2;!$([O,S]C=*):3].[O,S;X2;!$([O,S]C=*):4]-*) => *Oc1cc(O)cc(-c2cc3c(cc2-c2ccc(O)cc2OC(=O)Cc2cc(C)c(C)cc2C(*)=O)C(=O)c2ccccc2C3=O)c1$"
 
     validator = SeqValidator(variation_code=1)
-    state, e_value = validator.validate(Homo_Candidate)
-    print("state >>", state)
-    print("e_value >>", e_value)
-    state, e_value = validator.validate(Co_Candidate)
-    print("state >>", state)
-    print("e_value >>", e_value)
+    e_values = validator.validate(Homo_Candidate)
+    print("e_values >>", e_values)
+    e_values = validator.validate(Co_Candidate)
+    print("e_value >>", e_values)

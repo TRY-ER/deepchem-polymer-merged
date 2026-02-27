@@ -1,0 +1,27 @@
+=== Validity Benchmark Results ===
+Date: 2026-02-27 21:01:32.561569
+Input File: experiments/1_1M_10epoch_32batch/results/samples/generated_molecules.csv
+Column: decoded_text
+Total Sequences: 100
+------------------------------
+Validity Score: 0.792222
+------------------------------
+Error Details:
+  <invalid-reactant-smiles>: 0.000000
+  <invalid-class-code>: 0.000000
+  <invalid-reaction-code>: 0.000000
+  <invalid-content-ring>: 0.600000
+  <invalid-product-count>: 0.010000
+  <invalid-reactant-count>: 0.040000
+  <invalid-reaction-smarts>: 0.040000
+  <invalid-reaction-product-smiles>: 0.000000
+  <invalid-parse-init-class-code>: 0.000000
+  <invalid-content-O>: 0.700000
+  <invalid-parse-init>: 0.000000
+  <invalid-generated-product-smiles>: 0.010000
+  <invalid-content-N>: 0.440000
+  <invalid-parse-expression>: 0.000000
+  <invalid-reaction-sequence>: 0.000000
+  <invalid-product-smiles-match>: 0.950000
+  <unsupported-var-code>: 0.000000
+  <invalid-content-poly-length>: 0.950000

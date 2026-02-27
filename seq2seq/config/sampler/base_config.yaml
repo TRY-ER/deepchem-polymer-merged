@@ -13,7 +13,7 @@ generation:
   repetition_penalty: 1.1
 
   # Length Control
-  max_length: 100
+  max_length: 1000
   min_length: 5
   early_stopping: true
 
@@ -24,7 +24,7 @@ generation:
 
 # Batch Generation
 batch:
-  num_sequences: 10
+  num_sequences: 100
   # starter_presets:
   #   - "random"
   #   - "carbon_chain"

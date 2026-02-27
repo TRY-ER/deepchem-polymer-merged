@@ -1,0 +1,30 @@
+# Base configuration for benchmarking
+
+# Path to the input CSV file containing generated sequences.
+# If not provided, the system will try to find it in the experiment_dir.
+input_file: null
+
+# Path to the experiment directory.
+# Used to locate input files if input_file is not provided, and as a default location for output.
+experiment_dir: null
+
+# Directory to save benchmark results.
+# If not provided, results will be saved in a 'benchmarks' subdirectory within the experiment_dir or input_file directory.
+output_dir: null
+
+# Name of the column in the CSV file containing the sequences/SMILES.
+# Common defaults: sequence, SMILES, generated_sequence
+csv_column: decoded_text
+
+# List of metrics to compute.
+# Currently supported: validity
+metrics:
+  - validity
+
+# Configuration for specific metrics
+metric_config:
+  validity:
+    # Whether to generate visualization plots
+    visualize: true
+    # Filename for the visualization plot
+    plot_filename: validity_distribution.png
