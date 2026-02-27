@@ -1,0 +1,90 @@
+
+; =========================================================
+
+; STANDARD MD INPUT OPTIONS FOR MARTINI 3.x
+
+; =========================================================
+
+; Updated 20/12/2024 by Kasper B. Pedersen
+
+; For use with GROMACS 5
+
+; Ref: D.H. de Jong et al., Martini straight: boosting performance...
+
+; --- Run Control ---
+integrator	=	md
+dt	=	0.002
+
+; Timestep in ps (Note: 0.002 ps is 2 fs; Martini typically uses 20-30 fs)
+nsteps	=	25000000
+
+; 1 us total duration
+
+; --- Output Control ---
+nstxout	=	0
+nstvout	=	0
+nstfout	=	0
+nstlog	=	25000
+
+; Update log file every 0.5 ns
+nstenergy	=	25000
+
+; Save energy every 0.5 ns
+nstxout-compressed	=	50000
+
+; Save compressed trajectory (xtc) every 1 ns
+compressed-x-precision	=	100
+compressed-x-grps	=	
+energygrps	=	System
+
+; --- Neighbor Searching ---
+cutoff-scheme	=	Verlet
+nstlist	=	20
+nsttcouple	=	20
+nstpcouple	=	20
+rlist	=	2.0
+
+; Should be at least 1.35 nm for Martini
+verlet-buffer-tolerance	=	-1
+
+; Disabled to avoid pressure oscillations
+ns_type	=	grid
+pbc	=	xyz
+
+; --- Electrostatics & vdW (MARTINI STANDARD) ---
+
+; Reaction-field gives slightly better properties for Martini
+coulombtype	=	reaction-field
+rcoulomb	=	1.1
+epsilon_r	=	15
+
+; 15 for standard Martini water; 2.5 for polarizable water
+epsilon_rf	=	0
+vdw_type	=	cutoff
+vdw-modifier	=	Potential-shift-verlet
+rvdw	=	1.1
+
+; --- Temperature Coupling ---
+tcoupl	=	v-rescale
+tc-grps	=	System
+tau_t	=	1.0
+ref_t	=	310
+
+; --- Pressure Coupling ---
+
+; C-rescale is recommended for stability and sampling
+pcoupl	=	c-rescale
+pcoupltype	=	semiisotropic
+tau_p	=	4.0
+ref_p	=	1.0 1.0
+compressibility	=	3e-4 3e-4
+refcoord_scaling	=	all
+
+; --- Velocity Generation ---
+gen_vel	=	no
+gen_temp	=	310
+gen_seed	=	-1
+
+; Extra parameters for the MDP file from the user
+
+; ===============================================

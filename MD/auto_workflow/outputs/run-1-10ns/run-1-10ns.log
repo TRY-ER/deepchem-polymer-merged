@@ -1,0 +1,37 @@
+2026-02-23 07:26:30,019 - INFO - Output directory: ./outputs/run-1-10ns
+2026-02-23 07:26:30,019 - INFO - Force field file PLA2.martini3.ff already exists in ../venv/lib/python3.12/site-packages/polyply/data/martini3
+2026-02-23 07:26:30,019 - INFO - Force field file PEG2.martini3.ff already exists in ../venv/lib/python3.12/site-packages/polyply/data/martini3
+2026-02-23 07:26:30,019 - INFO - Force field file PEG2_PLA2_link.ff already exists in ../venv/lib/python3.12/site-packages/polyply/data/martini3
+2026-02-23 07:26:30,529 - INFO - Polyply setup successful
+2026-02-23 07:26:30,529 - INFO - Step SUCCESS succeeded
+2026-02-23 07:26:30,529 - INFO - [+] Running Command >> polyply gen_params -lib martini3 -o ./outputs/run-1-10ns/test_mol.itp -name PEG2_25_PLA2_25 -seq PEG2:25 PLA2:25 
+2026-02-23 07:26:31,234 - INFO - Polymer parameters generated successfully
+2026-02-23 07:26:31,235 - INFO - Step SUCCESS succeeded
+2026-02-23 07:26:31,235 - INFO - Generating single molecule topology file
+2026-02-23 07:26:31,235 - INFO - Single molecule topology file generated successfully
+2026-02-23 07:26:31,235 - INFO - Generating single water topology file
+2026-02-23 07:26:31,235 - INFO - Single water topology file generated successfully
+2026-02-23 07:26:31,235 - INFO - [+] Running Command >> polyply gen_coords -p ./outputs/run-1-10ns/test_mol.top -o ./outputs/run-1-10ns/test_mol_single.gro -name PEG2_25_PLA2_25_SINGLE -dens 1000
+2026-02-23 07:26:32,948 - INFO - Polymer coordinates generated successfully
+2026-02-23 07:26:34,471 - INFO - [+] Running Command >> polyply gen_coords -p ./outputs/run-1-10ns/test_mol_solvent.top -o ./outputs/run-1-10ns/test_mol_solvent.gro -name WATER_SINGLE -dens 1000
+2026-02-23 07:26:34,471 - INFO - Water coordinates generated successfully
+2026-02-23 07:26:34,471 - INFO - Step SUCCESS succeeded
+2026-02-23 07:26:34,471 - INFO - [+] Running Command >> gmx solvate -cs ./outputs/run-1-10ns/test_mol_solvent.gro -o ./outputs/run-1-10ns/solvated_box.gro -p ./outputs/run-1-10ns/test_mol.top -box 20 20 20
+2026-02-23 07:26:34,539 - INFO - Box solvated successfully
+2026-02-23 07:26:34,539 - INFO - Step SUCCESS succeeded
+2026-02-23 07:26:34,540 - INFO - [+] Running Command >> gmx insert-molecules -f ./outputs/run-1-10ns/solvated_box.gro -ci ./outputs/run-1-10ns/test_mol_single.gro -nmol 100 -o ./outputs/run-1-10ns/test_system.gro -replace W
+2026-02-23 07:26:34,745 - INFO - Molecules inserted successfully
+2026-02-23 07:26:34,745 - INFO - [+] Updating topology
+2026-02-23 07:26:34,792 - INFO - Step SUCCESS succeeded
+2026-02-23 07:26:34,793 - INFO - [+] Creating mdp file at >> em.mdp
+2026-02-23 07:26:34,793 - INFO - [+] Running gmx grompp command: gmx grompp -f ./outputs/run-1-10ns/em.mdp -c ./outputs/run-1-10ns/test_system.gro -p ./outputs/run-1-10ns/test_mol.top -o ./outputs/run-1-10ns/em.tpr -po ./outputs/run-1-10ns/em.mdp
+2026-02-23 07:26:35,049 - INFO - [+] Running gmx mdrun command: gmx mdrun -s ./outputs/run-1-10ns/em.tpr -deffnm em -o ./outputs/run-1-10ns/em.trr -x ./outputs/run-1-10ns/em.xtc -c ./outputs/run-1-10ns/em.gro -e ./outputs/run-1-10ns/em.edr -g ./outputs/run-1-10ns/em.log
+2026-02-23 07:26:48,682 - INFO - Step SUCCESS succeeded
+2026-02-23 07:26:48,682 - INFO - [+] Creating mdp file at >> npt.mdp
+2026-02-23 07:26:48,682 - INFO - [+] Running gmx grompp command: gmx grompp -f ./outputs/run-1-10ns/npt.mdp -c ./outputs/run-1-10ns/em.gro -p ./outputs/run-1-10ns/test_mol.top -o ./outputs/run-1-10ns/npt.tpr -po ./outputs/run-1-10ns/npt.mdp
+2026-02-23 07:26:48,979 - INFO - [+] Running gmx mdrun command: gmx mdrun -s ./outputs/run-1-10ns/npt.tpr -deffnm npt -o ./outputs/run-1-10ns/npt.trr -x ./outputs/run-1-10ns/npt.xtc -c ./outputs/run-1-10ns/npt.gro -e ./outputs/run-1-10ns/npt.edr -g ./outputs/run-1-10ns/npt.log
+2026-02-23 07:27:45,981 - INFO - Step SUCCESS succeeded
+2026-02-23 07:27:45,981 - INFO - [+] Creating mdp file at >> prod.mdp
+2026-02-23 07:27:45,981 - INFO - [+] Running gmx grompp command: gmx grompp -f ./outputs/run-1-10ns/prod.mdp -c ./outputs/run-1-10ns/npt.gro -p ./outputs/run-1-10ns/test_mol.top -o ./outputs/run-1-10ns/prod_10ns.tpr -po ./outputs/run-1-10ns/prod_10ns.mdp
+2026-02-23 07:27:46,284 - INFO - [+] Running gmx mdrun command: gmx mdrun -s ./outputs/run-1-10ns/prod_10ns.tpr -deffnm prod_10ns -o ./outputs/run-1-10ns/prod_10ns.trr -x ./outputs/run-1-10ns/prod_10ns.xtc -c ./outputs/run-1-10ns/prod_10ns.gro -e ./outputs/run-1-10ns/prod_10ns.edr -g ./outputs/run-1-10ns/prod_10ns.log
+2026-02-23 13:07:07,297 - INFO - Step SUCCESS succeeded

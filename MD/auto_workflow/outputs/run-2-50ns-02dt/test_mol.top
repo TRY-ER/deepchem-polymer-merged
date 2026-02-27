@@ -1,0 +1,8 @@
+#include "martini_v3.0.0.itp"
+#include "martini_v3.0.0_solvents_v1.itp"
+#include "test_mol.itp"
+[ system ]
+PEG2_25_PLA2_25_SINGLE in water
+[ molecules ]
+W 65443
+PEG2_25_PLA2_25 100

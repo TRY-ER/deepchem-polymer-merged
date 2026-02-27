@@ -36,7 +36,7 @@ def polyply_setup(global_args, params, logger):
     src_martini_base = params.get("src_martini_base", "./src/martini_base.itp")
     src_martini_solvent = params.get("src_martini_solvent", "./src/martini_solvent.itp")
     ff_source = params.get("ff_source", "../source_files/ff/")
-    venv_dir = params.get("ff_target", "venv")
+    venv_dir = params.get("venv_dir", "venv")
     # check if the force field files in ff_source ending with .ff exist in ff_target
     python_version_dir = next(
         d for d in os.listdir(os.path.join(venv_dir, "lib")) if d.startswith("python")
@@ -219,7 +219,7 @@ def modify_write_mdp_params(output_dir, source_mdp, params, logger):
     if not os.path.exists(source_mdp) or params["do_override"]:
         logger.info(f"[+] Creating mdp file at >> {source_mdp}")
         mdp_writer = MDPWritter(
-            write_type="em_min", output_file=f"{output_dir}/{source_mdp}"
+            write_type=params["mdp_type"], output_file=f"{output_dir}/{source_mdp}"
         )
         if "override_params" in params:
             override = params["override_params"]

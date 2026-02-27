@@ -1,0 +1,4 @@
+/home/kalki/MD/deepchem-polymer-merged/MD/venv/bin/polyply gen_coords -p ./outputs/run-4-30ns-002dt-30nm3-300/test_mol_solvent.top -o ./outputs/run-4-30ns-002dt-30nm3-300/test_mol_solvent.gro -name WATER_SINGLE -dens 1000
+1
+    1W        W    1   0.400   0.200   0.000
+0.49264 0.49264 0.49264

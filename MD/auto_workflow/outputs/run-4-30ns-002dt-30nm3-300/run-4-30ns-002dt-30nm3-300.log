@@ -1,0 +1,112 @@
+2026-02-25 04:41:37,403 - INFO - Output directory: ./outputs/run-4-30ns-002dt-30nm3-300
+2026-02-25 04:41:37,418 - INFO - Force field file PLA2.martini3.ff already exists in ../venv/lib/python3.12/site-packages/polyply/data/martini3
+2026-02-25 04:41:37,418 - INFO - Force field file PEG2.martini3.ff already exists in ../venv/lib/python3.12/site-packages/polyply/data/martini3
+2026-02-25 04:41:37,418 - INFO - Force field file PEG2_PLA2_link.ff already exists in ../venv/lib/python3.12/site-packages/polyply/data/martini3
+2026-02-25 04:41:47,143 - INFO - Polyply setup successful
+2026-02-25 04:41:47,143 - INFO - Step SUCCESS succeeded
+2026-02-25 04:41:47,143 - INFO - [+] Running Command >> polyply gen_params -lib martini3 -o ./outputs/run-4-30ns-002dt-30nm3-300/test_mol.itp -name PEG2_25_PLA2_25 -seq PEG2:25 PLA2:25 
+2026-02-25 04:41:48,000 - INFO - Polymer parameters generated successfully
+2026-02-25 04:41:48,000 - INFO - Step SUCCESS succeeded
+2026-02-25 04:41:48,000 - INFO - Generating single molecule topology file
+2026-02-25 04:41:48,000 - INFO - Single molecule topology file generated successfully
+2026-02-25 04:41:48,000 - INFO - Generating single water topology file
+2026-02-25 04:41:48,001 - INFO - Single water topology file generated successfully
+2026-02-25 04:41:48,001 - INFO - [+] Running Command >> polyply gen_coords -p ./outputs/run-4-30ns-002dt-30nm3-300/test_mol.top -o ./outputs/run-4-30ns-002dt-30nm3-300/test_mol_single.gro -name PEG2_25_PLA2_25_SINGLE -dens 1000
+2026-02-25 04:41:49,882 - INFO - Polymer coordinates generated successfully
+2026-02-25 04:41:51,525 - INFO - [+] Running Command >> polyply gen_coords -p ./outputs/run-4-30ns-002dt-30nm3-300/test_mol_solvent.top -o ./outputs/run-4-30ns-002dt-30nm3-300/test_mol_solvent.gro -name WATER_SINGLE -dens 1000
+2026-02-25 04:41:51,525 - INFO - Water coordinates generated successfully
+2026-02-25 04:41:51,525 - INFO - Step SUCCESS succeeded
+2026-02-25 04:41:51,525 - INFO - [+] Running Command >> gmx solvate -cs ./outputs/run-4-30ns-002dt-30nm3-300/test_mol_solvent.gro -o ./outputs/run-4-30ns-002dt-30nm3-300/solvated_box.gro -p ./outputs/run-4-30ns-002dt-30nm3-300/test_mol.top -box 30 30 30
+2026-02-25 04:41:52,377 - INFO - Box solvated successfully
+2026-02-25 04:41:52,378 - INFO - Step SUCCESS succeeded
+2026-02-25 04:41:52,378 - INFO - [+] Running Command >> gmx insert-molecules -f ./outputs/run-4-30ns-002dt-30nm3-300/solvated_box.gro -ci ./outputs/run-4-30ns-002dt-30nm3-300/test_mol_single.gro -nmol 100 -o ./outputs/run-4-30ns-002dt-30nm3-300/test_system.gro -replace W
+2026-02-25 04:41:52,874 - INFO - Molecules inserted successfully
+2026-02-25 04:41:52,874 - INFO - [+] Updating topology
+2026-02-25 04:41:53,007 - INFO - Step SUCCESS succeeded
+2026-02-25 04:41:53,007 - INFO - [+] Creating mdp file at >> em.mdp
+2026-02-25 04:41:53,007 - INFO - [+] Running gmx grompp command: gmx grompp -f ./outputs/run-4-30ns-002dt-30nm3-300/em.mdp -c ./outputs/run-4-30ns-002dt-30nm3-300/test_system.gro -p ./outputs/run-4-30ns-002dt-30nm3-300/test_mol.top -o ./outputs/run-4-30ns-002dt-30nm3-300/em.tpr -po ./outputs/run-4-30ns-002dt-30nm3-300/em.mdp
+2026-02-25 04:41:53,394 - INFO - [+] Running gmx mdrun command: gmx mdrun -s ./outputs/run-4-30ns-002dt-30nm3-300/em.tpr -deffnm em -o ./outputs/run-4-30ns-002dt-30nm3-300/em.trr -x ./outputs/run-4-30ns-002dt-30nm3-300/em.xtc -c ./outputs/run-4-30ns-002dt-30nm3-300/em.gro -e ./outputs/run-4-30ns-002dt-30nm3-300/em.edr -g ./outputs/run-4-30ns-002dt-30nm3-300/em.log
+2026-02-25 04:42:48,709 - INFO - Step SUCCESS succeeded
+2026-02-25 04:42:48,710 - INFO - [+] Creating mdp file at >> npt.mdp
+2026-02-25 04:42:48,710 - INFO - [+] Running gmx grompp command: gmx grompp -f ./outputs/run-4-30ns-002dt-30nm3-300/npt.mdp -c ./outputs/run-4-30ns-002dt-30nm3-300/em.gro -p ./outputs/run-4-30ns-002dt-30nm3-300/test_mol.top -o ./outputs/run-4-30ns-002dt-30nm3-300/npt.tpr -po ./outputs/run-4-30ns-002dt-30nm3-300/npt.mdp
+2026-02-25 04:42:49,086 - INFO - [+] Running gmx mdrun command: gmx mdrun -s ./outputs/run-4-30ns-002dt-30nm3-300/npt.tpr -deffnm npt -o ./outputs/run-4-30ns-002dt-30nm3-300/npt.trr -x ./outputs/run-4-30ns-002dt-30nm3-300/npt.xtc -c ./outputs/run-4-30ns-002dt-30nm3-300/npt.gro -e ./outputs/run-4-30ns-002dt-30nm3-300/npt.edr -g ./outputs/run-4-30ns-002dt-30nm3-300/npt.log
+2026-02-25 04:45:43,151 - INFO - Step SUCCESS succeeded
+2026-02-25 04:45:43,152 - INFO - [+] Creating mdp file at >> prod.mdp
+2026-02-25 04:45:43,152 - INFO - [+] Running gmx grompp command: gmx grompp -f ./outputs/run-4-30ns-002dt-30nm3-300/prod.mdp -c ./outputs/run-4-30ns-002dt-30nm3-300/npt.gro -p ./outputs/run-4-30ns-002dt-30nm3-300/test_mol.top -o ./outputs/run-4-30ns-002dt-30nm3-300/prod_30ns.tpr -po ./outputs/run-4-30ns-002dt-30nm3-300/prod_30ns.mdp
+2026-02-25 04:45:43,550 - INFO - [+] Running gmx mdrun command: gmx mdrun -s ./outputs/run-4-30ns-002dt-30nm3-300/prod_30ns.tpr -deffnm prod_30ns -o ./outputs/run-4-30ns-002dt-30nm3-300/prod_30ns.trr -x ./outputs/run-4-30ns-002dt-30nm3-300/prod_30ns.xtc -c ./outputs/run-4-30ns-002dt-30nm3-300/prod_30ns.gro -e ./outputs/run-4-30ns-002dt-30nm3-300/prod_30ns.edr -g ./outputs/run-4-30ns-002dt-30nm3-300/prod_30ns.log
+2026-02-26 06:34:58,541 - INFO - Output directory: ./outputs/run-4-30ns-002dt-30nm3-300
+2026-02-26 06:34:58,622 - INFO - Force field file PLA2.martini3.ff already exists in ../venv/lib/python3.12/site-packages/polyply/data/martini3
+2026-02-26 06:34:58,622 - INFO - Force field file PEG2.martini3.ff already exists in ../venv/lib/python3.12/site-packages/polyply/data/martini3
+2026-02-26 06:34:58,622 - INFO - Force field file PEG2_PLA2_link.ff already exists in ../venv/lib/python3.12/site-packages/polyply/data/martini3
+2026-02-26 06:35:15,406 - INFO - Output directory: ./outputs/run-4-30ns-002dt-30nm3-300
+2026-02-26 06:35:15,407 - INFO - Force field file PLA2.martini3.ff already exists in ../venv/lib/python3.12/site-packages/polyply/data/martini3
+2026-02-26 06:35:15,407 - INFO - Force field file PEG2.martini3.ff already exists in ../venv/lib/python3.12/site-packages/polyply/data/martini3
+2026-02-26 06:35:15,407 - INFO - Force field file PEG2_PLA2_link.ff already exists in ../venv/lib/python3.12/site-packages/polyply/data/martini3
+2026-02-26 06:35:19,105 - INFO - Polyply setup successful
+2026-02-26 06:35:19,105 - INFO - Step SUCCESS succeeded
+2026-02-26 06:35:19,105 - INFO - [+] Running Command >> polyply gen_params -lib martini3 -o ./outputs/run-4-30ns-002dt-30nm3-300/test_mol.itp -name PEG2_25_PLA2_25 -seq PEG2:25 PLA2:25 
+2026-02-26 06:35:19,920 - INFO - Polymer parameters generated successfully
+2026-02-26 06:35:19,920 - INFO - Step SUCCESS succeeded
+2026-02-26 06:35:19,920 - INFO - Generating single molecule topology file
+2026-02-26 06:35:19,920 - INFO - Single molecule topology file generated successfully
+2026-02-26 06:35:19,920 - INFO - Generating single water topology file
+2026-02-26 06:35:19,920 - INFO - Single water topology file generated successfully
+2026-02-26 06:35:19,920 - INFO - [+] Running Command >> polyply gen_coords -p ./outputs/run-4-30ns-002dt-30nm3-300/test_mol.top -o ./outputs/run-4-30ns-002dt-30nm3-300/test_mol_single.gro -name PEG2_25_PLA2_25_SINGLE -dens 1000
+2026-02-26 06:35:21,799 - INFO - Polymer coordinates generated successfully
+2026-02-26 06:35:23,426 - INFO - [+] Running Command >> polyply gen_coords -p ./outputs/run-4-30ns-002dt-30nm3-300/test_mol_solvent.top -o ./outputs/run-4-30ns-002dt-30nm3-300/test_mol_solvent.gro -name WATER_SINGLE -dens 1000
+2026-02-26 06:35:23,426 - INFO - Water coordinates generated successfully
+2026-02-26 06:35:23,426 - INFO - Step SUCCESS succeeded
+2026-02-26 06:35:23,426 - INFO - [+] Running Command >> gmx solvate -cs ./outputs/run-4-30ns-002dt-30nm3-300/test_mol_solvent.gro -o ./outputs/run-4-30ns-002dt-30nm3-300/solvated_box.gro -p ./outputs/run-4-30ns-002dt-30nm3-300/test_mol.top -box 30 30 30
+2026-02-26 06:35:24,293 - INFO - Box solvated successfully
+2026-02-26 06:35:24,293 - INFO - Step SUCCESS succeeded
+2026-02-26 06:35:24,293 - INFO - [+] Running Command >> gmx insert-molecules -f ./outputs/run-4-30ns-002dt-30nm3-300/solvated_box.gro -ci ./outputs/run-4-30ns-002dt-30nm3-300/test_mol_single.gro -nmol 500 -o ./outputs/run-4-30ns-002dt-30nm3-300/test_system.gro -replace W
+2026-02-26 06:35:27,844 - INFO - Molecules inserted successfully
+2026-02-26 06:35:27,844 - INFO - [+] Updating topology
+2026-02-26 06:35:28,008 - INFO - Step SUCCESS succeeded
+2026-02-26 06:35:28,009 - INFO - [+] Creating mdp file at >> em.mdp
+2026-02-26 06:35:28,009 - INFO - [+] Running gmx grompp command: gmx grompp -f ./outputs/run-4-30ns-002dt-30nm3-300/em.mdp -c ./outputs/run-4-30ns-002dt-30nm3-300/test_system.gro -p ./outputs/run-4-30ns-002dt-30nm3-300/test_mol.top -o ./outputs/run-4-30ns-002dt-30nm3-300/em.tpr -po ./outputs/run-4-30ns-002dt-30nm3-300/em.mdp
+2026-02-26 06:35:28,434 - INFO - [+] Running gmx mdrun command: gmx mdrun -s ./outputs/run-4-30ns-002dt-30nm3-300/em.tpr -deffnm em -o ./outputs/run-4-30ns-002dt-30nm3-300/em.trr -x ./outputs/run-4-30ns-002dt-30nm3-300/em.xtc -c ./outputs/run-4-30ns-002dt-30nm3-300/em.gro -e ./outputs/run-4-30ns-002dt-30nm3-300/em.edr -g ./outputs/run-4-30ns-002dt-30nm3-300/em.log
+2026-02-26 06:36:58,050 - INFO - Step SUCCESS succeeded
+2026-02-26 06:36:58,050 - INFO - [+] Creating mdp file at >> npt.mdp
+2026-02-26 06:36:58,050 - INFO - [+] Running gmx grompp command: gmx grompp -f ./outputs/run-4-30ns-002dt-30nm3-300/npt.mdp -c ./outputs/run-4-30ns-002dt-30nm3-300/em.gro -p ./outputs/run-4-30ns-002dt-30nm3-300/test_mol.top -o ./outputs/run-4-30ns-002dt-30nm3-300/npt.tpr -po ./outputs/run-4-30ns-002dt-30nm3-300/npt.mdp
+2026-02-26 06:36:58,465 - INFO - [+] Running gmx mdrun command: gmx mdrun -s ./outputs/run-4-30ns-002dt-30nm3-300/npt.tpr -deffnm npt -o ./outputs/run-4-30ns-002dt-30nm3-300/npt.trr -x ./outputs/run-4-30ns-002dt-30nm3-300/npt.xtc -c ./outputs/run-4-30ns-002dt-30nm3-300/npt.gro -e ./outputs/run-4-30ns-002dt-30nm3-300/npt.edr -g ./outputs/run-4-30ns-002dt-30nm3-300/npt.log
+2026-02-26 06:41:16,916 - INFO - Step SUCCESS succeeded
+2026-02-26 06:41:16,916 - INFO - [+] Creating mdp file at >> prod.mdp
+2026-02-26 06:41:16,916 - INFO - [+] Running gmx grompp command: gmx grompp -f ./outputs/run-4-30ns-002dt-30nm3-300/prod.mdp -c ./outputs/run-4-30ns-002dt-30nm3-300/npt.gro -p ./outputs/run-4-30ns-002dt-30nm3-300/test_mol.top -o ./outputs/run-4-30ns-002dt-30nm3-300/prod_30ns.tpr -po ./outputs/run-4-30ns-002dt-30nm3-300/prod_30ns.mdp
+2026-02-26 06:41:17,354 - INFO - [+] Running gmx mdrun command: gmx mdrun -s ./outputs/run-4-30ns-002dt-30nm3-300/prod_30ns.tpr -deffnm prod_30ns -o ./outputs/run-4-30ns-002dt-30nm3-300/prod_30ns.trr -x ./outputs/run-4-30ns-002dt-30nm3-300/prod_30ns.xtc -c ./outputs/run-4-30ns-002dt-30nm3-300/prod_30ns.gro -e ./outputs/run-4-30ns-002dt-30nm3-300/prod_30ns.edr -g ./outputs/run-4-30ns-002dt-30nm3-300/prod_30ns.log
+2026-02-27 04:19:01,721 - INFO - Output directory: ./outputs/run-4-30ns-002dt-30nm3-300
+2026-02-27 04:19:01,828 - INFO - Force field file PLA2.martini3.ff already exists in ../venv/lib/python3.12/site-packages/polyply/data/martini3
+2026-02-27 04:19:01,828 - INFO - Force field file PEG2.martini3.ff already exists in ../venv/lib/python3.12/site-packages/polyply/data/martini3
+2026-02-27 04:19:01,828 - INFO - Force field file PEG2_PLA2_link.ff already exists in ../venv/lib/python3.12/site-packages/polyply/data/martini3
+2026-02-27 04:19:12,615 - INFO - Polyply setup successful
+2026-02-27 04:19:12,615 - INFO - Step SUCCESS succeeded
+2026-02-27 04:19:12,615 - INFO - [+] Running Command >> polyply gen_params -lib martini3 -o ./outputs/run-4-30ns-002dt-30nm3-300/test_mol.itp -name PEG2_25_PLA2_25 -seq PEG2:25 PLA2:25 
+2026-02-27 04:19:13,493 - INFO - Polymer parameters generated successfully
+2026-02-27 04:19:13,493 - INFO - Step SUCCESS succeeded
+2026-02-27 04:19:13,493 - INFO - Generating single molecule topology file
+2026-02-27 04:19:13,493 - INFO - Single molecule topology file generated successfully
+2026-02-27 04:19:13,493 - INFO - Generating single water topology file
+2026-02-27 04:19:13,493 - INFO - Single water topology file generated successfully
+2026-02-27 04:19:13,493 - INFO - [+] Running Command >> polyply gen_coords -p ./outputs/run-4-30ns-002dt-30nm3-300/test_mol.top -o ./outputs/run-4-30ns-002dt-30nm3-300/test_mol_single.gro -name PEG2_25_PLA2_25_SINGLE -dens 1000
+2026-02-27 04:19:15,350 - INFO - Polymer coordinates generated successfully
+2026-02-27 04:19:16,948 - INFO - [+] Running Command >> polyply gen_coords -p ./outputs/run-4-30ns-002dt-30nm3-300/test_mol_solvent.top -o ./outputs/run-4-30ns-002dt-30nm3-300/test_mol_solvent.gro -name WATER_SINGLE -dens 1000
+2026-02-27 04:19:16,949 - INFO - Water coordinates generated successfully
+2026-02-27 04:19:16,949 - INFO - Step SUCCESS succeeded
+2026-02-27 04:19:16,949 - INFO - [+] Running Command >> gmx solvate -cs ./outputs/run-4-30ns-002dt-30nm3-300/test_mol_solvent.gro -o ./outputs/run-4-30ns-002dt-30nm3-300/solvated_box.gro -p ./outputs/run-4-30ns-002dt-30nm3-300/test_mol.top -box 30 30 30
+2026-02-27 04:19:17,804 - INFO - Box solvated successfully
+2026-02-27 04:19:17,804 - INFO - Step SUCCESS succeeded
+2026-02-27 04:19:17,804 - INFO - [+] Running Command >> gmx insert-molecules -f ./outputs/run-4-30ns-002dt-30nm3-300/solvated_box.gro -ci ./outputs/run-4-30ns-002dt-30nm3-300/test_mol_single.gro -nmol 500 -o ./outputs/run-4-30ns-002dt-30nm3-300/test_system.gro -replace W
+2026-02-27 04:19:21,344 - INFO - Molecules inserted successfully
+2026-02-27 04:19:21,344 - INFO - [+] Updating topology
+2026-02-27 04:19:21,506 - INFO - Step SUCCESS succeeded
+2026-02-27 04:19:21,506 - INFO - [+] Creating mdp file at >> em.mdp
+2026-02-27 04:19:21,507 - INFO - [+] Running gmx grompp command: gmx grompp -f ./outputs/run-4-30ns-002dt-30nm3-300/em.mdp -c ./outputs/run-4-30ns-002dt-30nm3-300/test_system.gro -p ./outputs/run-4-30ns-002dt-30nm3-300/test_mol.top -o ./outputs/run-4-30ns-002dt-30nm3-300/em.tpr -po ./outputs/run-4-30ns-002dt-30nm3-300/em.mdp
+2026-02-27 04:19:21,918 - INFO - [+] Running gmx mdrun command: gmx mdrun -s ./outputs/run-4-30ns-002dt-30nm3-300/em.tpr -deffnm em -o ./outputs/run-4-30ns-002dt-30nm3-300/em.trr -x ./outputs/run-4-30ns-002dt-30nm3-300/em.xtc -c ./outputs/run-4-30ns-002dt-30nm3-300/em.gro -e ./outputs/run-4-30ns-002dt-30nm3-300/em.edr -g ./outputs/run-4-30ns-002dt-30nm3-300/em.log
+2026-02-27 04:20:52,845 - INFO - Step SUCCESS succeeded
+2026-02-27 04:20:52,845 - INFO - [+] Creating mdp file at >> npt.mdp
+2026-02-27 04:20:52,845 - INFO - [+] Running gmx grompp command: gmx grompp -f ./outputs/run-4-30ns-002dt-30nm3-300/npt.mdp -c ./outputs/run-4-30ns-002dt-30nm3-300/em.gro -p ./outputs/run-4-30ns-002dt-30nm3-300/test_mol.top -o ./outputs/run-4-30ns-002dt-30nm3-300/npt.tpr -po ./outputs/run-4-30ns-002dt-30nm3-300/npt.mdp
+2026-02-27 04:20:53,247 - INFO - [+] Running gmx mdrun command: gmx mdrun -s ./outputs/run-4-30ns-002dt-30nm3-300/npt.tpr -deffnm npt -o ./outputs/run-4-30ns-002dt-30nm3-300/npt.trr -x ./outputs/run-4-30ns-002dt-30nm3-300/npt.xtc -c ./outputs/run-4-30ns-002dt-30nm3-300/npt.gro -e ./outputs/run-4-30ns-002dt-30nm3-300/npt.edr -g ./outputs/run-4-30ns-002dt-30nm3-300/npt.log
+2026-02-27 04:25:15,991 - INFO - Step SUCCESS succeeded
+2026-02-27 04:25:15,991 - INFO - [+] Creating mdp file at >> prod.mdp
+2026-02-27 04:25:15,992 - INFO - [+] Running gmx grompp command: gmx grompp -f ./outputs/run-4-30ns-002dt-30nm3-300/prod.mdp -c ./outputs/run-4-30ns-002dt-30nm3-300/npt.gro -p ./outputs/run-4-30ns-002dt-30nm3-300/test_mol.top -o ./outputs/run-4-30ns-002dt-30nm3-300/prod_30ns.tpr -po ./outputs/run-4-30ns-002dt-30nm3-300/prod_30ns.mdp
+2026-02-27 04:25:16,425 - INFO - [+] Running gmx mdrun command: gmx mdrun -s ./outputs/run-4-30ns-002dt-30nm3-300/prod_30ns.tpr -deffnm prod_30ns -o ./outputs/run-4-30ns-002dt-30nm3-300/prod_30ns.trr -x ./outputs/run-4-30ns-002dt-30nm3-300/prod_30ns.xtc -c ./outputs/run-4-30ns-002dt-30nm3-300/prod_30ns.gro -e ./outputs/run-4-30ns-002dt-30nm3-300/prod_30ns.edr -g ./outputs/run-4-30ns-002dt-30nm3-300/prod_30ns.log
