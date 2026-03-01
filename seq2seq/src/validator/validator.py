@@ -166,6 +166,8 @@ class SeqValidator:
         init_token = re.search(r"##(.*?)##", sequence).group(1)
         init_token = f"##{init_token}##"
         # expression token is the part of the sequence left without init token
+        if init_token is None:
+            raise ValueError("<invalid-init-sequence>")
         expression_token = sequence.replace(init_token, "").strip()
         assert expression_token[-1] == "$" and expression_token[0] == "$", (
             "<invalid-parse-expression>"
@@ -250,12 +252,17 @@ class SeqValidator:
                 ]
                 # flatten this prods_smiles list of lists to list of one dimensions
                 prods_smiles = [item for sublist in prods_smiles for item in sublist]
+                print("prods_smiles", prods_smiles)
                 try:
                     product_smiles = Chem.MolToSmiles(
                         Chem.MolFromSmiles(product.strip()), canonical=True
                     )
+                    print(f"product_smiles >> <{product_smiles}>")
                     if product_smiles not in prods_smiles:
                         errors.append("<invalid-product-smiles-match>")
+                    # search if product_smiles contains exactly 2 "*" or not
+                    if product_smiles.count("*") != 2:
+                        errors.append("<invalid-product-smiles-wildcard>")
                 except Exception as _:
                     errors.append("<invalid-generated-product-smiles>")
             except Exception as _:
@@ -288,13 +295,20 @@ if __name__ == "__main__":
     Homo_Candidate = "##E:0:4:1:27## ${Cc1cc(C(=O)O)c(O)c(C(=O)O)c1} => ([O&X2&H1&!$(OC=*):1].[C&X3:2](=O)[O&X2&H1])>>(*-[O&X2:1].[C&X3:2](=O)-*) => *Oc1c(C(*)=O)cc(C)cc1C(=O)O$"
     # Co_Candidate = "##E:0:8:6:83## ${Cc1cc(CC(=O)O)c(C(=O)Cl)cc1C} + {O=C1c2ccccc2C(=O)c2cc(-c3ccc(O)cc3O)c(-c3cc(O)cc(O)c3)cc21} => ([C&X3:1](=O)[O&X2&H1,Cl,Br].[C&X3:2](=O)[O&X2&H1,Cl,Br]).([O,S;X2;H1;!$([O,S]C=*):3].[O,S;X2;H1;!$([O,S]C=*):4])>>(*-[C&X3:1]=O.[C&X3:2](=O)-[O,S;X2;!$([O,S]C=*):3].[O,S;X2;!$([O,S]C=*):4]-*) => *Oc1cc(O)cc(-c2cc3c(cc2-c2ccc(O)cc2OC(=O)Cc2cc(C)c(C)cc2C(*)=O)C(=O)c2ccccc2C3=O)c1$"
     Co_Candidate = "##E:0:8:6:89## ${Cc1cc(CC(=O)X)c(C(=O)Cl)cc1C} + {O=C1c2ccccc2C(=O)c2cc(-c3ccc(O)cc3O)c(-c3cc(O)cc(O)c3)cc21} => ([C&X3:1](=O)[O&X2&H1,Cl,Br].[C&X3:2](=O)[O&X2&H1,Cl,Br]).([O,S;X2;H1;!$([O,S]C=*):3].[O,S;X2;H1;!$([O,S]C=*):4])>>(*-[C&X3:1]=O.[C&X3:2](=O)-[O,S;X2;!$([O,S]C=*):3].[O,S;X2;!$([O,S]C=*):4]-*) => *Oc1cc(O)cc(-c2cc3c(cc2-c2ccc(O)cc2OC(=O)Cc2cc(C)c(C)cc2C(*)=O)C(=O)c2ccccc2C3=O)c1$"
+    custom = "# # E : 1 : 6 : 3 : 75 # # $ { CN ( CC ( = O ) O ) C ( = O ) CCC ( = O ) O } + { Oc1ccc ( - c2ccc ( OC3 = C ( F ) C ( F ) ( F ) C ( F ) ( F ) C3 ( F ) F ) o2 ) c ( O ) c1 } = > ( [ C & X3 : 1 ] ( = O ) [ O & X2 & H1, Cl, Br ]. [ C & X3 : 2 ] ( = O ) [ O & X2 & H1, Cl, Br ] ). ( [ O, S ; X2 ; H1 ;! $ ( [ O, S ] C = * ) : 3 ]. [ O, S ; X2 ; H1 ;! $ ( [ O, S ] C = * ) : 4 ] ) > > ( * - [ C & X3 : 1 ] = O. [ C & X3 : 2 ] ( = O ) - [ O, S ; X2 ;! $ ( [ O, S ] C = * ) : 3 ]. [ O, S ; X2 ;! $ ( [ O, S ] C = * ) : 4 ] - * ) = > * Oc1cccc ( - c2ccc ( CCCCCCCCCCCCCCCCCC ) c ( OC ( = O ) c3ccc ( CCC ( * ) = O ) cc3O ) c2 ) c1 $"
+    custom2 = "# # E : 0 : 9 : 5 : 92 # # $ { O = C ( O ) Cc1ccc ( S ( = O ) ( = O ) c2ccc ( C ( = O ) O ) cc2 ) cc1 } + { C = COc1ccc ( O ) c ( S ( = O ) ( = O ) c2cc ( - c3c ( F ) c ( F ) c ( F ) c ( F ) c3F ) ccc2O ) c1 } = > ( [ C & X3 : 1 ] ( = O ) [ O & X2 & H1, Cl, Br ]. [ C & X3 : 2 ] ( = O ) [ O & X2 & H1, Cl, Br ] ). ( [ O, S ; X2 ; H1 ;! $ ( [ O, S ] C = * ) : 3 ]. [ O, S ; X2 ; H1 ;! $ ( [ O, S ] C = * ) : 4 ] ) > > ( * - [ C & X3 : 1 ] = O. [ C & X3 : 2 ] ( = O ) - [ O, S ; X2 ;! $ ( [ O, S ] C = * ) : 3 ]. [ O, S ; X2 ;! $ ( [ O, S ] C = * ) : 4 ] - * ) = > * Oc1ccc ( - c2c ( F ) c ( F ) c ( F ) c ( F ) c2F ) cc1S ( = O ) ( = O ) c1cc ( OC = C ) ccc1OC ( = O ) CCNCNCC ( * ) = O $"
+    custom = custom.replace(" ", "").replace("=>", " => ")
+    custom2 = custom.replace(" ", "").replace("=>", " => ")
 
     # candidates for variation 0
     # Homo_Candidate = "##E:0:4:1:27## ${[[6*]C(=O)O] + [[16*]c1cc(C)cc(C(=O)O)c1O] -> [6*]-[*:1].[16*]-[*:2]>>[$([C&D3&!R](=O)-&!@[#0,#6,#7,#8]):1]-&!@[$([c&$(c(:c):c)]):2] -> [Cc1cc(C(=O)O)c(O)c(C(=O)O)c1]} => ([O&X2&H1&!$(OC=*):1].[C&X3:2](=O)[O&X2&H1])>>(*-[O&X2:1].[C&X3:2](=O)-*) => *Oc1c(C(*)=O)cc(C)cc1C(=O)O$"
     # Co_Candidate = "##E:0:8:6:83## ${[[6*]C(=O)Cl] + [[16*]c1cc(C)c(C)cc1CC(=O)O] -> [6*]-[*:1].[16*]-[*:2]>>[$([C&D3&!R](=O)-&!@[#0,#6,#7,#8]):1]-&!@[$([c&$(c(:c):c)]):2] -> [Cc1cc(CC(=O)O)c(C(=O)Cl)cc1C]} + {[[16*]c1ccc(O)cc1O] + [[16*]c1cc2c(cc1-c1cc(O)cc(O)c1)C(=O)c1ccccc1C2=O] -> [16*]-[*:1].[16*]-[*:2]>>[$([c&$(c(:c):c)]):1]-&!@[$([c&$(c(:c):c)]):2] -> [O=C1c2ccccc2C(=O)c2cc(-c3ccc(O)cc3O)c(-c3cc(O)cc(O)c3)cc21]} => ([C&X3:1](=O)[O&X2&H1,Cl,Br].[C&X3:2](=O)[O&X2&H1,Cl,Br]).([O,S;X2;H1;!$([O,S]C=*):3].[O,S;X2;H1;!$([O,S]C=*):4])>>(*-[C&X3:1]=O.[C&X3:2](=O)-[O,S;X2;!$([O,S]C=*):3].[O,S;X2;!$([O,S]C=*):4]-*) => *Oc1cc(O)cc(-c2cc3c(cc2-c2ccc(O)cc2OC(=O)Cc2cc(C)c(C)cc2C(*)=O)C(=O)c2ccccc2C3=O)c1$"
 
+    # validator = SeqValidator(variation_code=1)
+    # e_values = validator.validate(Homo_Candidate)
+    # print("e_values >>", e_values)
+    # e_values = validator.validate(Co_Candidate)
+    # print("e_value >>", e_values)
     validator = SeqValidator(variation_code=1)
-    e_values = validator.validate(Homo_Candidate)
-    print("e_values >>", e_values)
-    e_values = validator.validate(Co_Candidate)
+    e_values = validator.validate(custom2)
     print("e_value >>", e_values)

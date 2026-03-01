@@ -27,8 +27,10 @@ METRICS_ERROR_MAP = {
     "<invalid-product-count>",
     "<invalid-product-smiles-match>",
     "<invalid-generated-product-smiles>",
+    "<invalid-product-smiles-wildcard>",
     "<invalid-reaction-product-smiles>",
     "<unsupported-var-code>",
+    "<invalid-init-sequence>",
 }
 
 
@@ -53,7 +55,7 @@ class Seq2SeqValidityMetrics:
             if error in METRICS_ERROR_MAP:
                 row[error] = 1
                 self.add_to_metric(error, 1)
-        return errors
+        return row
 
     def add_to_metric(self, name, value):
         if name not in self.metrics:
@@ -61,7 +63,7 @@ class Seq2SeqValidityMetrics:
         self.metrics[name] = self.metrics[name] + value
 
     def evaluate(self):
-        self.df.apply(self._validate, axis=1)
+        self.df = self.df.apply(self._validate, axis=1)
         self.eval = {
             metric_id: (metric_value / self.df.shape[0])
             for metric_id, metric_value in self.metrics.items()
@@ -77,6 +79,9 @@ class Seq2SeqValidityMetrics:
             )
 
         return validation_score, self.eval
+
+    def save_df(self, save_path):
+        self.df.to_csv(save_path, index=False)
 
     def visualize(self, save_path=None):
         """
@@ -126,4 +131,5 @@ if __name__ == "__main__":
     metrics = Seq2SeqValidityMetrics(df, "sequence")
     score, _ = metrics.compute()
     metrics.visualize(save_path="./metrics_plot.png")
+    metrics.save_df(save_path="./metrics_data.csv")
     print("score >>", score)

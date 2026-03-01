@@ -199,6 +199,9 @@ class BenchmarkRunner:
                 "validity_score": score,
                 "error_details": details,
             }
+            metrics_df_path = os.path.join(output_dir, "validity_metrics.csv")
+            metrics.save_df(metrics_df_path)
+
             with open(results_json_path, "w") as f:
                 json.dump(json_results, f, indent=4)
 
