@@ -185,9 +185,9 @@ class BenchmarkRunner:
         try:
             logger.info("Running Validity Benchmark...")
             metrics = Seq2SeqValidityMetrics(df, col_name)
-            score, details = metrics.compute()
+            score = metrics.compute()
 
-            logger.info(f"Validity Score: {score:.4f}")
+            logger.info(f"Validity Score: {score}")
 
             # Save results as JSON
             results_json_path = os.path.join(output_dir, "validity_results.json")
@@ -197,7 +197,6 @@ class BenchmarkRunner:
                 "column": col_name,
                 "total_sequences": len(df),
                 "validity_score": score,
-                "error_details": details,
             }
             metrics_df_path = os.path.join(output_dir, "validity_metrics.csv")
             metrics.save_df(metrics_df_path)
@@ -213,11 +212,9 @@ class BenchmarkRunner:
                 f.write(f"Input File: {input_file}\n")
                 f.write(f"Column: {col_name}\n")
                 f.write(f"Total Sequences: {len(df)}\n")
+                f.write("Validity Score\n")
                 f.write("-" * 30 + "\n")
-                f.write(f"Validity Score: {score:.6f}\n")
-                f.write("-" * 30 + "\n")
-                f.write("Error Details:\n")
-                for k, v in details.items():
+                for k, v in score.items():
                     f.write(f"  {k}: {v:.6f}\n")
 
             # Save visualization

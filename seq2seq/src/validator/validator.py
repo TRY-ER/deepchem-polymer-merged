@@ -153,33 +153,36 @@ class SeqValidator:
     def __init__(self, variation_code=1):
         self.variation_code = variation_code
 
-    def _parse_expression_token(self, expression_token):
+    def _parse_expression_token(self, expression_token, errors):
         token = expression_token.strip("$")
         portions = token.split("=>")
-        assert len(portions) == 3, "<invalid-parse-expression>"
+        if len(portions) != 3:
+            errors.append("<invalid-parse-expression>")
+            return ("", "", ""), errors
         reactants, reaction, product = portions
         reactants = [reactant.strip()[1:-1] for reactant in reactants.split("+")]
-        return reactants, reaction, product
+        return (reactants, reaction, product), errors
 
-    def _parse(self, sequence):
+    def _parse(self, sequence, errors):
         # init token is the part of the sequence enclosed with ## and ##
         init_token = re.search(r"##(.*?)##", sequence).group(1)
         init_token = f"##{init_token}##"
         # expression token is the part of the sequence left without init token
         if init_token is None:
-            raise ValueError("<invalid-init-sequence>")
+            errors.append("<invalid-init-sequence>")
         expression_token = sequence.replace(init_token, "").strip()
-        assert expression_token[-1] == "$" and expression_token[0] == "$", (
-            "<invalid-parse-expression>"
+        if not (expression_token[-1] == "$" and expression_token[0] == "$"):
+            errors.append("<invalid-gen-expression>")
+        (reactants, reaction, product), errors = self._parse_expression_token(
+            expression_token, errors
         )
-        reactants, reaction, product = self._parse_expression_token(expression_token)
-        return init_token, (reactants, reaction, product)
+        return init_token, (reactants, reaction, product), errors
 
     def _validate_rxn_map(self, code, rxn_sequence, errors):
         if not (code in reaction_smarts_map):
-            errors.append("<invalid-reaction-code>")
+            errors.append("<invalid-init-sequence>")
         if not (rxn_sequence.strip() in reaction_smarts_map[code]):
-            errors.append("<invalid-reaction-sequence>")
+            errors.append("<invalid-reaction-code-sequence-match>")
         return errors
 
     def _validate_contents(self, counts, expression_tokens, errors):
@@ -202,24 +205,16 @@ class SeqValidator:
     def _validate_init_token(self, init_token, expression_tokens, errors):
         values = init_token.strip("##").split(":")
         if not len(values) == 5:
-            errors.append("<invalid-parse-init>")
+            errors.append("<invalid-init-sequence>")
         class_code, n_count, o_count, ring_count, poly_l = values
-        if not class_code.isalpha():
-            errors.append("<invalid-parse-init-class-code>")
-        # There is another layer of validation to validate if the code is mapped with the reaction SMARTS as valid or not
-
-        if class_code not in ["U", "E", "A", "I", "Et"]:
-            errors.append("<invalid-class-code>")
-        if not class_code.isalpha():
-            errors.append("<invalid-class-code>")
-        if not n_count.isdigit():
-            errors.append("<invalid-content-N>")
-        if not o_count.isdigit():
-            errors.append("<invalid-content-O>")
-        if not ring_count.isdigit():
-            errors.append("<invalid-content-ring>")
-        if not poly_l.isdigit():
-            errors.append("<invalid-content-poly-length>")
+        if not (
+            class_code.isalpha(),
+            n_count.isdigit(),
+            o_count.isdigit(),
+            ring_count.isdigit(),
+            poly_l.isdigit(),
+        ):
+            errors.append("<invalid-init-sequence>")
         errors = self._validate_contents(values, expression_tokens, errors)
         return errors
 
@@ -228,7 +223,10 @@ class SeqValidator:
         reactants, reaction, product = expression_token
         for reactant in reactants:
             try:
-                Chem.MolFromSmiles(reactant.strip())
+                mol = Chem.MolFromSmiles(reactant.strip())
+                if mol is None:
+                    errors.append("<invalid-reactant-smiles>")
+                    break
             except Exception as _:
                 errors.append("<invalid-reactant-smiles>")
                 break
@@ -238,11 +236,13 @@ class SeqValidator:
             rxn.Initialize()
             if rxn is None:
                 errors.append("<invalid-reaction-smarts>")
-            if rxn.GetNumReactantTemplates() != len(reactants):
-                errors.append("<invalid-reactant-count>")
-            prods = rxn.RunReactants(
-                [Chem.MolFromSmiles(reactant.strip()) for reactant in reactants]
-            )
+            if "<invalid-reactant-smiles>" in errors:
+                errors.append("<invalid-reaction-setup>")
+                return errors
+            mol_reactants = [
+                Chem.MolFromSmiles(reactant.strip()) for reactant in reactants
+            ]
+            prods = rxn.RunReactants(mol_reactants)
             if not prods:
                 errors.append("<invalid-product-count>")
             try:
@@ -252,17 +252,15 @@ class SeqValidator:
                 ]
                 # flatten this prods_smiles list of lists to list of one dimensions
                 prods_smiles = [item for sublist in prods_smiles for item in sublist]
-                print("prods_smiles", prods_smiles)
                 try:
                     product_smiles = Chem.MolToSmiles(
                         Chem.MolFromSmiles(product.strip()), canonical=True
                     )
-                    print(f"product_smiles >> <{product_smiles}>")
                     if product_smiles not in prods_smiles:
-                        errors.append("<invalid-product-smiles-match>")
+                        errors.append("<invalid-product-psmiles-match>")
                     # search if product_smiles contains exactly 2 "*" or not
                     if product_smiles.count("*") != 2:
-                        errors.append("<invalid-product-smiles-wildcard>")
+                        errors.append("<invalid-product-psmiles-wildcard>")
                 except Exception as _:
                     errors.append("<invalid-generated-product-smiles>")
             except Exception as _:
@@ -275,8 +273,8 @@ class SeqValidator:
     def validate(self, sequence):
         """ """
         if self.variation_code == 1:
-            init_token, expression_tokens = self._parse(sequence)
             errors = []
+            init_token, expression_tokens, errors = self._parse(sequence, errors)
             errors = self._validate_init_token(init_token, expression_tokens, errors)
             errors = self._validate_exp_tokens(expression_tokens, errors)
             return errors
