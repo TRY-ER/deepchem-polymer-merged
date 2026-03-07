@@ -30,7 +30,6 @@ sample_config = {
     "epochs": 10,
     "warmup": 1000,
     "total_steps": 10000,
-    "save_every": 3,
     "save_dir": "./model_outputs/test_model",
 }
 
@@ -96,11 +95,11 @@ class Trainer:
         # training loop
         self.model.train()
         global_step = 0
+        best_loss = float("inf")  # Initialize best_loss to infinity
 
         for epoch in tqdm(range(self.config.get("epochs", 10))):
             epoch_loss = 0.0
-
-            for batch in data_loader:
+            for batch in tqdm(data_loader):
                 x0 = batch["x0"].to(self.device)
                 cond = (
                     batch["cond"].to(self.device)
@@ -118,52 +117,60 @@ class Trainer:
                 scaler.scale(loss).backward()
                 scaler.unscale_(optimizer)
                 torch.nn.utils.clip_grad_norm_(self.model.parameters(), 1.0)
+                scaler_before = scaler.get_scale()
                 scaler.step(optimizer)
 
                 scaler.update()
-                scheduler.step()
+                if scaler.get_scale() == scaler_before:
+                    scheduler.step()
 
                 epoch_loss += loss.item()
                 global_step += 1
 
-                save_dir = self.config.get("save_dir", "path_to_save")
+            avg_epoch_loss = epoch_loss / len(data_loader)
+            print(f"Epoch {epoch} Avg Loss: {avg_epoch_loss}")
+
+            # Save only the best model checkpoint
+            if avg_epoch_loss < best_loss:
+                best_loss = avg_epoch_loss
+                save_dir = self.config.get("save_dir", "./model_output")
                 os.makedirs(save_dir, exist_ok=True)
-
-                if global_step % self.config.get("save_every", 3) == 0:
-                    torch.save(
-                        {
-                            "step": global_step,
-                            "model": self.model.state_dict(),
-                            "optimizer": optimizer.state_dict(),
-                            "scheduler": scheduler.state_dict(),
-                        },
-                        f"{self.config['save_dir']}/model_{global_step}.pt",
-                    )
-            avg = epoch_loss / len(data_loader)
-            print(f"Epoch {epoch} Avg Loss: {avg}")
-
+                print(
+                    f"New best model found with loss: {best_loss:.4f}. Saving checkpoint..."
+                )
+                torch.save(
+                    {
+                        "epoch": epoch,
+                        "config": self.config,
+                        "global_step": global_step,
+                        "model": self.model.state_dict(),
+                        "optimizer": optimizer.state_dict(),
+                        "scheduler": scheduler.state_dict(),
+                        "best_loss": best_loss,
+                    },
+                    f"{save_dir}/best_model.pt",
+                )
         return self.model, self.tokenizer
 
 
 if __name__ == "__main__":
-    sample_config = {
+    run_config = {
         "data_path": "../../../datasets/mod/seq2seq_trainer_100_demo.parquet",
         "column_name": "inp_comb_1",
         "max_len": 646,
-        "batch_size": 4,
+        "batch_size": 8,
         "T": 1000,
         "dim": 512,
-        "depth": 8,
+        "depth": 4,
         "n_heads": 8,
         "dropout": 0.1,
         "cond_dim": None,
         "lr": 1e-4,
         "weight_decay": 1e-5,
-        "epochs": 2,
+        "epochs": 10,
         "warmup": 1000,
         "total_steps": 10000,
-        "save_every": 3,
         "save_dir": "./model_outputs/test_model",
     }
-    trainer = Trainer(sample_config)
+    trainer = Trainer(run_config)
     model, tokenizer = trainer.train()

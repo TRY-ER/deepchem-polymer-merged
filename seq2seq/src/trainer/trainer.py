@@ -3,23 +3,27 @@ Comprehensive trainer module that adapts to different model architectures and in
 This trainer can handle various input types and model configurations.
 """
 
+import logging
+import os
+import sys
+import time
+from datetime import datetime
+from typing import Any, Dict, Optional, Tuple, Union
+
+import numpy as np
 import torch
 import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader
-import numpy as np
-import time
-import os
-import sys
-import logging
-from datetime import datetime
-from typing import Dict, Any, Optional, Union, Tuple
-import wandb
 from tqdm import tqdm
+
+import wandb
 
 # Add the project root to the Python path
 current_dir = os.path.dirname(os.path.abspath(__file__))
-project_root = os.path.dirname(os.path.dirname(current_dir))  # Go up two levels to reach project root
+project_root = os.path.dirname(
+    os.path.dirname(current_dir)
+)  # Go up two levels to reach project root
 sys.path.insert(0, project_root)
 
 from src.data.dataloader import get_dataloaders
@@ -31,18 +35,20 @@ class BaseTrainer:
     Base trainer class that adapts to different model architectures and input configurations.
     """
 
-    def __init__(self,
-                 model: nn.Module,
-                 model_config: Dict[str, Any],
-                 training_config: Dict[str, Any],
-                 data_config: Dict[str, Any],
-                 device: Optional[str] = None,
-                 use_wandb: bool = False,
-                 project_name: str = "polymer-training",
-                 penalty_config: Dict[str, float] | None = None):
+    def __init__(
+        self,
+        model: nn.Module,
+        model_config: Dict[str, Any],
+        training_config: Dict[str, Any],
+        data_config: Dict[str, Any],
+        device: Optional[str] = None,
+        use_wandb: bool = False,
+        project_name: str = "polymer-training",
+        penalty_config: Dict[str, float] | None = None,
+    ):
         """
         Initialize the trainer.
-        
+
         Args:
             model: The PyTorch model to train
             model_config: Model-specific configuration
@@ -66,8 +72,7 @@ class BaseTrainer:
 
         # Device setup
         if device is None:
-            self.device = torch.device(
-                'cuda' if torch.cuda.is_available() else 'cpu')
+            self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         else:
             self.device = torch.device(device)
 
@@ -77,23 +82,22 @@ class BaseTrainer:
         # Logging setup
         self.use_wandb = use_wandb
         if use_wandb:
-            wandb.init(project=project_name,
-                       config={
-                           **model_config,
-                           **training_config,
-                           **data_config
-                       })
+            wandb.init(
+                project=project_name,
+                config={**model_config, **training_config, **data_config},
+            )
             self.logger.info(
-                f"Weights & Biases initialized for project: {project_name}")
+                f"Weights & Biases initialized for project: {project_name}"
+            )
 
         # Training state
         self.current_epoch = 0
         self.global_step = 0
-        self.best_val_loss = float('inf')
+        self.best_val_loss = float("inf")
         self.patience_counter = 0
 
         # Debug mode
-        self.debug_mode = self.training_config.get('debug_batch_prep', False)
+        self.debug_mode = self.training_config.get("debug_batch_prep", False)
 
         # Setup optimizer and loss function
         self._setup_optimizer()
@@ -112,7 +116,7 @@ class BaseTrainer:
     def _setup_output_directories(self):
         """
         Setup comprehensive output directory structure for organized experiment management.
-        
+
         Creates the following structure:
         experiments/
         ├── {model_type}_{timestamp}/
@@ -133,39 +137,34 @@ class BaseTrainer:
         │       └── samples/
         """
         # Get base output directory from config
-        base_output_dir = self.training_config.get('output_dir', 'experiments')
+        base_output_dir = self.training_config.get("output_dir", "experiments")
 
         # Create experiment-specific directory with timestamp
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        model_type = self.model_config.get('model_type', 'unknown')
+        model_type = self.model_config.get("model_type", "unknown")
         experiment_name = f"{model_type}_{timestamp}"
 
         # Allow custom experiment name override
-        if 'experiment_name' in self.training_config and self.training_config[
-                'experiment_name'] is not None:
-            experiment_name = self.training_config['experiment_name']
+        if (
+            "experiment_name" in self.training_config
+            and self.training_config["experiment_name"] is not None
+        ):
+            experiment_name = self.training_config["experiment_name"]
 
         self.experiment_dir = os.path.join(base_output_dir, experiment_name)
 
         # Create nested directory structure
         self.dirs = {
-            'experiment':
-            self.experiment_dir,
-            'checkpoints':
-            os.path.join(self.experiment_dir, 'checkpoints'),
-            'epoch_checkpoints':
-            os.path.join(self.experiment_dir, 'checkpoints',
-                         'epoch_checkpoints'),
-            'logs':
-            os.path.join(self.experiment_dir, 'logs'),
-            'config':
-            os.path.join(self.experiment_dir, 'config'),
-            'results':
-            os.path.join(self.experiment_dir, 'results'),
-            'plots':
-            os.path.join(self.experiment_dir, 'results', 'plots'),
-            'samples':
-            os.path.join(self.experiment_dir, 'results', 'samples')
+            "experiment": self.experiment_dir,
+            "checkpoints": os.path.join(self.experiment_dir, "checkpoints"),
+            "epoch_checkpoints": os.path.join(
+                self.experiment_dir, "checkpoints", "epoch_checkpoints"
+            ),
+            "logs": os.path.join(self.experiment_dir, "logs"),
+            "config": os.path.join(self.experiment_dir, "config"),
+            "results": os.path.join(self.experiment_dir, "results"),
+            "plots": os.path.join(self.experiment_dir, "results", "plots"),
+            "samples": os.path.join(self.experiment_dir, "results", "samples"),
         }
 
         # Create all directories
@@ -173,8 +172,8 @@ class BaseTrainer:
             os.makedirs(dir_path, exist_ok=True)
 
         # Update training config to use the new checkpoint directory
-        self.training_config['save_dir'] = self.dirs['checkpoints']
-        self.training_config['logs_dir'] = self.dirs['logs']
+        self.training_config["save_dir"] = self.dirs["checkpoints"]
+        self.training_config["logs_dir"] = self.dirs["logs"]
 
         # Save configuration files
         self._save_config_files()
@@ -190,13 +189,13 @@ class BaseTrainer:
         import json
 
         configs = {
-            'model_config.json': self.model_config,
-            'training_config.json': self.training_config,
-            'data_config.json': self.data_config
+            "model_config.json": self.model_config,
+            "training_config.json": self.training_config,
+            "data_config.json": self.data_config,
         }
 
         for filename, config in configs.items():
-            config_path = os.path.join(self.dirs['config'], filename)
+            config_path = os.path.join(self.dirs["config"], filename)
 
             # Convert any non-serializable objects to strings
             serializable_config = {}
@@ -207,7 +206,7 @@ class BaseTrainer:
                 except (TypeError, ValueError):
                     serializable_config[key] = str(value)
 
-            with open(config_path, 'w') as f:
+            with open(config_path, "w") as f:
                 json.dump(serializable_config, f, indent=2)
 
         print(f"💾 Configuration files saved to: {self.dirs['config']}")
@@ -219,10 +218,10 @@ class BaseTrainer:
         Uses the structured output directory system.
         """
         # Use the logs directory from our structure
-        logs_dir = self.dirs['logs']
+        logs_dir = self.dirs["logs"]
 
         # Create log filename
-        model_type = self.model_config.get('model_type', 'unknown')
+        model_type = self.model_config.get("model_type", "unknown")
         log_filename = f"training.log"
         self.log_filepath = os.path.join(logs_dir, log_filename)
 
@@ -235,14 +234,16 @@ class BaseTrainer:
 
         # Create formatters
         detailed_formatter = logging.Formatter(
-            '%(asctime)s - %(name)s - %(levelname)s - %(funcName)s:%(lineno)d - %(message)s',
-            datefmt='%Y-%m-%d %H:%M:%S')
+            "%(asctime)s - %(name)s - %(levelname)s - %(funcName)s:%(lineno)d - %(message)s",
+            datefmt="%Y-%m-%d %H:%M:%S",
+        )
 
         simple_formatter = logging.Formatter(
-            '%(asctime)s - %(levelname)s - %(message)s', datefmt='%H:%M:%S')
+            "%(asctime)s - %(levelname)s - %(message)s", datefmt="%H:%M:%S"
+        )
 
         # File handler (detailed logging)
-        file_handler = logging.FileHandler(self.log_filepath, mode='w')
+        file_handler = logging.FileHandler(self.log_filepath, mode="w")
         file_handler.setLevel(logging.DEBUG)
         file_handler.setFormatter(detailed_formatter)
         self.logger.addHandler(file_handler)
@@ -255,8 +256,7 @@ class BaseTrainer:
 
         # Log the initialization
         self.logger.info("=" * 80)
-        self.logger.info(
-            f"TRAINING SESSION STARTED - {model_type.upper()} MODEL")
+        self.logger.info(f"TRAINING SESSION STARTED - {model_type.upper()} MODEL")
         self.logger.info("=" * 80)
         self.logger.info(f"Experiment directory: {self.experiment_dir}")
         self.logger.info(f"Log file: {self.log_filepath}")
@@ -266,7 +266,7 @@ class BaseTrainer:
         self.logger.info(f"Model config: {self.model_config}")
 
         # Create metrics log file path for structured logging
-        self.metrics_log_path = os.path.join(logs_dir, 'metrics.json')
+        self.metrics_log_path = os.path.join(logs_dir, "metrics.json")
 
     def _debug_batch_preparation(self):
         """Debug function to show how batch preparation works."""
@@ -285,10 +285,8 @@ class BaseTrainer:
         self.logger.info(f"\nAfter preparation:")
         self.logger.info(f"Input shape: {inputs.shape}")
         self.logger.info(f"Target shape: {targets.shape}")
-        self.logger.info(
-            f"Input sequence (first 10): {inputs[0, :10].tolist()}")
-        self.logger.info(
-            f"Target sequence (first 10): {targets[0, :10].tolist()}")
+        self.logger.info(f"Input sequence (first 10): {inputs[0, :10].tolist()}")
+        self.logger.info(f"Target sequence (first 10): {targets[0, :10].tolist()}")
 
         if self.is_seq2seq:
             self.logger.info(f"\n📚 Training Logic:")
@@ -325,8 +323,7 @@ class BaseTrainer:
             else:
                 self.logger.info(f"Single tensor shape: {outputs.shape}")
 
-            self.logger.info(
-                f"Standardized main output shape: {main_output.shape}")
+            self.logger.info(f"Standardized main output shape: {main_output.shape}")
             self.logger.info(f"Auxiliary outputs: {aux_outputs}")
 
             # Test loss computation
@@ -338,9 +335,9 @@ class BaseTrainer:
 
     def _setup_optimizer(self):
         """Setup optimizer based on training config."""
-        optimizer_type = self.training_config.get('optimizer', 'adam')
-        lr = self.training_config.get('learning_rate', 1e-3)
-        weight_decay = self.training_config.get('weight_decay', 0.0)
+        optimizer_type = self.training_config.get("optimizer", "adam")
+        lr = self.training_config.get("learning_rate", 1e-3)
+        weight_decay = self.training_config.get("weight_decay", 0.0)
 
         # Convert string values to appropriate numeric types
         if isinstance(lr, str):
@@ -348,23 +345,25 @@ class BaseTrainer:
         if isinstance(weight_decay, str):
             weight_decay = float(weight_decay)
 
-        if optimizer_type.lower() == 'adam':
-            self.optimizer = optim.Adam(self.model.parameters(),
-                                        lr=lr,
-                                        weight_decay=weight_decay)
-        elif optimizer_type.lower() == 'adamw':
-            self.optimizer = optim.AdamW(self.model.parameters(),
-                                         lr=lr,
-                                         weight_decay=weight_decay)
-        elif optimizer_type.lower() == 'sgd':
-            momentum = self.training_config.get('momentum', 0.9)
+        if optimizer_type.lower() == "adam":
+            self.optimizer = optim.Adam(
+                self.model.parameters(), lr=lr, weight_decay=weight_decay
+            )
+        elif optimizer_type.lower() == "adamw":
+            self.optimizer = optim.AdamW(
+                self.model.parameters(), lr=lr, weight_decay=weight_decay
+            )
+        elif optimizer_type.lower() == "sgd":
+            momentum = self.training_config.get("momentum", 0.9)
             # Convert string values to appropriate numeric types
             if isinstance(momentum, str):
                 momentum = float(momentum)
-            self.optimizer = optim.SGD(self.model.parameters(),
-                                       lr=lr,
-                                       momentum=momentum,
-                                       weight_decay=weight_decay)
+            self.optimizer = optim.SGD(
+                self.model.parameters(),
+                lr=lr,
+                momentum=momentum,
+                weight_decay=weight_decay,
+            )
         else:
             raise ValueError(f"Unsupported optimizer: {optimizer_type}")
 
@@ -374,14 +373,15 @@ class BaseTrainer:
 
     def _setup_loss_function(self):
         """Setup loss function based on model type."""
-        loss_type = self.training_config.get('loss_function', 'cross_entropy')
+        loss_type = self.training_config.get("loss_function", "cross_entropy")
 
-        if loss_type == 'cross_entropy':
+        if loss_type == "cross_entropy":
             self.criterion = nn.CrossEntropyLoss(
-                ignore_index=0)  # Ignore padding tokens
-        elif loss_type == 'mse':
+                ignore_index=0
+            )  # Ignore padding tokens
+        elif loss_type == "mse":
             self.criterion = nn.MSELoss()
-        elif loss_type == 'bce':
+        elif loss_type == "bce":
             self.criterion = nn.BCEWithLogitsLoss()
         else:
             raise ValueError(f"Unsupported loss function: {loss_type}")
@@ -390,7 +390,7 @@ class BaseTrainer:
 
     def _setup_data_loaders(self):
         """Setup data loaders."""
-        batch_size = self.training_config.get('batch_size', 32)
+        batch_size = self.training_config.get("batch_size", 32)
 
         # Convert string values to appropriate numeric types
         if isinstance(batch_size, str):
@@ -399,12 +399,13 @@ class BaseTrainer:
         self.train_loader, self.val_loader, self.test_loader = get_dataloaders(
             DATA_CONFIG=self.data_config,
             batch_size=batch_size,
-            PENALTY_CONFIG=self.penalty_config)
+            PENALTY_CONFIG=self.penalty_config,
+        )
 
         # Safely get dataset sizes
         def get_dataset_size(loader):
             try:
-                if hasattr(loader.dataset, '__len__'):
+                if hasattr(loader.dataset, "__len__"):
                     return len(loader.dataset)
                 else:
                     return "Unknown"
@@ -433,15 +434,14 @@ class BaseTrainer:
         self.is_seq2seq = self.is_generative
 
         # Model type flags
-        self.is_transformer = 'transformer' in model_name
-        self.is_vae = 'vae' in model_name
-        self.is_mamba = 'mamba' in model_name
-        self.is_tcn = 'tcn' in model_name
+        self.is_transformer = "transformer" in model_name
+        self.is_vae = "vae" in model_name
+        self.is_mamba = "mamba" in model_name
+        self.is_tcn = "tcn" in model_name
 
         self.logger.info(f"Model type detected: {model_name}")
         self.logger.info(f"Generative model: {self.is_generative}")
-        self.logger.info(
-            f"Sequence-to-sequence (autoregressive): {self.is_seq2seq}")
+        self.logger.info(f"Sequence-to-sequence (autoregressive): {self.is_seq2seq}")
         self.logger.info(f"Transformer-based: {self.is_transformer}")
         self.logger.info(f"VAE-based: {self.is_vae}")
         self.logger.info(f"Mamba-based: {self.is_mamba}")
@@ -450,7 +450,7 @@ class BaseTrainer:
     def _check_if_generative(self) -> bool:
         """
         Check if the model is generative by examining its output shape.
-        
+
         Returns:
             True if model outputs vocab_size logits (generative)
             False if model outputs scalar/small tensor (discriminative)
@@ -474,14 +474,14 @@ class BaseTrainer:
                     # Shape: (batch_size, seq_len, vocab_size) - generative sequence model
                     vocab_size = output.size(-1)
                     self.logger.info(
-                        f"3D output detected with vocab_size: {vocab_size}")
+                        f"3D output detected with vocab_size: {vocab_size}"
+                    )
                     return vocab_size > 100  # Reasonable threshold for vocab size
                 elif len(output.shape) == 2:
                     # Could be (batch_size, vocab_size) for single prediction
                     # or (batch_size, small_dim) for classification
                     vocab_size = output.size(-1)
-                    self.logger.info(
-                        f"2D output detected with last dim: {vocab_size}")
+                    self.logger.info(f"2D output detected with last dim: {vocab_size}")
                     return vocab_size > 100  # Reasonable threshold for vocab size
                 else:
                     # 1D or other shapes suggest non-generative
@@ -489,13 +489,13 @@ class BaseTrainer:
                     return False
 
         except Exception as e:
-            self.logger.warning(
-                f"Could not determine if model is generative: {e}")
+            self.logger.warning(f"Could not determine if model is generative: {e}")
             # Default fallback based on model name - all models we have are generative
             model_name = self.model.__class__.__name__.lower()
             is_generative = any(
-                name in model_name for name in
-                ['gru', 'lstm', 'transformer', 'vae', 'mamba', 'tcn'])
+                name in model_name
+                for name in ["gru", "lstm", "transformer", "vae", "mamba", "tcn"]
+            )
             self.logger.info(
                 f"Fallback: Assuming {model_name} is generative: {is_generative}"
             )
@@ -504,25 +504,24 @@ class BaseTrainer:
         finally:
             self.model.train()
 
-    def _prepare_batch(
-            self, batch: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
+    def _prepare_batch(self, batch: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
         """
         Prepare batch data based on model requirements.
-        
+
         Args:
             batch: Input batch tensor of shape (batch_size, seq_len)
-            
+
         Returns:
             Tuple of (input_data, target_data)
-            
+
         For generative models (autoregressive):
             - input_data: sequence[:-1] - what the model sees as context
             - target_data: sequence[1:] - what the model should predict (next tokens)
-            
+
         For discriminative models (classification/regression):
             - input_data: full sequence
             - target_data: same sequence or separate labels
-            
+
         Example for generative:
             Original: [<bos>, C, C, O, H, <eos>]
             Input:    [<bos>, C, C, O, H]        (model input)
@@ -540,26 +539,21 @@ class BaseTrainer:
         if self.is_generative and self.is_seq2seq:
             # For autoregressive text generation: predict next token at each position
             # This implements "teacher forcing" training strategy
-            input_data = batch[:, :
-                               -1]  # Remove last token (no next token to predict)
-            target_data = batch[:,
-                                1:]  # Remove first token (shift targets left by 1)
+            input_data = batch[:, :-1]  # Remove last token (no next token to predict)
+            target_data = batch[:, 1:]  # Remove first token (shift targets left by 1)
 
             # Ensure we have valid sequences
             if input_data.size(1) == 0:
                 raise ValueError(
-                    "Input sequences too short for autoregressive training")
+                    "Input sequences too short for autoregressive training"
+                )
 
             if self.debug_mode:
                 self.logger.debug(f"Autoregressive mode:")
-                self.logger.debug(
-                    f"  Input shape: {input_data.shape} (tokens[:-1])")
-                self.logger.debug(
-                    f"  Target shape: {target_data.shape} (tokens[1:])")
-                self.logger.debug(
-                    f"  Example input: {input_data[0][:10].tolist()}")
-                self.logger.debug(
-                    f"  Example target: {target_data[0][:10].tolist()}")
+                self.logger.debug(f"  Input shape: {input_data.shape} (tokens[:-1])")
+                self.logger.debug(f"  Target shape: {target_data.shape} (tokens[1:])")
+                self.logger.debug(f"  Example input: {input_data[0][:10].tolist()}")
+                self.logger.debug(f"  Example target: {target_data[0][:10].tolist()}")
 
         # For discriminative models (classification/regression)
         elif not self.is_generative:
@@ -590,10 +584,10 @@ class BaseTrainer:
     ) -> Tuple[torch.Tensor, Optional[Dict[str, torch.Tensor]]]:
         """
         Standardize model outputs to a consistent format.
-        
+
         Args:
             outputs: Raw model outputs (could be tensor or tuple)
-            
+
         Returns:
             Tuple of (main_output, auxiliary_outputs)
             - main_output: Primary tensor for loss computation (logits/predictions)
@@ -612,12 +606,12 @@ class BaseTrainer:
                     return main_output, None
                 else:
                     # (logits, hidden_state) - e.g., GRU, LSTM
-                    return main_output, {'hidden_state': aux}
+                    return main_output, {"hidden_state": aux}
 
             elif len(outputs) == 3:
                 # Three outputs: VAE case (reconstruction, mu, log_var)
                 reconstruction, mu, log_var = outputs
-                return reconstruction, {'mu': mu, 'log_var': log_var}
+                return reconstruction, {"mu": mu, "log_var": log_var}
 
             else:
                 raise ValueError(f"Unexpected tuple length: {len(outputs)}")
@@ -626,20 +620,21 @@ class BaseTrainer:
             raise ValueError(f"Unexpected output type: {type(outputs)}")
 
     def _compute_loss(
-            self,
-            outputs: Union[torch.Tensor, Tuple],
-            targets: torch.Tensor,
-            inputs: torch.Tensor,
-            penalties: dict[str, torch.Tensor] | None = None) -> torch.Tensor:
+        self,
+        outputs: Union[torch.Tensor, Tuple],
+        targets: torch.Tensor,
+        inputs: torch.Tensor,
+        penalties: dict[str, torch.Tensor] | None = None,
+    ) -> torch.Tensor:
         """
         Compute loss based on model type and outputs.
-        
+
         Args:
             outputs: Model outputs (could be tensor or tuple)
             targets: Target data
             inputs: Input data (needed for some loss computations)
             penalties: Dictionary of penalty terms to be added to the loss
-        
+
         Returns:
             Total loss
         """
@@ -647,7 +642,11 @@ class BaseTrainer:
         main_output, aux_outputs = self._standardize_model_output(outputs)
 
         # Initialize custom loss as a zero tensor matching the penalty vector shape
-        custom_loss = torch.zeros_like(next(iter(penalties.values()))) if penalties else torch.tensor(0.0, device=main_output.device)
+        custom_loss = (
+            torch.zeros_like(next(iter(penalties.values())))
+            if penalties
+            else torch.tensor(0.0, device=main_output.device)
+        )
         custom_loss = custom_loss.to(main_output.device)
 
         if penalties is not None:
@@ -658,22 +657,27 @@ class BaseTrainer:
                 custom_loss += weight * penalty
 
         # Handle VAE case with auxiliary loss terms
-        if self.is_vae and aux_outputs is not None and 'mu' in aux_outputs and 'log_var' in aux_outputs:
-            mu = aux_outputs['mu']
-            log_var = aux_outputs['log_var']
+        if (
+            self.is_vae
+            and aux_outputs is not None
+            and "mu" in aux_outputs
+            and "log_var" in aux_outputs
+        ):
+            mu = aux_outputs["mu"]
+            log_var = aux_outputs["log_var"]
 
             # Reconstruction loss
             if self.is_seq2seq:
                 # Sequence-to-sequence: flatten for cross-entropy
                 recon_loss = self.criterion(
-                    main_output.reshape(-1, main_output.size(-1)),
-                    targets.reshape(-1))
+                    main_output.reshape(-1, main_output.size(-1)), targets.reshape(-1)
+                )
             else:
                 recon_loss = self.criterion(main_output, targets)
 
             # KL divergence loss
             kl_loss = -0.5 * torch.sum(1 + log_var - mu.pow(2) - log_var.exp())
-            kl_weight = self.training_config.get('kl_weight', 0.1)
+            kl_weight = self.training_config.get("kl_weight", 0.1)
 
             total_loss = recon_loss + kl_weight * kl_loss + custom_loss.sum()
 
@@ -684,55 +688,57 @@ class BaseTrainer:
                 )
 
             if self.use_wandb:
-                wandb.log({
-                    'train/recon_loss': recon_loss.item(),
-                    'train/kl_loss': kl_loss.item(),
-                    'train/kl_weight': kl_weight,
-                    'train/custom_loss': custom_loss.sum().item()
-                })
+                wandb.log(
+                    {
+                        "train/recon_loss": recon_loss.item(),
+                        "train/kl_loss": kl_loss.item(),
+                        "train/kl_weight": kl_weight,
+                        "train/custom_loss": custom_loss.sum().item(),
+                    }
+                )
 
             return total_loss
 
         else:
             # Standard generative models (GRU, LSTM, Transformer, Mamba, TCN)
             if not isinstance(main_output, torch.Tensor):
-                raise ValueError(
-                    f"Expected tensor output, got {type(main_output)}")
+                raise ValueError(f"Expected tensor output, got {type(main_output)}")
 
             if self.is_seq2seq and len(main_output.shape) == 3:
                 # Sequence-to-sequence: flatten for cross-entropy
                 # main_output shape: (batch_size, seq_len, vocab_size)
                 # targets shape: (batch_size, seq_len)
                 loss = self.criterion(
-                    main_output.reshape(-1, main_output.size(-1)),
-                    targets.reshape(-1))
+                    main_output.reshape(-1, main_output.size(-1)), targets.reshape(-1)
+                )
             elif len(main_output.shape) == 2:
                 # 2D output: direct loss computation
                 loss = self.criterion(main_output, targets)
             else:
-                raise ValueError(
-                    f"Unexpected output shape: {main_output.shape}")
+                raise ValueError(f"Unexpected output shape: {main_output.shape}")
 
             total_loss = loss + custom_loss.sum()
 
             # Log standard losses
-            if self.global_step % 50== 0:
+            if self.global_step % 50 == 0:
                 self.logger.debug(
                     f"Standard losses - Main: {loss.item():.4f}, Custom: {custom_loss.sum().item():.4f}"
                 )
 
             if self.use_wandb:
-                wandb.log({
-                    'train/main_loss': loss.item(),
-                    'train/custom_loss': custom_loss.sum().item()
-                })
+                wandb.log(
+                    {
+                        "train/main_loss": loss.item(),
+                        "train/custom_loss": custom_loss.sum().item(),
+                    }
+                )
 
             return total_loss
 
     def train_epoch(self) -> Dict[str, float]:
         """
         Train for one epoch.
-        
+
         Returns:
             Dictionary with training metrics
         """
@@ -740,8 +746,7 @@ class BaseTrainer:
         total_loss = 0.0
         num_batches = 0
 
-        progress_bar = tqdm(self.train_loader,
-                            desc=f"Epoch {self.current_epoch + 1}")
+        progress_bar = tqdm(self.train_loader, desc=f"Epoch {self.current_epoch + 1}")
 
         for batch in progress_bar:
             self.optimizer.zero_grad()
@@ -755,22 +760,18 @@ class BaseTrainer:
             outputs = self.model(inputs)
 
             # Compute loss
-            loss = self._compute_loss(outputs,
-                                      targets,
-                                      inputs,
-                                      penalties=penalties)
+            loss = self._compute_loss(outputs, targets, inputs, penalties=penalties)
 
             # Backward pass
             loss.backward()
 
             # Gradient clipping if specified
-            if 'grad_clip' in self.training_config:
-                grad_clip_value = self.training_config['grad_clip']
+            if "grad_clip" in self.training_config:
+                grad_clip_value = self.training_config["grad_clip"]
                 # Convert string values to appropriate numeric types
                 if isinstance(grad_clip_value, str):
                     grad_clip_value = float(grad_clip_value)
-                torch.nn.utils.clip_grad_norm_(self.model.parameters(),
-                                               grad_clip_value)
+                torch.nn.utils.clip_grad_norm_(self.model.parameters(), grad_clip_value)
 
             self.optimizer.step()
 
@@ -780,22 +781,19 @@ class BaseTrainer:
             self.global_step += 1
 
             # Update progress bar
-            progress_bar.set_postfix({'loss': loss.item()})
+            progress_bar.set_postfix({"loss": loss.item()})
 
             # Log to wandb if enabled
             if self.use_wandb and self.global_step % 10 == 0:
-                wandb.log({
-                    'train/loss': loss.item(),
-                    'train/step': self.global_step
-                })
+                wandb.log({"train/loss": loss.item(), "train/step": self.global_step})
 
         avg_loss = total_loss / num_batches
-        return {'train_loss': avg_loss}
+        return {"train_loss": avg_loss}
 
     def validate(self) -> Dict[str, float]:
         """
         Validate the model.
-        
+
         Returns:
             Dictionary with validation metrics
         """
@@ -814,12 +812,12 @@ class BaseTrainer:
                 num_batches += 1
 
         avg_loss = total_loss / num_batches
-        return {'val_loss': avg_loss}
+        return {"val_loss": avg_loss}
 
     def test(self) -> Dict[str, float]:
         """
         Test the model.
-        
+
         Returns:
             Dictionary with test metrics
         """
@@ -838,20 +836,20 @@ class BaseTrainer:
                 num_batches += 1
 
         avg_loss = total_loss / num_batches
-        return {'test_loss': avg_loss}
+        return {"test_loss": avg_loss}
 
     def save_checkpoint(self, filepath: str, is_best: bool = False):
         """Save model checkpoint with enhanced metadata."""
         checkpoint = {
-            'epoch': self.current_epoch,
-            'model_state_dict': self.model.state_dict(),
-            'optimizer_state_dict': self.optimizer.state_dict(),
-            'best_val_loss': self.best_val_loss,
-            'model_config': self.model_config,
-            'training_config': self.training_config,
-            'experiment_dir': self.experiment_dir,
-            'timestamp': datetime.now().isoformat(),
-            'global_step': self.global_step
+            "epoch": self.current_epoch,
+            "model_state_dict": self.model.state_dict(),
+            "optimizer_state_dict": self.optimizer.state_dict(),
+            "best_val_loss": self.best_val_loss,
+            "model_config": self.model_config,
+            "training_config": self.training_config,
+            "experiment_dir": self.experiment_dir,
+            "timestamp": datetime.now().isoformat(),
+            "global_step": self.global_step,
         }
 
         torch.save(checkpoint, filepath)
@@ -864,11 +862,11 @@ class BaseTrainer:
         """Load model checkpoint."""
         checkpoint = torch.load(filepath, map_location=self.device)
 
-        self.model.load_state_dict(checkpoint['model_state_dict'])
-        self.optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
-        self.current_epoch = checkpoint['epoch']
-        self.best_val_loss = checkpoint['best_val_loss']
-        self.global_step = checkpoint.get('global_step', 0)
+        self.model.load_state_dict(checkpoint["model_state_dict"])
+        self.optimizer.load_state_dict(checkpoint["optimizer_state_dict"])
+        self.current_epoch = checkpoint["epoch"]
+        self.best_val_loss = checkpoint["best_val_loss"]
+        self.global_step = checkpoint.get("global_step", 0)
 
         self.logger.info(
             f"Checkpoint loaded from epoch {self.current_epoch}, filepath: {os.path.relpath(filepath, self.experiment_dir)}"
@@ -880,56 +878,54 @@ class BaseTrainer:
 
         # Load existing metrics if file exists
         if os.path.exists(self.metrics_log_path):
-            with open(self.metrics_log_path, 'r') as f:
+            with open(self.metrics_log_path, "r") as f:
                 all_metrics = json.load(f)
         else:
             all_metrics = {
-                'experiment_info': {
-                    'model_type': self.model_config.get('model_type'),
-                    'start_time': datetime.now().isoformat(),
-                    'experiment_dir': self.experiment_dir
+                "experiment_info": {
+                    "model_type": self.model_config.get("model_type"),
+                    "start_time": datetime.now().isoformat(),
+                    "experiment_dir": self.experiment_dir,
                 },
-                'epochs': []
+                "epochs": [],
             }
 
         # Add current epoch metrics
         epoch_metrics = {
-            'epoch': self.current_epoch + 1,
-            'global_step': self.global_step,
-            'timestamp': datetime.now().isoformat(),
-            **metrics
+            "epoch": self.current_epoch + 1,
+            "global_step": self.global_step,
+            "timestamp": datetime.now().isoformat(),
+            **metrics,
         }
-        all_metrics['epochs'].append(epoch_metrics)
+        all_metrics["epochs"].append(epoch_metrics)
 
         # Save updated metrics
-        with open(self.metrics_log_path, 'w') as f:
+        with open(self.metrics_log_path, "w") as f:
             json.dump(all_metrics, f, indent=2)
 
     def _save_training_history(self, history: Dict[str, Any]):
         """Save final training history to results directory."""
         import json
 
-        history_path = os.path.join(self.dirs['results'],
-                                    'training_history.json')
+        history_path = os.path.join(self.dirs["results"], "training_history.json")
 
         # Add experiment metadata
         enhanced_history = {
-            'experiment_info': {
-                'model_type': self.model_config.get('model_type'),
-                'experiment_dir': self.experiment_dir,
-                'start_time': datetime.now().isoformat(),
-                'model_params':
-                sum(p.numel() for p in self.model.parameters()),
+            "experiment_info": {
+                "model_type": self.model_config.get("model_type"),
+                "experiment_dir": self.experiment_dir,
+                "start_time": datetime.now().isoformat(),
+                "model_params": sum(p.numel() for p in self.model.parameters()),
             },
-            'config': {
-                'model_config': self.model_config,
-                'training_config': self.training_config,
-                'data_config': self.data_config
+            "config": {
+                "model_config": self.model_config,
+                "training_config": self.training_config,
+                "data_config": self.data_config,
             },
-            'results': history
+            "results": history,
         }
 
-        with open(history_path, 'w') as f:
+        with open(history_path, "w") as f:
             json.dump(enhanced_history, f, indent=2)
 
         self.logger.info(
@@ -939,15 +935,15 @@ class BaseTrainer:
     def train(self, epochs: Optional[int] = None) -> Dict[str, Any]:
         """
         Main training loop.
-        
+
         Args:
             epochs: Number of epochs to train (overrides config if provided)
-            
+
         Returns:
             Training history dictionary
         """
         if epochs is None:
-            epochs = self.training_config.get('epochs', 10)
+            epochs = self.training_config.get("epochs", 10)
 
         # Ensure epochs is a valid integer
         if isinstance(epochs, str):
@@ -955,14 +951,14 @@ class BaseTrainer:
         elif not isinstance(epochs, int):
             epochs = 10  # Default fallback
 
-        patience = self.training_config.get('patience', 10)
+        patience = self.training_config.get("patience", 10)
         # Convert string values to appropriate numeric types
         if isinstance(patience, str):
             patience = int(patience)
-        save_dir = self.dirs['checkpoints']  # Use structured directory
+        save_dir = self.dirs["checkpoints"]  # Use structured directory
 
         # Training session start
-        history: Dict[str, Any] = {'train_loss': [], 'val_loss': []}
+        history: Dict[str, Any] = {"train_loss": [], "val_loss": []}
         model_params = sum(p.numel() for p in self.model.parameters())
 
         self.logger.info("=" * 60)
@@ -992,17 +988,14 @@ class BaseTrainer:
             val_metrics = self.validate()
 
             # Update history
-            history['train_loss'].append(train_metrics['train_loss'])
-            history['val_loss'].append(val_metrics['val_loss'])
+            history["train_loss"].append(train_metrics["train_loss"])
+            history["val_loss"].append(val_metrics["val_loss"])
 
             # Calculate epoch time
             epoch_time = time.time() - epoch_start_time
 
             # Combine metrics for saving
-            epoch_metrics = {
-                **train_metrics,
-                **val_metrics, 'epoch_time': epoch_time
-            }
+            epoch_metrics = {**train_metrics, **val_metrics, "epoch_time": epoch_time}
 
             # Save metrics to JSON
             self._save_training_metrics(epoch_metrics)
@@ -1011,27 +1004,29 @@ class BaseTrainer:
             self.logger.info(
                 f"Epoch {epoch + 1}/{epochs} completed in {epoch_time:.2f}s - "
                 f"Train Loss: {train_metrics['train_loss']:.4f}, "
-                f"Val Loss: {val_metrics['val_loss']:.4f}")
+                f"Val Loss: {val_metrics['val_loss']:.4f}"
+            )
 
             # Log to wandb
             if self.use_wandb:
-                wandb.log({
-                    'epoch': epoch + 1,
-                    'train/epoch_loss': train_metrics['train_loss'],
-                    'val/epoch_loss': val_metrics['val_loss'],
-                    'epoch_time': epoch_time
-                })
+                wandb.log(
+                    {
+                        "epoch": epoch + 1,
+                        "train/epoch_loss": train_metrics["train_loss"],
+                        "val/epoch_loss": val_metrics["val_loss"],
+                        "epoch_time": epoch_time,
+                    }
+                )
 
             # Early stopping and checkpointing
-            is_best = val_metrics['val_loss'] < self.best_val_loss
+            is_best = val_metrics["val_loss"] < self.best_val_loss
             if is_best:
-                self.best_val_loss = val_metrics['val_loss']
+                self.best_val_loss = val_metrics["val_loss"]
                 self.patience_counter = 0
 
                 # Save best checkpoint if enabled
-                if self.training_config.get('save_best_only', True):
-                    best_checkpoint_path = os.path.join(
-                        save_dir, 'best_model.pth')
+                if self.training_config.get("save_best_only", True):
+                    best_checkpoint_path = os.path.join(save_dir, "best_model.pth")
                     self.save_checkpoint(best_checkpoint_path, is_best=True)
                     self.logger.info(
                         f"🏆 New best model! Val Loss: {val_metrics['val_loss']:.4f}"
@@ -1052,7 +1047,8 @@ class BaseTrainer:
             # Early stopping
             if self.patience_counter >= patience:
                 self.logger.warning(
-                    f"🛑 Early stopping triggered after {epoch + 1} epochs")
+                    f"🛑 Early stopping triggered after {epoch + 1} epochs"
+                )
                 break
 
         # Calculate total training time
@@ -1067,7 +1063,7 @@ class BaseTrainer:
         self.logger.info("TRAINING COMPLETED")
         self.logger.info("=" * 60)
         self.logger.info(
-            f"Total training time: {total_training_time:.2f}s ({total_training_time/60:.2f} minutes)"
+            f"Total training time: {total_training_time:.2f}s ({total_training_time / 60:.2f} minutes)"
         )
         self.logger.info(f"Best validation loss: {self.best_val_loss:.4f}")
         self.logger.info(f"Final test loss: {test_metrics['test_loss']:.4f}")
@@ -1082,18 +1078,20 @@ class BaseTrainer:
             self.save_checkpoint(final_checkpoint_path, is_best=False)
 
         if self.use_wandb:
-            wandb.log({
-                'test/final_loss': test_metrics['test_loss'],
-                'training/total_time': total_training_time,
-                'training/best_val_loss': self.best_val_loss
-            })
+            wandb.log(
+                {
+                    "test/final_loss": test_metrics["test_loss"],
+                    "training/total_time": total_training_time,
+                    "training/best_val_loss": self.best_val_loss,
+                }
+            )
             wandb.finish()
 
         # Prepare final history
-        history['test_loss'] = test_metrics['test_loss']
-        history['total_training_time'] = total_training_time
-        history['best_val_loss'] = self.best_val_loss
-        history['experiment_dir'] = self.experiment_dir
+        history["test_loss"] = test_metrics["test_loss"]
+        history["total_training_time"] = total_training_time
+        history["best_val_loss"] = self.best_val_loss
+        history["experiment_dir"] = self.experiment_dir
 
         # Save comprehensive training history
         self._save_training_history(history)
@@ -1105,137 +1103,153 @@ class BaseTrainer:
 def create_trainer(model_name: str, vocab_size: int, **kwargs) -> BaseTrainer:
     """
     Factory function to create a trainer for a specific model.
-    
+
     Args:
         model_name: Name of the model ('gru', 'lstm', 'transformer', etc.)
         vocab_size: Vocabulary size for the model
         **kwargs: Additional arguments for trainer configuration
-        
+
     Returns:
         Configured trainer instance
     """
     # Import models dynamically to avoid circular imports
-    if model_name.lower() == 'gru':
+    if model_name.lower() == "gru":
+        from src.models.gru.config import dropout, embedding_dim, hidden_dim, num_layers
         from src.models.gru.model import GRUModel
-        from src.models.gru.config import embedding_dim, hidden_dim, num_layers, dropout
 
         model = GRUModel(vocab_size=vocab_size)
         model_config = {
-            'model_type': 'gru',
-            'vocab_size': vocab_size,
-            'embedding_dim': embedding_dim,
-            'hidden_dim': hidden_dim,
-            'num_layers': num_layers,
-            'dropout': dropout
+            "model_type": "gru",
+            "vocab_size": vocab_size,
+            "embedding_dim": embedding_dim,
+            "hidden_dim": hidden_dim,
+            "num_layers": num_layers,
+            "dropout": dropout,
         }
 
-    elif model_name.lower() == 'lstm':
-        from src.models.lstm.model import LSTMModel
+    elif model_name.lower() == "lstm":
         from src.models.lstm.config import MODEL_CONFIG
+        from src.models.lstm.model import LSTMModel
 
         model = LSTMModel(vocab_size=vocab_size)
-        model_config = {
-            'model_type': 'lstm',
-            'vocab_size': vocab_size,
-            **MODEL_CONFIG
-        }
+        model_config = {"model_type": "lstm", "vocab_size": vocab_size, **MODEL_CONFIG}
 
-    elif model_name.lower() == 'transformer':
-        from src.models.transformer.model import TransformerModel
+    elif model_name.lower() == "transformer":
         from src.models.transformer.config import MODEL_CONFIG
+        from src.models.transformer.model import TransformerModel
 
         model = TransformerModel(vocab_size=vocab_size)
         model_config = {
-            'model_type': 'transformer',
-            'vocab_size': vocab_size,
-            **MODEL_CONFIG
+            "model_type": "transformer",
+            "vocab_size": vocab_size,
+            **MODEL_CONFIG,
         }
 
-    elif model_name.lower() == 'vae':
+    elif model_name.lower() == "vae":
+        from src.models.vae.config import (
+            dropout,
+            embedding_dim,
+            hidden_dim,
+            num_layers,
+            z_dim,
+        )
         from src.models.vae.model import VAE
-        from src.models.vae.config import embedding_dim, hidden_dim, z_dim, num_layers, dropout
 
         model = VAE(vocab_size=vocab_size)
         model_config = {
-            'model_type': 'vae',
-            'vocab_size': vocab_size,
-            'embedding_dim': embedding_dim,
-            'hidden_dim': hidden_dim,
-            'z_dim': z_dim,
-            'num_layers': num_layers,
-            'dropout': dropout
+            "model_type": "vae",
+            "vocab_size": vocab_size,
+            "embedding_dim": embedding_dim,
+            "hidden_dim": hidden_dim,
+            "z_dim": z_dim,
+            "num_layers": num_layers,
+            "dropout": dropout,
         }
 
-    elif model_name.lower() == 'mamba':
+    elif model_name.lower() == "mamba":
+        from src.models.mamba.config import d_conv, d_model, d_state, expand, n_layer
         from src.models.mamba.model import MambaModel
-        from src.models.mamba.config import d_model, n_layer, d_state, d_conv, expand
 
         model = MambaModel(vocab_size=vocab_size)
         model_config = {
-            'model_type': 'mamba',
-            'vocab_size': vocab_size,
-            'd_model': d_model,
-            'n_layer': n_layer,
-            'd_state': d_state,
-            'd_conv': d_conv,
-            'expand': expand
+            "model_type": "mamba",
+            "vocab_size": vocab_size,
+            "d_model": d_model,
+            "n_layer": n_layer,
+            "d_state": d_state,
+            "d_conv": d_conv,
+            "expand": expand,
         }
 
-    elif model_name.lower() == 'tcn':
+    elif model_name.lower() == "tcn":
+        from src.models.tcn.config import (
+            dropout,
+            embedding_dim,
+            kernel_size,
+            num_channels,
+        )
         from src.models.tcn.model import TCNModel
-        from src.models.tcn.config import embedding_dim, num_channels, kernel_size, dropout
 
-        model = TCNModel(vocab_size=vocab_size, embedding_dim=embedding_dim, num_channels=num_channels)
+        model = TCNModel(
+            vocab_size=vocab_size,
+            embedding_dim=embedding_dim,
+            num_channels=num_channels,
+        )
         model_config = {
-            'model_type': 'tcn',
-            'vocab_size': vocab_size,
-            'embedding_dim': embedding_dim,
-            'num_channels': num_channels,
-            'kernel_size': kernel_size,
-            'dropout': dropout
+            "model_type": "tcn",
+            "vocab_size": vocab_size,
+            "embedding_dim": embedding_dim,
+            "num_channels": num_channels,
+            "kernel_size": kernel_size,
+            "dropout": dropout,
         }
 
     else:
         # raise ValueError(f"Unsupported model: {model_name}")
-        available_models = ['gru', 'lstm', 'transformer', 'vae', 'mamba', 'tcn']
-        raise ValueError(f"Unsupported model: {model_name}. Available models: {available_models}")
+        available_models = ["gru", "lstm", "transformer", "vae", "mamba", "tcn"]
+        raise ValueError(
+            f"Unsupported model: {model_name}. Available models: {available_models}"
+        )
 
     # Default training configuration
     training_config = {
-        'learning_rate': kwargs.get('learning_rate', 1e-3),
-        'batch_size': kwargs.get('batch_size', 32),
-        'epochs': kwargs.get('epochs', 10),
-        'optimizer': kwargs.get('optimizer', 'adam'),
-        'patience': kwargs.get('patience', 5),
-        'grad_clip': kwargs.get('grad_clip', 1.0),
-
+        "learning_rate": kwargs.get("learning_rate", 1e-3),
+        "batch_size": kwargs.get("batch_size", 32),
+        "epochs": kwargs.get("epochs", 10),
+        "optimizer": kwargs.get("optimizer", "adam"),
+        "patience": kwargs.get("patience", 5),
+        "grad_clip": kwargs.get("grad_clip", 1.0),
         # Output directory configuration
-        'output_dir': kwargs.get('output_dir', 'experiments'),  # Base output directory
-        'experiment_name': kwargs.get('experiment_name', None),  # Custom experiment name (optional)
-
+        "output_dir": kwargs.get("output_dir", "experiments"),  # Base output directory
+        "experiment_name": kwargs.get(
+            "experiment_name", None
+        ),  # Custom experiment name (optional)
         # Legacy support (will be overridden by structured directories)
-        'save_dir': kwargs.get('save_dir', f'checkpoints/{model_name}'),
-        'logs_dir': kwargs.get('logs_dir', 'logs'),
-
+        "save_dir": kwargs.get("save_dir", f"checkpoints/{model_name}"),
+        "logs_dir": kwargs.get("logs_dir", "logs"),
         # Checkpoint configuration
-        'save_best_only': kwargs.get('save_best_only', True),  # Only save best checkpoint
-        'save_final': kwargs.get('save_final', True),  # Save final checkpoint
-        'save_epoch_checkpoints': kwargs.get('save_epoch_checkpoints', False),  # Save every epoch
-
+        "save_best_only": kwargs.get(
+            "save_best_only", True
+        ),  # Only save best checkpoint
+        "save_final": kwargs.get("save_final", True),  # Save final checkpoint
+        "save_epoch_checkpoints": kwargs.get(
+            "save_epoch_checkpoints", False
+        ),  # Save every epoch
         # Debug configuration
-        'debug_batch_prep': kwargs.get('debug_batch_prep', False),  # Enable batch preparation debugging
-
-        **kwargs.get('training_config', {})
+        "debug_batch_prep": kwargs.get(
+            "debug_batch_prep", False
+        ),  # Enable batch preparation debugging
+        **kwargs.get("training_config", {}),
     }
 
     # Data configuration
-    data_config = kwargs.get('data_config', SMILES_DATA_CONFIG)
+    data_config = kwargs.get("data_config", SMILES_DATA_CONFIG)
 
     # Penalty configuration (if any)
-    penalty_config = kwargs.get('penalty_config', None)
+    penalty_config = kwargs.get("penalty_config", None)
 
-    project_name = kwargs.get('project_name', 'not found')
-    print('project name >>', project_name)
+    project_name = kwargs.get("project_name", "not found")
+    print("project name >>", project_name)
 
     return BaseTrainer(
         model=model,
@@ -1243,9 +1257,9 @@ def create_trainer(model_name: str, vocab_size: int, **kwargs) -> BaseTrainer:
         training_config=training_config,
         data_config=data_config,
         penalty_config=penalty_config,
-        device=kwargs.get('device'),
-        use_wandb=kwargs.get('use_wandb', False),
-        project_name=kwargs.get('project_name', 'polymer-training')
+        device=kwargs.get("device"),
+        use_wandb=kwargs.get("use_wandb", False),
+        project_name=kwargs.get("project_name", "polymer-training"),
     )
 
 
@@ -1258,27 +1272,37 @@ if __name__ == "__main__":
         output_dir="experiments",  # Base output directory
         experiment_name="tcn_polymer_experiment_v1",  # Custom experiment name
         save_epoch_checkpoints=False,  # Don't save every epoch to save space
-        epochs=1
+        epochs=1,
     )
 
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("🚀 TRAINER INITIALIZED WITH STRUCTURED OUTPUT DIRECTORIES")
-    print("="*60)
+    print("=" * 60)
     print(f"📁 Experiment directory: {trainer.experiment_dir}")
-    print(f"📝 Log file: {os.path.relpath(trainer.log_filepath, trainer.experiment_dir)}")
-    print(f"💾 Checkpoints: {os.path.relpath(trainer.dirs['checkpoints'], trainer.experiment_dir)}")
-    print(f"📊 Results: {os.path.relpath(trainer.dirs['results'], trainer.experiment_dir)}")
-    print(f"⚙️  Config: {os.path.relpath(trainer.dirs['config'], trainer.experiment_dir)}")
-    print("="*60)
+    print(
+        f"📝 Log file: {os.path.relpath(trainer.log_filepath, trainer.experiment_dir)}"
+    )
+    print(
+        f"💾 Checkpoints: {os.path.relpath(trainer.dirs['checkpoints'], trainer.experiment_dir)}"
+    )
+    print(
+        f"📊 Results: {os.path.relpath(trainer.dirs['results'], trainer.experiment_dir)}"
+    )
+    print(
+        f"⚙️  Config: {os.path.relpath(trainer.dirs['config'], trainer.experiment_dir)}"
+    )
+    print("=" * 60)
 
     # Start training (logs and checkpoints will be organized automatically)
     history = trainer.train()
 
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("✅ TRAINING COMPLETED!")
-    print("="*60)
+    print("=" * 60)
     print(f"📁 All outputs saved to: {trainer.experiment_dir}")
     print(f"📝 Training log: {trainer.log_filepath}")
-    print(f"📊 Training history: {os.path.join(trainer.dirs['results'], 'training_history.json')}")
+    print(
+        f"📊 Training history: {os.path.join(trainer.dirs['results'], 'training_history.json')}"
+    )
     print(f"📈 Metrics log: {trainer.metrics_log_path}")
-    print("="*60)
+    print("=" * 60)
