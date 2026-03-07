@@ -18,7 +18,7 @@ from src.models.diffusion.layers import PolyDiffusionTransformer
 from src.models.diffusion.schedulers import MaskedDiffusionSchedule
 
 
-class MDPN(nn.Module):
+class MDPM(nn.Module):
     def __init__(
         self,
         vocab_size: int,
@@ -188,7 +188,7 @@ class MDPN(nn.Module):
 if __name__ == "__main__":
     # create an instance of MDPM
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model = MDPN(
+    model = MDPM(
         vocab_size=66,
         pad_id=0,
         mask_id=1,

@@ -87,7 +87,7 @@ class RotaryEmbedding(nn.Module):
     better for variable-length sequences.
     """
 
-    def __init__(self, dim: int, max_seq_len: int = 512):
+    def __init__(self, dim: int, max_seq_len: int = 1024):
         super().__init__()
         # the dim here is the sequence length of each attention head
         # the following part creates the frequency table for the rotary embedding
@@ -317,23 +317,6 @@ class PolyDiffusionTransformer(nn.Module):
         # it means it will predict for each time step for each component index for L (input sequence length)
         # of probability values for each token in the vocabulary.
         # means we can extract the highest probability for each position for every time step
-
-    @torch.no_grad()
-    def sample(self, B, L, device, cond=None, n_steps=100, temparature=1.0, top_p=0.9):
-        # create a tensor of shape (B, L) filled with mask_id to start with
-        xt = torch.full((B, L), self.mask_id, dtype=torch.long, device=device)
-
-        null_cond = None
-
-        # initialize the timesteps tensor where we reduce the timesteps from scheduler
-        # to 1 by the step of n_steps to distribute time reduction evenly in n number of steps
-        timesteps = torch.linspace(self.T, 1, n_steps).long()
-
-        for i, t_val in enumerate(timesteps):
-            # create a tensor of shape (B,) filled with t_val index to map
-            t_int = torch.full((B,), t_val.item(), dtype=torch.long, device=device)
-
-            pad_mask = torch.ones(B, L, dtype=torch.bool, device=device)
 
 
 if __name__ == "__main__":

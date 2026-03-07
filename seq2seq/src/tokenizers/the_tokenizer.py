@@ -19,12 +19,15 @@ class TheTokenizer:
 
     def encode(self, smiles, add_special=True, max_length=None):
         tokens = re.findall(token_pattern, smiles)
-        tokens = [x if x in self.token_list else "[unk]" for x in tokens]
         if add_special:
             tokens = ["[bos]"] + tokens + ["[eos]"]
+        ids = [self.token2idx.get(i, self.token2idx["[unk]"]) for i in tokens]
         if max_length is not None:
-            tokens = tokens[:max_length]
-        return [self.token2idx[token] for token in tokens]
+            if len(ids) < max_length:
+                ids += [self.token2idx["[pad]"]] * (max_length - len(ids))
+            else:
+                ids = ids[:max_length]
+        return ids
 
     @staticmethod
     def is_valid_token(token):
@@ -35,11 +38,10 @@ class TheTokenizer:
         return token in special_token_list
 
     def decode(self, indices, skip_special=True):
+        specials = set(self.special)
+        tokens = [self.idx2token.get(i, "[unk]") for i in indices]
         if skip_special:
-            indices = [
-                idx for idx in indices if not self.is_special_token(self.idx2token[idx])
-            ]
-        tokens = [self.idx2token[idx] for idx in indices]
+            tokens = [token for token in tokens if token not in specials]
         return "".join(tokens)
 
     @property
@@ -75,7 +77,7 @@ class TheTokenizer:
 
     @property
     def mask_id(self):
-        return self.token2idx["[mask]"]
+        return self.token2idx["[msk]"]
 
 
 if __name__ == "__main__":
