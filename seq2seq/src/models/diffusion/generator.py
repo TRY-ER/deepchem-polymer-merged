@@ -67,7 +67,7 @@ class PolyDiffusionGenerator:
 
 
 if __name__ == "__main__":
-    meta_path = "./model_outputs/test_model/best_model.pt"
+    meta_path = "./100K_320bs_10e_interupt_3.pt"
     tokenizer = TheTokenizer()
     generator = PolyDiffusionGenerator(tokenizer, meta_path)
     samples = generator.generate(n_samples=10, n_steps=100)

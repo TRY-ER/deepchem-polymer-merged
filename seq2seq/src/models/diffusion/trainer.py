@@ -90,7 +90,9 @@ class Trainer:
 
         # setting up learing rate
         scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer, self.lr_lambda)
-        scaler = torch.amp.GradScaler(str(self.device))
+        is_cuda = self.device.type == "cuda"
+        device_str = "cuda" if is_cuda else "cpu"
+        scaler = torch.amp.GradScaler(device_str, enabled=is_cuda)
 
         # training loop
         self.model.train()
@@ -99,7 +101,7 @@ class Trainer:
 
         for epoch in tqdm(range(self.config.get("epochs", 10))):
             epoch_loss = 0.0
-            for batch in tqdm(data_loader):
+            for batch in data_loader:
                 x0 = batch["x0"].to(self.device)
                 cond = (
                     batch["cond"].to(self.device)
@@ -111,21 +113,20 @@ class Trainer:
                     cond = None
 
                 optimizer.zero_grad()
-                with torch.amp.autocast(str(self.device)):
+                with torch.amp.autocast(device_str, enabled=is_cuda):
                     loss = self.model(x0, cond=cond)
 
                 scaler.scale(loss).backward()
                 scaler.unscale_(optimizer)
                 torch.nn.utils.clip_grad_norm_(self.model.parameters(), 1.0)
-                scaler_before = scaler.get_scale()
-                scaler.step(optimizer)
+                has_gradients = any(p.grad is not None for p in self.model.parameters())
+                if has_gradients:
+                    scaler.step(optimizer)
+                    scheduler.step()
+                    global_step += 1
 
                 scaler.update()
-                if scaler.get_scale() == scaler_before:
-                    scheduler.step()
-
                 epoch_loss += loss.item()
-                global_step += 1
 
             avg_epoch_loss = epoch_loss / len(data_loader)
             print(f"Epoch {epoch} Avg Loss: {avg_epoch_loss}")
